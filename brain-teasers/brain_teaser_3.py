@@ -1,3 +1,6 @@
+# Print all numbers between 1 to N without using semicolon
+
+
 def main():
     n = 10
     for i in range(1, n + 1):
