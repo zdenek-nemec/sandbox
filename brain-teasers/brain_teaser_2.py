@@ -1,3 +1,6 @@
+# Implement power function without using multiplication and division operators
+
+
 def main():
     array = [1, 2]
     array[0] = array[1] = 0
