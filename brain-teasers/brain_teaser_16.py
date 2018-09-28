@@ -1,7 +1,7 @@
 # Perform Division of two numbers without using division operator
 
 def main():
-    a = -1
+    a = -7
     b = 1.6
 
     sign = '-'
@@ -10,12 +10,15 @@ def main():
     a = abs(a)
     b = abs(b)
 
-    result = [sign]
+    result = []
+    rest = a
     while True:
-        if a == 0 or len(result) > 10:
+        if a == 0 or b == 0:
+            result.append('0')
+            break
+        elif rest == 0 or len(result) > 10:
             break
         number = 0
-        rest = a
         while True:
             if rest >= b:
                 number += 1
@@ -23,9 +26,10 @@ def main():
             else:
                 break
         result.append(str(number))
-        if len(result) == 2 and result[1] == '0':
+        if len(result) == 1:
             result.append('.')
-        a = rest*10
+        rest *= 10
+    result = [sign] + result
     result = float(''.join(result))
     print(result)
 
