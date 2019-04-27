@@ -45,6 +45,12 @@ def exercice_7():
     print(name[2:4])
 
 
+def exercice_8():
+    """More on Indexing"""
+    letters = 'abcdefghijklmnopqrstuvwxyz'
+    print(letters[-2])
+
+
 def main():
     exercise_1()
     exercice_2()
@@ -53,6 +59,7 @@ def main():
     exercice_5()
     exercice_6()
     exercice_7()
+    exercice_8()
 
 
 if __name__ == "__main__":
