@@ -82,6 +82,12 @@ def exercise_13():
     list2.append(list1[-1])
 
 
+def exercise_14():
+    """Concatenati List Items"""
+    mylist = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    c = mylist[-1] + mylist[0]
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -96,6 +102,7 @@ def main():
     exercise_11()
     exercise_12()
     exercise_13()
+    exercise_14()
 
 
 if __name__ == "__main__":
