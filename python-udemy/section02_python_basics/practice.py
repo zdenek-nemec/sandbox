@@ -51,6 +51,12 @@ def exercice_8():
     print(letters[-2])
 
 
+def exercice_9():
+    """More on Slicing"""
+    letters = 'abcdefghijklmnopqrstuvwxyz'
+    print(letters[-3:-1])
+
+
 def main():
     exercise_1()
     exercice_2()
@@ -60,6 +66,7 @@ def main():
     exercice_6()
     exercice_7()
     exercice_8()
+    exercice_9()
 
 
 if __name__ == "__main__":
