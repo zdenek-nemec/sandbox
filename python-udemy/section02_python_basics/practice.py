@@ -75,6 +75,13 @@ def exercise_12():
     mylist.remove("John")
 
 
+def exercise_13():
+    """Append from List to List"""
+    list1 = [1.2323442655, 1.4534345567, 1.023458894]
+    list2 = [1.9934332091]
+    list2.append(list1[-1])
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -88,6 +95,7 @@ def main():
     exercise_10()
     exercise_11()
     exercise_12()
+    exercise_13()
 
 
 if __name__ == "__main__":
