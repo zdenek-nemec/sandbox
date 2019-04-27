@@ -88,6 +88,11 @@ def exercise_14():
     c = mylist[-1] + mylist[0]
 
 
+def exercise_15():
+    """Create Dictionary"""
+    mydict = {"a": 1, "b": 2}
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -103,6 +108,7 @@ def main():
     exercise_12()
     exercise_13()
     exercise_14()
+    exercise_15()
 
 
 if __name__ == "__main__":
