@@ -28,11 +28,17 @@ def exercice_4():
     print(int(a + b))
 
 
+def exercice_5():
+    """Lists"""
+    mylist = [1, 2, 3]
+
+
 def main():
     exercise_1()
     exercice_2()
     exercice_3()
     exercice_4()
+    exercice_5()
 
 
 if __name__ == "__main__":
