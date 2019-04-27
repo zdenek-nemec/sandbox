@@ -57,6 +57,12 @@ def exercice_9():
     print(letters[-3:-1])
 
 
+def exercice_10():
+    """List Indexing"""
+    mylist = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    print(mylist[17])
+
+
 def main():
     exercise_1()
     exercice_2()
@@ -67,6 +73,7 @@ def main():
     exercice_7()
     exercice_8()
     exercice_9()
+    exercice_10()
 
 
 if __name__ == "__main__":
