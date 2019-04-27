@@ -63,6 +63,12 @@ def exercise_10():
     print(mylist[17])
 
 
+def exercise_11():
+    """Append to List"""
+    mylist = ["Marry", "Jack"]
+    mylist.append("John")
+
+
 def main():
     exercise_1()
     exercise_2()
