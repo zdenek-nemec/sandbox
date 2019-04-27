@@ -21,11 +21,18 @@ def exercice_3():
     print(((x * y) ** z) / 8)
 
 
+def exercice_4():
+    """Simple Sum"""
+    a = 1.0
+    b = 2
+    print(int(a + b))
+
 
 def main():
     exercise_1()
     exercice_2()
     exercice_3()
+    exercice_4()
 
 
 if __name__ == "__main__":
