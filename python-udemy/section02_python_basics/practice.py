@@ -47,19 +47,19 @@ def exercise_7():
 
 def exercise_8():
     """More on Indexing"""
-    letters = 'abcdefghijklmnopqrstuvwxyz'
+    letters = "abcdefghijklmnopqrstuvwxyz"
     print(letters[-2])
 
 
 def exercise_9():
     """More on Slicing"""
-    letters = 'abcdefghijklmnopqrstuvwxyz'
+    letters = "abcdefghijklmnopqrstuvwxyz"
     print(letters[-3:-1])
 
 
 def exercise_10():
     """List Indexing"""
-    mylist = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    mylist = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     print(mylist[17])
 
 
@@ -83,8 +83,8 @@ def exercise_13():
 
 
 def exercise_14():
-    """Concatenati List Items"""
-    mylist = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    """Concatenating List Items"""
+    mylist = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     c = mylist[-1] + mylist[0]
 
 
