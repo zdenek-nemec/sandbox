@@ -69,6 +69,12 @@ def exercise_11():
     mylist.append("John")
 
 
+def exercise_12():
+    """Remove from List"""
+    mylist = ["Marry", "Jack", "John"]
+    mylist.remove("John")
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -80,6 +86,8 @@ def main():
     exercise_8()
     exercise_9()
     exercise_10()
+    exercise_11()
+    exercise_12()
 
 
 if __name__ == "__main__":
