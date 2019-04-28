@@ -116,6 +116,11 @@ def converter(kg, coef=2.20462):
     return kg * coef
 
 
+def celsius_to_fahrenheit(celsius):
+    """Weather Function"""
+    return celsius * 9 / 5 + 32
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -136,6 +141,7 @@ def main():
     print(mysum(3, 2))
     print(mysum(10, 20))
     print(converter(10))
+    print(celsius_to_fahrenheit(20))
 
 
 if __name__ == "__main__":
