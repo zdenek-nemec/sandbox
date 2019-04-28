@@ -93,6 +93,11 @@ def exercise_15():
     mydict = {"a": 1, "b": 2}
 
 
+def hello_world():
+    """Create Function"""
+    return "Hello World"
+
+
 def main():
     exercise_1()
     exercise_2()
