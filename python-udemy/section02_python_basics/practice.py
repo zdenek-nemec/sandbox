@@ -98,6 +98,10 @@ def hello_world():
     return "Hello World"
 
 
+def power(a):
+    return a ** 2
+
+
 def main():
     exercise_1()
     exercise_2()
