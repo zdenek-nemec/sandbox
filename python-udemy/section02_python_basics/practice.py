@@ -129,6 +129,7 @@ def main():
     exercise_15()
     print(calculate_length("Hello"))
     print(mysum(3, 2))
+    print(mysum(10, 20))
 
 
 if __name__ == "__main__":
