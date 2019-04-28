@@ -106,6 +106,11 @@ def calculate_length(text):
     return len(text)
 
 
+def mysum(a, b):
+    """Sum up Function"""
+    return a + b
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -123,6 +128,7 @@ def main():
     exercise_14()
     exercise_15()
     print(calculate_length("Hello"))
+    print(mysum(3, 2))
 
 
 if __name__ == "__main__":
