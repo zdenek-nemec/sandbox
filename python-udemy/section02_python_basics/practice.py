@@ -103,7 +103,10 @@ def power(a):
 
 
 def calculate_length(text):
-    return len(text)
+    if type(text) is str:
+        return len(text)
+    else:
+        print("Sorry, integers don't have length")
 
 
 def mysum(a, b):
@@ -142,6 +145,8 @@ def main():
     print(mysum(10, 20))
     print(converter(10))
     print(celsius_to_fahrenheit(20))
+    print(calculate_length("Bye"))
+    calculate_length(10)
 
 
 if __name__ == "__main__":
