@@ -102,6 +102,10 @@ def power(a):
     return a ** 2
 
 
+def calculate_length(text):
+    return len(text)
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -118,6 +122,7 @@ def main():
     exercise_13()
     exercise_14()
     exercise_15()
+    print(calculate_length("Hello"))
 
 
 if __name__ == "__main__":
