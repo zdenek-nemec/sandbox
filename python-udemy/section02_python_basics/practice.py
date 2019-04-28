@@ -111,6 +111,11 @@ def mysum(a, b):
     return a + b
 
 
+def converter(kg, coef=2.20462):
+    """Function with Default Parameters"""
+    return kg * coef
+
+
 def main():
     exercise_1()
     exercise_2()
@@ -130,6 +135,7 @@ def main():
     print(calculate_length("Hello"))
     print(mysum(3, 2))
     print(mysum(10, 20))
+    print(converter(10))
 
 
 if __name__ == "__main__":
