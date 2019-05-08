@@ -140,6 +140,14 @@ def lecture_44_practice():
         print(item)
 
 
+def lecture_46_practice():
+    """For Loop with Conditional Block"""
+    mylist = [1, 2, 3, 4, 5]
+    for item in mylist:
+        if item > 2:
+            print(item)
+
+
 def main():
     # exercise_1()
     # exercise_2()
@@ -165,7 +173,8 @@ def main():
     # calculate_length(10)
     # calculate_length(10.0)
     # reading_files()
-    lecture_44_practice()
+    # lecture_44_practice()
+    lecture_46_practice()
 
 
 if __name__ == "__main__":
