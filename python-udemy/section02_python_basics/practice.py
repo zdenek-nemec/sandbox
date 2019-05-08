@@ -156,6 +156,13 @@ def lecture_48_practice():
             print(len(line))
 
 
+def lecture_50_practice():
+    """Functions, Conditionals, and Loops"""
+    temperatures = [10, -20, 100]
+    for temperature in temperatures:
+        print(celsius_to_fahrenheit(temperature))
+
+
 def main():
     # exercise_1()
     # exercise_2()
@@ -183,7 +190,8 @@ def main():
     # reading_files()
     # lecture_44_practice()
     # lecture_46_practice()
-    lecture_48_practice()
+    # lecture_48_practice()
+    lecture_50_practice()
 
 
 if __name__ == "__main__":
