@@ -148,6 +148,14 @@ def lecture_46_practice():
             print(item)
 
 
+def lecture_48_practice():
+    """File Content Length"""
+    with open("fruits.txt", "r") as input_file:
+        content = input_file.read()
+        for line in content.splitlines():
+            print(len(line))
+
+
 def main():
     # exercise_1()
     # exercise_2()
@@ -174,7 +182,8 @@ def main():
     # calculate_length(10.0)
     # reading_files()
     # lecture_44_practice()
-    lecture_46_practice()
+    # lecture_46_practice()
+    lecture_48_practice()
 
 
 if __name__ == "__main__":
