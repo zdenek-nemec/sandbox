@@ -133,6 +133,13 @@ def reading_files():
         print(content)
 
 
+def lecture_44_practice():
+    """For Loops"""
+    mylist = [1, 2, 3, 4, 5]
+    for item in mylist:
+        print(item)
+
+
 def main():
     # exercise_1()
     # exercise_2()
@@ -157,7 +164,8 @@ def main():
     # print(calculate_length("Bye"))
     # calculate_length(10)
     # calculate_length(10.0)
-    reading_files()
+    # reading_files()
+    lecture_44_practice()
 
 
 if __name__ == "__main__":
