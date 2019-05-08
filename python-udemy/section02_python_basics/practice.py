@@ -126,30 +126,38 @@ def celsius_to_fahrenheit(celsius):
     return celsius * 9 / 5 + 32
 
 
+def reading_files():
+    """Reading Files"""
+    with open("fruits.txt", "r") as input_file:
+        content = input_file.read()
+        print(content)
+
+
 def main():
-    exercise_1()
-    exercise_2()
-    exercise_3()
-    exercise_4()
-    exercise_5()
-    exercise_6()
-    exercise_7()
-    exercise_8()
-    exercise_9()
-    exercise_10()
-    exercise_11()
-    exercise_12()
-    exercise_13()
-    exercise_14()
-    exercise_15()
-    print(calculate_length("Hello"))
-    print(mysum(3, 2))
-    print(mysum(10, 20))
-    print(converter(10))
-    print(celsius_to_fahrenheit(20))
-    print(calculate_length("Bye"))
-    calculate_length(10)
-    calculate_length(10.0)
+    # exercise_1()
+    # exercise_2()
+    # exercise_3()
+    # exercise_4()
+    # exercise_5()
+    # exercise_6()
+    # exercise_7()
+    # exercise_8()
+    # exercise_9()
+    # exercise_10()
+    # exercise_11()
+    # exercise_12()
+    # exercise_13()
+    # exercise_14()
+    # exercise_15()
+    # print(calculate_length("Hello"))
+    # print(mysum(3, 2))
+    # print(mysum(10, 20))
+    # print(converter(10))
+    # print(celsius_to_fahrenheit(20))
+    # print(calculate_length("Bye"))
+    # calculate_length(10)
+    # calculate_length(10.0)
+    reading_files()
 
 
 if __name__ == "__main__":
