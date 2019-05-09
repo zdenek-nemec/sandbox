@@ -163,6 +163,14 @@ def lecture_50_practice():
         print(celsius_to_fahrenheit(temperature))
 
 
+def lecture_55_practice():
+    """Write Multiple Lines in a Text File"""
+    numbers = [1, 2, 3]
+    with open("output.txt", "w") as output_file:
+        for item in numbers:
+            output_file.write("%d\n" % item)
+
+
 def main():
     # exercise_1()
     # exercise_2()
@@ -191,7 +199,8 @@ def main():
     # lecture_44_practice()
     # lecture_46_practice()
     # lecture_48_practice()
-    lecture_50_practice()
+    # lecture_50_practice()
+    lecture_55_practice()
 
 
 if __name__ == "__main__":
