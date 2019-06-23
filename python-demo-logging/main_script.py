@@ -6,10 +6,13 @@ import logging
 import sys
 
 
+from some_module import MyClass
+
+
 def main():
     """Demo of Python Logging module, see https://docs.python.org/3/howto/logging.html"""
 
-    parser = argparse.ArgumentParser(prog="Demo")
+    parser = argparse.ArgumentParser(prog="Python Logging Demo")
     parser.add_argument("--log_file", "-f")
     parser.add_argument("--log_level", "-l", default="WARNING",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
@@ -37,6 +40,11 @@ def main():
         logging.WARNING,
         logging.ERROR,
         logging.CRITICAL)
+
+    lucky_number = 7
+    logging.debug("Variable lucky_number is %d" % lucky_number)
+    my_class = MyClass()
+    my_class.set_lucky_number(lucky_number)
 
 
 if __name__ == "__main__":

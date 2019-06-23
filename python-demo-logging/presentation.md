@@ -55,3 +55,24 @@ if log_file is None:
 else:
     logging.basicConfig(filename=log_file, level=log_level)
 ```
+
+## 7. Logging in other modules
+```
+from demo_module import MyClass
+
+lucky_number = 7
+logging.debug("Variable lucky_number is %d" % lucky_number)
+my_class = MyClass()
+my_class.set_lucky_number(lucky_number)
+```
+
+```
+class MyClass(object):
+    def __init__(self):
+        logging.info("Initiating MyClass")
+        self._lucky_number = None
+
+    def set_lucky_number(self, number):
+        logging.debug("Setting MyClass._lucky_number to %d", number)
+        self._lucky_number = number
+```
