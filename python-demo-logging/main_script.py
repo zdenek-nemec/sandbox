@@ -2,11 +2,13 @@
 
 
 import logging
+import sys
 
 
 def main():
     """Demo of Python Logging module, see https://docs.python.org/3/howto/logging.html"""
-    logging.basicConfig(filename="my_log.log")
+
+    logging.basicConfig(stream=sys.stdout)
     logging.warning("I am about to start")
 
     print("Hello, World!")
