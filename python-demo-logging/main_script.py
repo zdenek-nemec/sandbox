@@ -19,10 +19,13 @@ def main():
 
     log_file = parser.parse_args().log_file
     log_level = getattr(logging, parser.parse_args().log_level, None)
+    log_format = "%(asctime)s - %(levelname)s - %(message)s"
     if log_file is None:
-        logging.basicConfig(stream=sys.stdout, level=log_level)
+        logging.basicConfig(
+            stream=sys.stdout, level=log_level, format=log_format)
     else:
-        logging.basicConfig(filename=log_file, level=log_level)
+        logging.basicConfig(
+            filename=log_file, level=log_level, format=log_format)
 
     logging.warning("I am about to start")
 

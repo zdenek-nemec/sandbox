@@ -76,3 +76,9 @@ class MyClass(object):
         logging.debug("Setting MyClass._lucky_number to %d", number)
         self._lucky_number = number
 ```
+
+## 8. Format the messages
+```
+log_format = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
+```
