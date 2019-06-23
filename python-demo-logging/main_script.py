@@ -10,15 +10,16 @@ def main():
     """Demo of Python Logging module, see https://docs.python.org/3/howto/logging.html"""
 
     parser = argparse.ArgumentParser(prog="Demo")
-    parser.add_argument(
-        "--log_level",
-        "-l",
-        default="WARNING",
+    parser.add_argument("--log_file", "-f")
+    parser.add_argument("--log_level", "-l", default="WARNING",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
 
-    logging.basicConfig(
-        stream=sys.stdout,
-        level=getattr(logging, parser.parse_args().log_level, None))
+    log_file = parser.parse_args().log_file
+    log_level = getattr(logging, parser.parse_args().log_level, None)
+    if log_file is None:
+        logging.basicConfig(stream=sys.stdout, level=log_level)
+    else:
+        logging.basicConfig(filename=log_file, level=log_level)
 
     logging.warning("I am about to start")
 

@@ -35,7 +35,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 print(logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL)
 ```
 
-## 5. Set the debug-level with an argument
+## 5. Set the log-level with an argument
 ```
 import argparse
 
@@ -43,4 +43,15 @@ parser = argparse.ArgumentParser(prog="Demo")
 parser.add_argument("--log_level", "-l", default="WARNING", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
 
 logging.basicConfig(stream=sys.stdout, level=getattr(logging, parser.parse_args().log_level, None))
+```
+
+## 6. Set log file with an argument
+```
+parser.add_argument("--log_file", "-f")
+
+log_file = parser.parse_args().log_file
+if log_file is None:
+    logging.basicConfig(stream=sys.stdout, level=log_level)
+else:
+    logging.basicConfig(filename=log_file, level=log_level)
 ```
