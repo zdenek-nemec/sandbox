@@ -34,3 +34,13 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 print(logging.DEBUG, logging.INFO, logging.WARNING, logging.ERROR, logging.CRITICAL)
 ```
+
+## 5. Set the debug-level with an argument
+```
+import argparse
+
+parser = argparse.ArgumentParser(prog="Demo")
+parser.add_argument("--log_level", "-l", default="WARNING", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
+
+logging.basicConfig(stream=sys.stdout, level=getattr(logging, parser.parse_args().log_level, None))
+```
