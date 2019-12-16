@@ -1,8 +1,14 @@
 # Python Demonstrations
 
+## Logging
+
+How to do logging.
+
+* logging-demo
+
 ## Timeout
 
-How to stop/kill a process after set amounth of time
+How to stop/kill a process after set amounth of time.
 
 See https://stackoverflow.com/questions/492519/timeout-on-a-function-call for
 more information.
