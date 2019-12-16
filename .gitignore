@@ -1,5 +1,9 @@
+# Old .gitignore
 java-tpoint/.idea/
 java-tpoint/out/
 java-tpoint/Javatpoint.iml
 python-encrypt/.idea/
 python-udemy/.idea/
+
+# New .gitignore
+*.pyc

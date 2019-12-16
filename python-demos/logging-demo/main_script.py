@@ -1,16 +1,14 @@
-#!/usr/bin/env python3
-
-
 import argparse
 import logging
 import sys
-
 
 from some_module import MyClass
 
 
 def main():
-    """Demo of Python Logging module, see https://docs.python.org/3/howto/logging.html"""
+    """Demo of Python Logging module, see
+       https://docs.python.org/3/howto/logging.html
+    """
 
     parser = argparse.ArgumentParser(prog="Python Logging Demo")
     parser.add_argument("--log_file", "-f")
