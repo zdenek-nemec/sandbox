@@ -11,3 +11,4 @@ more information.
   * Python timeout demonstration with Signal module.
   * Works on Unix only!
 * timeout_signal_demo.py
+  * Works on both Windows and Linux.
