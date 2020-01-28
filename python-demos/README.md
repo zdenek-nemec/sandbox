@@ -6,6 +6,12 @@ How to do logging.
 
 * logging-demo
 
+## Testing
+
+How to do testing.
+
+* testing-demo
+
 ## Timeout
 
 How to stop/kill a process after set amounth of time.
