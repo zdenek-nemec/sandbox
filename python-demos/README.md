@@ -6,6 +6,12 @@ How to do logging.
 
 * logging-demo
 
+## Testing
+
+How to do testing.
+
+* testing-demo
+
 ## Timeout
 
 How to stop/kill a process after set amounth of time.
@@ -18,3 +24,10 @@ more information.
   * Works on Unix only!
 * timeout_signal_demo.py
   * Works on both Windows and Linux.
+
+## Other
+
+* hello_world.py
+  * Hello, World!
+* python_version.py
+  * Print version of Python

@@ -5,7 +5,7 @@
 Directory structure must be reviewed and updated.
 
 - [ ] java-tpoint
-- [ ] python-demos
+- [x] python-demos
 - [ ] python-encrypt
 - [ ] python-udemy
 
