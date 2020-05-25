@@ -1,5 +1,4 @@
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 public class MainClass {
@@ -16,6 +15,8 @@ public class MainClass {
         logger.finest("This is finest-level message in MainClass.main().");
 
         otherMethod();
+
+        OtherClass.someMethod();
     }
 
     private static void otherMethod() {
