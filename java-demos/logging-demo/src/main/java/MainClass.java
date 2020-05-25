@@ -1,13 +1,11 @@
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainClass {
-    private final static Logger LOGGER = Logger.getLogger(MainClass.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public static void main(String[] args) {
-        LOGGER.setLevel(Level.INFO);
+        LOGGER.setLevel(Level.ALL);
 
         LOGGER.info("Logger Name: " + LOGGER.getName());
 
