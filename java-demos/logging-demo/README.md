@@ -6,10 +6,10 @@ Sources
 
 Log Levels
 
-* Severe
+* Severe (highest)
 * Warning
 * Info
 * Config
 * Fine
 * Finer
-* Finest
+* Finest (lowest)

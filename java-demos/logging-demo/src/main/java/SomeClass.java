@@ -1,8 +1,11 @@
 import java.util.logging.Logger;
 
 public class SomeClass {
+    private final static Logger LOGGER = Logger.getLogger(SomeClass.class.getName());
+
     public static void someMethod() {
-        Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-        logger.info("This is info-level message in SomeClass.someMethod().");
+        LOGGER.info("Logger Name: " + LOGGER.getName());
+
+        LOGGER.info("This is info-level message in SomeClass.someMethod().");
     }
 }
