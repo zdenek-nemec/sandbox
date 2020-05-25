@@ -1,11 +1,12 @@
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class MainClass {
     private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public static void main(String[] args) {
         LOGGER.setLevel(Level.ALL);
+
+        System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tF %1$tT [%4$-7s] %2$s(): %5$s %n");
 
         LOGGER.info("Logger Name: " + LOGGER.getName());
 
