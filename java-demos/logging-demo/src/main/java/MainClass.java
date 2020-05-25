@@ -1,12 +1,17 @@
+import java.io.IOException;
 import java.util.logging.*;
 
 public class MainClass {
     private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         LOGGER.setLevel(Level.ALL);
 
         System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tF %1$tT [%4$-7s] %2$s(): %5$s %n");
+
+        Handler fileHandler = new FileHandler("./logging-demo.log");
+        LOGGER.addHandler(fileHandler);
+        fileHandler.setLevel(Level.ALL);
 
         LOGGER.info("Logger Name: " + LOGGER.getName());
 

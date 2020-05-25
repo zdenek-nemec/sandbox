@@ -1,5 +1,8 @@
-# Compiled class file
+# Compiled class files
 *.class
+
+# Log files
+*.log
 
 # IntelliJ IDEA and Maven
 .idea/
