@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
 
-# IntelliJ IDEA
+# IntelliJ IDEA and Maven
 .idea/
+target/
