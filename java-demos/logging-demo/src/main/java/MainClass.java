@@ -21,6 +21,8 @@ public class MainClass {
         otherMethod();
 
         SomeClass.someMethod();
+
+        SomeOtherClass.someMethod();
     }
 
     private static void otherMethod() {
