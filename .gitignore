@@ -16,3 +16,6 @@ python-udemy/.idea/
 
 # Python
 *.pyc
+
+# Logs
+*.log
