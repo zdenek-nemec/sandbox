@@ -1,4 +1,8 @@
 # Java Demos
 
-* `hello-world` - Hello-World demo
-* `logging-demo` - Logging demo with standard Java module
+## Structure
+
+| Directory      | Description                                           |
+| -------------- | ----------------------------------------------------- |
+| `hello-world`  | Hello-World demo                                      |
+| `logging-demo` | Logging demo with standard `java.util.logging` module |
