@@ -5,5 +5,14 @@ java-tpoint/Javatpoint.iml
 python-encrypt/.idea/
 python-udemy/.idea/
 
+# Java
+*.class
+
+# IntelliJ IDEA
+**/shelf/
+**/tasks.xml
+**/usage.statistics.xml
+**/workspace.xml
+
 # Python
 *.pyc

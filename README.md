@@ -7,11 +7,11 @@ experiments.
 
 Directory structure must be reviewed and updated.
 
-* [ ] java-demos
-* [ ] java-tpoint
-* [ ] python-demos
-* [ ] python-encrypt
-* [ ] python-udemy
+* [ ] `java-demos`
+* [ ] `java-tpoint`
+* [ ] `python-demos`
+* [ ] `python-encrypt`
+* [ ] `python-udemy`
 
 ## Rules
 
