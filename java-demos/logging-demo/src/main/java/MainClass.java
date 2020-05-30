@@ -1,10 +1,8 @@
-import sun.rmi.runtime.Log;
-
 import java.io.IOException;
 import java.util.logging.*;
 
 public class MainClass {
-    private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private final static Logger LOGGER = Logger.getLogger("global");
 
     public static void main(String[] args) throws IOException {
         System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tF %1$tT [%4$-7s] %2$s(): %5$s %n");
