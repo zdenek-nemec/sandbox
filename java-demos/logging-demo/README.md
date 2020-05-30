@@ -19,3 +19,8 @@ Log Levels:
 | FINER   | 400                 | Entering and exiting methods.    |
 | FINEST  | 300                 | Loop iterations.                 | 
 | ALL     | `Integer.MIN_VALUE` | Log everything.                  |
+
+Best Practises
+
+* Do not use global logger, create separate logger per class. This will allow
+  handling these loggers separately.
