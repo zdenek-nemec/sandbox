@@ -3,25 +3,12 @@
 Purpose of this repository is to be a collection of demos, tutorials and
 experiments.
 
-## TODO: Structure Review
-
-Directory structure must be reviewed and updated.
-
-* [x] `java-demos`
-* [ ] `java-tpoint`
-* [ ] `python-demos`
-* [ ] `python-encrypt`
-* [ ] `python-udemy`
-
 ## Structure
 
-| Directory        | Description |
-| ---------------- | ----------- |
-| `java-demos`     | Java demos  |
-| `java-tpoint`    | ...         |
-| `python-demos`   | ...         |
-| `python-encrypt` | ...         |
-| `python-udemy`   | ...         |
+| Directory       | Description    |
+| --------------- | -------------- |
+| `java-demos`    | Java demos     |
+| `python3-demos` | Python 3 demos |
 
 ## Rules
 
