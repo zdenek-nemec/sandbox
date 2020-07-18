@@ -22,8 +22,7 @@ def get_header(records):
     return header
 
 
-if __name__ == "__main__":
-    records = load_json_data("./test_data.json")
+def create_csv_file(filename, records):
     header = get_header(records)
     with open("output.csv", "w", newline="") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=",")
@@ -36,3 +35,12 @@ if __name__ == "__main__":
                 else:
                     row.append("")
             csv_writer.writerow(row)
+
+
+def convert_json_to_csv():
+    records = load_json_data("./test_data.json")
+    create_csv_file("output.csv", records)
+
+
+if __name__ == "__main__":
+    convert_json_to_csv()
