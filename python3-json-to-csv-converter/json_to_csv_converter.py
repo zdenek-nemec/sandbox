@@ -2,6 +2,7 @@ import argparse
 import csv
 import json
 import logging
+import os
 import sys
 
 
@@ -27,7 +28,7 @@ def get_header(records):
 
 def create_csv_file(filename, records):
     header = get_header(records)
-    with open("output.csv", "w", newline="") as csv_file:
+    with open(filename, "w", newline="") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=",")
         csv_writer.writerow(header)
         for record in records:
@@ -64,8 +65,12 @@ def convert_json_to_csv():
     logging.debug("Argument --log_level = %s" % log_level)
     logging.debug("Argument --input_file = %s" % input_file)
 
+    logging.debug("Loading input file %s" % input_file)
     records = load_json_data(input_file)
-    create_csv_file("output.csv", records)
+    logging.debug("Loaded %d records" % len(records))
+    output_file = os.path.splitext(input_file)[0] + ".csv"
+    create_csv_file(output_file, records)
+    logging.debug("Created output file %s" % output_file)
 
     logging.debug("Application finished")
 
