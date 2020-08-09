@@ -49,6 +49,8 @@ def convert_json_to_csv():
         default="WARNING",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
     argument_parser.add_argument("--input_file", "-i")
+    argument_parser.add_argument("--output_json", action="store_true")
+    argument_parser.add_argument("--output_csv", action="store_true")
 
     log_file = argument_parser.parse_args().log_file
     log_level = getattr(logging, argument_parser.parse_args().log_level, None)
@@ -59,18 +61,29 @@ def convert_json_to_csv():
         logging.basicConfig(filename=log_file, level=log_level, format=log_format)
 
     input_file = argument_parser.parse_args().input_file
+    output_json = argument_parser.parse_args().output_json
+    output_csv = argument_parser.parse_args().output_csv
 
     logging.debug("Application started")
     logging.debug("Argument --log_file = %s" % log_file)
     logging.debug("Argument --log_level = %s" % log_level)
     logging.debug("Argument --input_file = %s" % input_file)
+    logging.debug("Argument --output_json = %s" % output_json)
+    logging.debug("Argument --output_csv = %s" % output_csv)
 
     logging.debug("Loading input file %s" % input_file)
-    records = load_json_data(input_file)
-    logging.debug("Loaded %d records" % len(records))
-    output_file = os.path.splitext(input_file)[0] + ".csv"
-    create_csv_file(output_file, records)
-    logging.debug("Created output file %s" % output_file)
+    # records = load_json_data(input_file)
+    # logging.debug("Loaded %d records" % len(records))
+    # print_records(records)
+    # print(records)
+
+    # with open("test_data.json", "w", encoding="utf-8") as json_file:
+    #     json.dump(records, json_file, ensure_ascii=False, indent=4)
+
+
+    # output_file = os.path.splitext(input_file)[0] + ".csv"
+    # create_csv_file(output_file, records)
+    # logging.debug("Created output file %s" % output_file)
 
     logging.debug("Application finished")
 
