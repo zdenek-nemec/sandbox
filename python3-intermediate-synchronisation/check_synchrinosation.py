@@ -1,3 +1,8 @@
+import argparse
+import logging
+import sys
+
+
 class BusinessLogicsCheck(object):
     """docstring for BusinessLogicsCheck"""
     def __init__(self):
@@ -44,9 +49,25 @@ class PortalsCheck(object):
 
 
 def main():
-    print("main: Started")
+    argument_parser = argparse.ArgumentParser(prog="Intermediate Synchronisation")
+    argument_parser.add_argument("--log_file", "-f")
+    argument_parser.add_argument("--log_level", "-l", default="DEBUG", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
 
-    print("Setup")
+    log_file = argument_parser.parse_args().log_file
+    log_level = getattr(logging, argument_parser.parse_args().log_level, None)
+    log_format = "%(asctime)s - %(levelname)s - %(message)s"
+
+    if log_file is None:
+        logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
+    else:
+        logging.basicConfig(filename=log_file, level=log_level, format=log_format)
+
+    logging.debug("main: Started")
+
+    logging.debug("main: argument log_file = %s" % log_file)
+    logging.debug("main: argument log_level = %s" % log_level)
+
+    print("Setting up checks")
     business_logics_check = BusinessLogicsCheck()
     bash_scripts_check = BashScriptsCheck()
     gdc_scripts_check = GdcScriptsCheck()
@@ -59,7 +80,7 @@ def main():
     print("Reference tables check - %s" % reference_tables_check.check())
     print("Portals check - %s" % portals_check.check())
 
-    print("main: Finished")
+    logging.debug("main: Finished")
 
 
 if __name__ == "__main__":
