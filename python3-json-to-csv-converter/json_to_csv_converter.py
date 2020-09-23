@@ -1,5 +1,4 @@
 import argparse
-import csv
 import json
 import logging
 import os
@@ -16,37 +15,12 @@ def print_records(records):
         print(record)
 
 
-def get_header(records):
-    header = []
-    for record in records:
-        for key in record.keys():
-            if not key in header:
-                header.append(key)
-        break
-    return header
-
-
-def create_csv_file(filename, records):
-    header = get_header(records)
-    with open(filename, "w", newline="") as csv_file:
-        csv_writer = csv.writer(csv_file, delimiter=",")
-        csv_writer.writerow(header)
-        for record in records:
-            row = []
-            for column in header:
-                if column in record.keys():
-                    row.append(record[column])
-                else:
-                    row.append("")
-            csv_writer.writerow(row)
-
-
-def convert_json_to_csv():
+def main():
     argument_parser = argparse.ArgumentParser(prog="JSON to CSV Converter")
     argument_parser.add_argument("--log_file")
     argument_parser.add_argument(
         "--log_level",
-        default="WARNING",
+        default="DEBUG",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
     argument_parser.add_argument("--input_file", "-i")
 
@@ -57,7 +31,6 @@ def convert_json_to_csv():
         logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
     else:
         logging.basicConfig(filename=log_file, level=log_level, format=log_format)
-
     input_file = argument_parser.parse_args().input_file
 
     logging.debug("Application started")
@@ -65,15 +38,17 @@ def convert_json_to_csv():
     logging.debug("Argument --log_level = %s" % log_level)
     logging.debug("Argument --input_file = %s" % input_file)
 
+    input_file = "test_data.json"
+
     logging.debug("Loading input file %s" % input_file)
     records = load_json_data(input_file)
     logging.debug("Loaded %d records" % len(records))
     output_file = os.path.splitext(input_file)[0] + ".csv"
-    create_csv_file(output_file, records)
     logging.debug("Created output file %s" % output_file)
+    print_records(records)
 
     logging.debug("Application finished")
 
 
 if __name__ == "__main__":
-    convert_json_to_csv()
+    main()
