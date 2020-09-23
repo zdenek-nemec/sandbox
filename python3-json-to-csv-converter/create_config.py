@@ -1,7 +1,7 @@
 import configparser
 
-if __name__ == "__main__":
-    print("Hello, World!")
+
+def main():
     configuration_filename = "test_configuration.cfg"
     parser = configparser.RawConfigParser()
     parser.add_section("settings")
@@ -17,3 +17,7 @@ if __name__ == "__main__":
     parser.set("settings", "delete_original", "False")
     with open("test_configuration.cfg", "w") as config_file:
         parser.write(config_file)
+
+
+if __name__ == "__main__":
+    main()
