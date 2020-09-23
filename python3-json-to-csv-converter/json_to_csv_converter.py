@@ -46,11 +46,23 @@ def main():
     output_file = os.path.splitext(input_file)[0] + ".csv"
 
     # print_records(records)
-    for record in records:
-        if "calling" in record.keys():
-            if "imsi" in record["calling"].keys():
-                print(record["calling"]["imsi"])
 
+    csv_columns = [
+        ("CALLING_IMSI", ["calling", "imsi"]),
+        ("CALLED_IMSI", ["called", "imsi"]),
+    ]
+
+    for record in records:
+        for csv_column in csv_columns:
+            focus = record
+            for level in csv_column[1]:
+                if level in focus.keys():
+                    focus = focus[level]
+                else:
+                    print("%s = <empty>" % csv_column[0])
+                    break
+            else:
+                print("%s = %s" % (csv_column[0], focus))
 
     logging.debug("Created output file %s" % output_file)
 
