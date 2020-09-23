@@ -44,8 +44,15 @@ def main():
     records = load_json_data(input_file)
     logging.debug("Loaded %d records" % len(records))
     output_file = os.path.splitext(input_file)[0] + ".csv"
+
+    # print_records(records)
+    for record in records:
+        if "calling" in record.keys():
+            if "imsi" in record["calling"].keys():
+                print(record["calling"]["imsi"])
+
+
     logging.debug("Created output file %s" % output_file)
-    print_records(records)
 
     logging.debug("Application finished")
 
