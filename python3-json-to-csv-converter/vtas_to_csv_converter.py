@@ -56,6 +56,21 @@ def print_list_head(data, lines=10):
             break
 
 
+def load_vtas_file(path):
+    vtas_data = []
+    with open(path, "r") as vtas_file:
+        for line in vtas_file:
+            vtas_data.append(line)
+    return vtas_data
+
+
+def load_json_content(vtas_data):
+    json_data = []
+    for record in vtas_data:
+        json_data.append(json.loads(record))
+    return json_data
+
+
 def main():
     argument_parser = argparse.ArgumentParser(prog="VTAS to CSV Converter")
     argument_parser.add_argument("--log_file")
@@ -83,16 +98,16 @@ def main():
 
     logging.debug("Loading input file %s" % input_file)
 
-    vtas_data = []
-    with open(input_file, "r") as vtas_file:
-        for line in vtas_file:
-            vtas_data.append(line)
+    vtas_data = load_vtas_file(input_file)
+    logging.debug("VTAS records: %d" % len(vtas_data))
+    # print_list_head(vtas_data)
 
-    print_list_head(vtas_data)
+    json_data = load_json_content(vtas_data)
+    logging.debug("JSON records: %d" % len(json_data))
+    # print_list_head(json_data)
 
     return
 
-    json_data = load_json_file(input_file)
     logging.debug("Loaded %d records" % len(json_data))
     output_file = os.path.splitext(input_file)[0] + ".csv"
     # print_records(json_data)
