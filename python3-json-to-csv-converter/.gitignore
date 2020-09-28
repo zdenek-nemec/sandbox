@@ -2,3 +2,4 @@ test_configuration.cfg
 test_data.csv
 test_data.json
 venv/
+*.done
