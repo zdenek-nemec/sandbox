@@ -1,4 +1,5 @@
 import argparse
+import csv
 import json
 import logging
 import os
@@ -76,9 +77,14 @@ def main():
 
     # print(csv_data)
 
-    logging.debug("Created output file %s" % output_file)
+    with open("test_data.csv", "w", newline="") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+        for record in csv_data:
+            csv_writer.writerow(record)
 
-    logging.debug("Application finished")
+        logging.debug("Created output file %s" % output_file)
+
+        logging.debug("Application finished")
 
 
 if __name__ == "__main__":
