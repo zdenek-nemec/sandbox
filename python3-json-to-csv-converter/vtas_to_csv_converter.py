@@ -56,6 +56,15 @@ def print_list_head(data, lines=10):
             break
 
 
+def print_json_record(record, indentation=""):
+    for key in record.keys():
+        if isinstance(record[key], dict):
+            print("%s%s:" % (indentation, key))
+            print_json_record(record[key], indentation + "\t")
+        else:
+            print("%s%s: %s" % (indentation, key, record[key]))
+
+
 def load_vtas_file(path):
     vtas_data = []
     with open(path, "r") as vtas_file:
@@ -106,17 +115,51 @@ def main():
     logging.debug("JSON records: %d" % len(json_data))
     # print_list_head(json_data)
 
-    return
-
-    logging.debug("Loaded %d records" % len(json_data))
-    output_file = os.path.splitext(input_file)[0] + ".csv"
-    # print_records(json_data)
+    print_json_record(json_data[0])
 
     csv_columns = [
-        ("RECORD_ID", ["record_id"]),
-        ("CALLING_IMSI", ["calling", "imsi"]),
-        ("CALLED_IMSI", ["called", "imsi"]),
+        ("csi",   []),
+        ("cri",   []),
+        ("crqt",  []),
+        ("csct",  []),
+        ("cgn",   []),
+        ("cdn",   []),
+        ("cimsi", []),
+        ("csc",   []),
+        ("cst",   []),
+        ("crn",   []),
+        ("crt",   []),
+        ("cscid", []),
+        ("cbc",   []),
+        ("ctz",   []),
+        ("cnpri", []),
+        ("crpa",  []),
+        ("cra",   []),
+        ("cul",   []),
+        ("cli",   []),
+        ("cssd",  []),
+        ("cd",    []),
+        ("cet",   []),
+        ("ccv",   []),
+        ("cicid", []),
+        ("cpann", []),
+        ("ct",    []),
+        ("cres",  []),
+        ("csb",   []),
+        ("cvpn",  []),
+        ("cmpbx", []),
+        ("css",   []),
+        ("cbar",  []),
+        ("ciai",  []),
+        ("cocs",  []),
+        ("ocsid", []),
+        ("crc",   [])
     ]
+
+    return
+
+    output_file = os.path.splitext(input_file)[0] + ".csv"
+    # print_records(json_data)
 
     csv_data = extract_json_records(csv_columns, json_data)
     # print(csv_data)
