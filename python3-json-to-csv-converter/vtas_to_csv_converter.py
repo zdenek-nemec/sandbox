@@ -6,47 +6,6 @@ import os
 import sys
 
 
-def load_json_file(path):
-    with open(path) as json_file:
-        return json.load(json_file)
-
-
-def save_csv_file(path, data):
-    with open(path, "w", newline="") as csv_file:
-        csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-        for record in data:
-            csv_writer.writerow(record)
-
-
-def print_records(records):
-    for record in records:
-        print(record)
-
-
-def extract_json_records(csv_columns, json_data):
-    csv_data = []
-    row = []
-    for column in csv_columns:
-        row.append(column[0])
-    csv_data.append(row)
-
-    for record in json_data:
-        row = []
-        for column in csv_columns:
-            focus = record
-            for level in column[1]:
-                if level in focus.keys():
-                    focus = focus[level]
-                else:
-                    logging.debug("Value for %s not found" % column[0])
-                    row.append("")
-                    break
-            else:
-                row.append(focus)
-        csv_data.append(row)
-    return csv_data
-
-
 def print_list_head(data, lines=10):
     i = 0
     for line in data:
@@ -78,6 +37,37 @@ def load_json_content(vtas_data):
     for record in vtas_data:
         json_data.append(json.loads(record))
     return json_data
+
+
+def extract_csv_data(csv_columns, json_data):
+    csv_data = []
+    row = []
+    for column in csv_columns:
+        row.append(column[0])
+    csv_data.append(row)
+
+    for record in json_data:
+        row = []
+        for column in csv_columns:
+            focus = record
+            for level in column[1]:
+                if level in focus.keys():
+                    focus = focus[level]
+                else:
+                    logging.debug("Value for %s not found" % column[0])
+                    row.append("")
+                    break
+            else:
+                row.append(focus)
+        csv_data.append(row)
+    return csv_data
+
+
+def save_csv_file(path, data):
+    with open(path, "w", newline="") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+        for record in data:
+            csv_writer.writerow(record)
 
 
 def main():
@@ -114,56 +104,51 @@ def main():
     json_data = load_json_content(vtas_data)
     logging.debug("JSON records: %d" % len(json_data))
     # print_list_head(json_data)
-
-    print_json_record(json_data[0])
+    # print_json_record(json_data[0])
 
     csv_columns = [
-        ("csi",   []),
-        ("cri",   []),
-        ("crqt",  []),
-        ("csct",  []),
-        ("cgn",   []),
-        ("cdn",   []),
-        ("cimsi", []),
-        ("csc",   []),
-        ("cst",   []),
-        ("crn",   []),
-        ("crt",   []),
-        ("cscid", []),
-        ("cbc",   []),
-        ("ctz",   []),
-        ("cnpri", []),
-        ("crpa",  []),
-        ("cra",   []),
-        ("cul",   []),
-        ("cli",   []),
-        ("cssd",  []),
-        ("cd",    []),
-        ("cet",   []),
-        ("ccv",   []),
-        ("cicid", []),
-        ("cpann", []),
-        ("ct",    []),
-        ("cres",  []),
-        ("csb",   []),
-        ("cvpn",  []),
-        ("cmpbx", []),
-        ("css",   []),
-        ("cbar",  []),
-        ("ciai",  []),
-        ("cocs",  []),
-        ("ocsid", []),
-        ("crc",   [])
+        ("csi",   ["body", "charging", "csi"]),
+        ("cri",   ["body", "charging", "cri"]),
+        ("crqt",  ["body", "charging", "crqt"]),
+        ("csct",  ["body", "charging", "csct"]),
+        ("cgn",   ["body", "charging", "cgn"]),
+        ("cdn",   ["body", "charging", "cdn"]),
+        ("cimsi", ["body", "charging", "cimsi"]),
+        ("csc",   ["body", "charging", "csc"]),
+        ("cst",   ["body", "charging", "cst"]),
+        ("crn",   ["body", "charging", "crn"]),
+        ("crt",   ["body", "charging", "crt"]),
+        ("cscid", ["body", "charging", "cscid"]),
+        ("cbc",   ["body", "charging", "cbc"]),
+        ("ctz",   ["body", "charging", "ctz"]),
+        ("cnpri", ["body", "charging", "cnpri"]),
+        ("crpa",  ["body", "charging", "crpa"]),
+        ("cra",   ["body", "charging", "cra"]),
+        ("cul",   ["body", "charging", "cul"]),
+        ("cli",   ["body", "charging", "cli"]),
+        ("cssd",  ["body", "charging", "cssd"]),
+        ("cd",    ["body", "charging", "cd"]),
+        ("cet",   ["body", "charging", "cet"]),
+        ("ccv",   ["body", "charging", "ccv"]),
+        ("cicid", ["body", "charging", "cicid"]),
+        ("cpann", ["body", "charging", "cpann"]),
+        ("ct",    ["body", "charging", "ct"]),
+        ("cres",  ["body", "charging", "cres"]),
+        ("csb",   ["body", "charging", "csb"]),
+        ("cvpn",  ["body", "charging", "cvpn"]),
+        ("cmpbx", ["body", "charging", "cmpbx"]),
+        ("css",   ["body", "charging", "css"]),
+        ("cbar",  ["body", "charging", "cbar"]),
+        ("ciai",  ["body", "charging", "ciai"]),
+        ("cocs",  ["body", "charging", "cocs"]),
+        ("ocsid", ["body", "charging", "ocsid"]),
+        ("crc",   ["body", "charging", "crc"])
     ]
 
-    return
-
-    output_file = os.path.splitext(input_file)[0] + ".csv"
-    # print_records(json_data)
-
-    csv_data = extract_json_records(csv_columns, json_data)
+    csv_data = extract_csv_data(csv_columns, json_data)
     # print(csv_data)
 
+    output_file = os.path.splitext(input_file)[0] + ".csv"
     save_csv_file(output_file, csv_data)
 
     logging.debug("Created output file %s" % output_file)
