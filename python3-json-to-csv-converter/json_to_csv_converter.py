@@ -41,28 +41,40 @@ def main():
     input_file = "test_data.json"
 
     logging.debug("Loading input file %s" % input_file)
-    records = load_json_data(input_file)
-    logging.debug("Loaded %d records" % len(records))
+    json_data = load_json_data(input_file)
+    logging.debug("Loaded %d records" % len(json_data))
     output_file = os.path.splitext(input_file)[0] + ".csv"
 
-    # print_records(records)
+    # print_records(json_data)
 
     csv_columns = [
+        ("RECORD_ID", ["record_id"]),
         ("CALLING_IMSI", ["calling", "imsi"]),
         ("CALLED_IMSI", ["called", "imsi"]),
     ]
 
-    for record in records:
-        for csv_column in csv_columns:
+    csv_data = []
+    row = []
+    for column in csv_columns:
+        row.append(column[0])
+    csv_data.append(row)
+
+    for record in json_data:
+        row = []
+        for column in csv_columns:
             focus = record
-            for level in csv_column[1]:
+            for level in column[1]:
                 if level in focus.keys():
                     focus = focus[level]
                 else:
-                    print("%s = <empty>" % csv_column[0])
+                    logging.debug("Value for %s not found" % column[0])
+                    row.append("")
                     break
             else:
-                print("%s = %s" % (csv_column[0], focus))
+                row.append(focus)
+        csv_data.append(row)
+
+    # print(csv_data)
 
     logging.debug("Created output file %s" % output_file)
 
