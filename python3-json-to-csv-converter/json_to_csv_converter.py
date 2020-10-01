@@ -15,10 +15,10 @@ class JsonToCsv(object):
         self._csv_columns = None
         self._csv_data = None
 
-    def load_json_content(content):
+    def load_content(self, content):
         self._json_data = json.loads(content)
 
-    def load_json_file(path):
+    def load_file(self, path):
         self._json_data = json.load(path)
 
 
