@@ -6,6 +6,22 @@ import os
 import sys
 
 
+class JsonToCsv(object):
+    """JsonToCsv"""
+
+    def __init__(self):
+        super(JsonToCsv, self).__init__()
+        self._json_data = None
+        self._csv_columns = None
+        self._csv_data = None
+
+    def load_json_content(content):
+        self._json_data = json.loads(content)
+
+    def load_json_file(path):
+        self._json_data = json.load(path)
+
+
 def load_json_file(path):
     with open(path) as json_file:
         return json.load(json_file)
