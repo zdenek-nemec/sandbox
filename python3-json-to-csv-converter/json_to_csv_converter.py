@@ -65,7 +65,8 @@ def main():
     argument_parser.add_argument(
         "--log_level",
         default="DEBUG",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    )
     argument_parser.add_argument("--input_file", "-i")
 
     log_file = argument_parser.parse_args().log_file
