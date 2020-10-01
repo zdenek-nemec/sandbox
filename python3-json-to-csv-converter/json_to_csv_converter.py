@@ -19,7 +19,8 @@ class JsonToCsv(object):
         self._json_data = json.loads(content)
 
     def load_file(self, path):
-        self._json_data = json.load(path)
+        with open(path) as json_file:
+            self._json_data = json.load(json_file)
 
 
 def load_json_file(path):
