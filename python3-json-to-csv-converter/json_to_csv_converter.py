@@ -23,11 +23,6 @@ class JsonToCsv(object):
             self._json_data = json.load(json_file)
 
 
-def load_json_file(path):
-    with open(path) as json_file:
-        return json.load(json_file)
-
-
 def save_csv_file(path, data):
     with open(path, "w", newline="") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
@@ -40,7 +35,7 @@ def print_records(records):
         print(record)
 
 
-def extract_json_records(csv_columns, json_data):
+def extract_csv_data(csv_columns, json_data):
     csv_data = []
     row = []
     for column in csv_columns:
@@ -87,23 +82,23 @@ def main():
     logging.debug("Argument --log_level = %s" % log_level)
     logging.debug("Argument --input_file = %s" % input_file)
 
-    input_file = "test_data.json"
+    input_file = "test_data.json"  # TODO: Remove, just for testing purposes
 
     logging.debug("Loading input file %s" % input_file)
-    json_data = load_json_file(input_file)
-    logging.debug("Loaded %d records" % len(json_data))
-    output_file = os.path.splitext(input_file)[0] + ".csv"
-    # print_records(json_data)
+    json_to_csv = JsonToCsv()
+    json_to_csv.load_file(input_file)
+    json_data = json_to_csv._json_data
+    logging.debug("JSON records: %d" % len(json_data))
 
     csv_columns = [
         ("RECORD_ID", ["record_id"]),
         ("CALLING_IMSI", ["calling", "imsi"]),
-        ("CALLED_IMSI", ["called", "imsi"]),
+        ("CALLED_IMSI", ["called", "imsi"])
     ]
 
-    csv_data = extract_json_records(csv_columns, json_data)
-    # print(csv_data)
+    csv_data = extract_csv_data(csv_columns, json_data)
 
+    output_file = os.path.splitext(input_file)[0] + ".csv"
     save_csv_file(output_file, csv_data)
 
     logging.debug("Created output file %s" % output_file)
