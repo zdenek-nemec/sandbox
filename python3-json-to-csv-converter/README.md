@@ -1,5 +1,9 @@
 # JSON to CSV Converter
 
+## To Do
+
+* [ ] Arguments `input_file` and `config_file` are mutualy exclusive
+
 ## Dead Code
 
 ```python
