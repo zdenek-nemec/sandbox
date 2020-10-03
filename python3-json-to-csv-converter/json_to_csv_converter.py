@@ -68,7 +68,6 @@ def main():
         default="DEBUG",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
     )
-    argument_parser.add_argument("--input_file", "-i")
     argument_parser.add_argument("--config_file", "-c")
 
     log_file = argument_parser.parse_args().log_file
@@ -78,42 +77,36 @@ def main():
         logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
     else:
         logging.basicConfig(filename=log_file, level=log_level, format=log_format)
-    input_file = argument_parser.parse_args().input_file
     config_file = argument_parser.parse_args().config_file
 
     logging.debug("Application started")
     logging.debug("Argument --log_file = %s" % log_file)
     logging.debug("Argument --log_level = %s" % log_level)
-    logging.debug("Argument --input_file = %s" % input_file)
     logging.debug("Argument --config_file = %s" % config_file)
 
-    input_file = "test_data.json"  # TODO: Remove, just for testing purposes
-
-    # Config
     config = Config()
-    config.print()
-    config.generate("json_to_csv.cfg")
-    config.print()
-    config.save()
+    config.load("json_to_csv.cfg")
 
-    logging.debug("Loading input file %s" % input_file)
-    json_to_csv = JsonToCsv()
-    json_to_csv.load_file(input_file)
-    json_data = json_to_csv._json_data
-    logging.debug("JSON records: %d" % len(json_data))
-
+    input_files = ["test_data.json"]
     csv_columns = [
         ("RECORD_ID", ["record_id"]),
         ("CALLING_IMSI", ["calling", "imsi"]),
         ("CALLED_IMSI", ["called", "imsi"])
     ]
 
-    csv_data = extract_csv_data(csv_columns, json_data)
+    for input_file in input_files:
+        logging.debug("Loading input file %s" % input_file)
+        json_to_csv = JsonToCsv()
+        json_to_csv.load_file(input_file)
+        json_data = json_to_csv._json_data
+        logging.debug("JSON records: %d" % len(json_data))
 
-    output_file = os.path.splitext(input_file)[0] + ".csv"
-    save_csv_file(output_file, csv_data)
+        csv_data = extract_csv_data(csv_columns, json_data)
 
-    logging.debug("Created output file %s" % output_file)
+        output_file = os.path.splitext(input_file)[0] + ".csv"
+        save_csv_file(output_file, csv_data)
+
+        logging.debug("Created output file %s" % output_file)
 
     logging.debug("Application finished")
 
