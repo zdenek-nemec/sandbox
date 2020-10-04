@@ -1,5 +1,6 @@
 import argparse
 import csv
+import glob
 import json
 import logging
 import os
@@ -76,7 +77,7 @@ def main():
     argument_parser.add_argument("--log_file")
     argument_parser.add_argument(
         "--log_level",
-        default="DEBUG",
+        default="INFO",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
     # argument_parser.add_argument("--config", "-c", required=True)
     argument_parser.add_argument("--config", "-c", required=False)  # Debug
@@ -98,30 +99,22 @@ def main():
     config = Config()
     # config.read(config_file)
     config.read("vtas_to_csv.cfg")  # Debug
-    config.print()
 
-    input_file = "cdr-tp-b52-vtas1-seesd-0001-h3rop_CdrGW__0-default-1599743290859.done"  # Debug
+    os.chdir(config.get_path())
+    input_files = glob.glob(config.get_mask())
 
-    logging.debug("Loading input file %s" % input_file)
+    for input_file in input_files:
+        logging.debug("Loading input file %s" % input_file)
+        vtas_data = load_vtas_file(input_file)
+        logging.debug("VTAS records: %d" % len(vtas_data))
+        json_data = load_json_content(vtas_data)
+        logging.debug("JSON records: %d" % len(json_data))
+        csv_data = extract_csv_data(config._csv_columns, json_data)
+        output_file = os.path.splitext(input_file)[0] + ".csv"
+        save_csv_file(output_file, csv_data)
+        logging.debug("Created output file %s" % output_file)
 
-    vtas_data = load_vtas_file(input_file)
-    logging.debug("VTAS records: %d" % len(vtas_data))
-    # print_list_head(vtas_data)
-
-    json_data = load_json_content(vtas_data)
-    logging.debug("JSON records: %d" % len(json_data))
-    # print_list_head(json_data)
-    # print_json_record(json_data[0])
-
-    csv_data = extract_csv_data(config._csv_columns, json_data)
-    # print(csv_data)
-
-    output_file = os.path.splitext(input_file)[0] + ".csv"
-    save_csv_file(output_file, csv_data)
-
-    logging.debug("Created output file %s" % output_file)
-
-    logging.debug("Application finished")
+    logging.info("Application finished")
 
 
 if __name__ == "__main__":
