@@ -77,7 +77,7 @@ def main():
     argument_parser.add_argument("--log_file")
     argument_parser.add_argument(
         "--log_level",
-        default="INFO",
+        default="DEBUG",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
     # argument_parser.add_argument("--config", "-c", required=True)
     argument_parser.add_argument("--config", "-c", required=False)  # Debug

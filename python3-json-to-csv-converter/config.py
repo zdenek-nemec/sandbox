@@ -6,6 +6,7 @@ import sys
 DEFAULT_NAME = "Test Configuration"
 DEFAULT_PATH = "."
 DEFAULT_MASK = "*.json"
+DEFAULT_FILTER = True
 DEFAULT_JSON_CSV_COLUMNS = [
     ("RECORD_ID", ["record_id"]),
     ("CALLING_IMSI", ["calling", "imsi"]),
@@ -56,6 +57,7 @@ class Config(object):
         self._name = None
         self._path = None
         self._mask = None
+        self._filter = None
         self._csv_columns = None
 
     def get_config_filename(self):
@@ -70,6 +72,9 @@ class Config(object):
     def get_mask(self):
         return self._mask
 
+    def get_filter(self):
+        return self._filter
+
     def get_csv_columns(self):
         return self._csv_columns
 
@@ -78,6 +83,7 @@ class Config(object):
         self._name = DEFAULT_NAME
         self._path = DEFAULT_PATH
         self._mask = DEFAULT_MASK
+        self._filter = DEFAULT_FILTER
         self._csv_columns = DEFAULT_VTAS_CSV_COLUMNS
 
     def print(self):
@@ -86,27 +92,24 @@ class Config(object):
         print("\tname: %s" % self._name)
         print("\tpath: %s" % self._path)
         print("\tmask: %s" % self._mask)
+        print("\tfilter: %s" % self._filter)
         print("\tcsv_columns: %s" % self._csv_columns)
 
     def write(self, filename=None):
         if filename is not None:
             self._config_filename = filename
-
         if type(self._config_filename) != str:
             raise TypeError
-
         parser = configparser.ConfigParser()
         parser.optionxform = str
-
         parser.add_section("settings")
         parser.set("settings", "name", self._name)
         parser.set("settings", "path", self._path)
         parser.set("settings", "mask", self._mask)
-
+        parser.set("settings", "filter", str(self._filter))
         parser.add_section("csv_columns")
         for column in self._csv_columns:
             parser.set("csv_columns", column[0], ".".join(column[1]))
-
         try:
             with open(self._config_filename, "w") as config_file:
                 parser.write(config_file)
@@ -118,27 +121,24 @@ class Config(object):
     def read(self, filename):
         if type(filename) != str:
             raise TypeError
-
         self._config_filename = filename
         parser = configparser.ConfigParser()
         parser.optionxform = str
-
         try:
             parser.read(filename)
         except configparser.ParsingError:
             raise
         except:
             raise
-
         try:
             self._name = parser.get("settings", "name")
             self._path = parser.get("settings", "path")
             self._mask = parser.get("settings", "mask")
+            self._filter = bool(parser.get("settings", "filter"))
         except configparser.NoSectionError:
             raise
         except:
             raise
-
         items = parser.items("csv_columns")
         self._csv_columns = []
         for item in items:
