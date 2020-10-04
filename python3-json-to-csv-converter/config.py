@@ -51,7 +51,7 @@ class Config(object):
         print("\tmask: %s" % self._mask)
         print("\tcsv_columns: %s" % self._csv_columns)
 
-    def save(self, filename=None):
+    def write(self, filename=None):
         if filename is not None:
             self._config_filename = filename
 
@@ -78,7 +78,7 @@ class Config(object):
         except:
             raise
 
-    def load(self, filename):
+    def read(self, filename):
         if type(filename) != str:
             raise TypeError
 
@@ -95,12 +95,19 @@ class Config(object):
 
         try:
             self._name = parser.get("settings", "name")
-            self._name = parser.get("settings", "path")
-            self._name = parser.get("settings", "mask")
+            self._path = parser.get("settings", "path")
+            self._mask = parser.get("settings", "mask")
         except configparser.NoSectionError:
             raise
         except:
             raise
+
+        items = parser.items("csv_columns")
+        self._csv_columns = []
+        for item in items:
+            column_name = item[0]
+            column_path = item[1].split(".")
+            self._csv_columns.append((column_name, column_path))
 
 
 def main():
@@ -131,19 +138,21 @@ def main():
     logging.debug("Argument --read_config_file = %s" % read_config_file)
     logging.debug("Argument --write_config_file = %s" % write_config_file)
 
-    # Debugging
-    write_config_file = "json_to_csv.cfg"
-
     if read_config_file is not None:
         logging.info("Reading configuration file %s" % read_config_file)
+        config = Config()
+        config.read(read_config_file)
+        config.print()
     elif write_config_file is not None:
         logging.info("Writing configuration file %s" % write_config_file)
         config = Config()
         config.generate(write_config_file)
-        config.save()
+        config.write()
         config.print()
     else:
         logging.info("No action requested")
+
+    logging.info("Application finished")
 
 
 if __name__ == "__main__":
