@@ -81,6 +81,7 @@ def main():
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
     # argument_parser.add_argument("--config", "-c", required=True)
     argument_parser.add_argument("--config", "-c", required=False)  # Debug
+    argument_parser.add_argument("--filter", "-f", action="store_true")
 
     log_file = argument_parser.parse_args().log_file
     log_level = getattr(logging, argument_parser.parse_args().log_level, None)
@@ -90,6 +91,8 @@ def main():
     else:
         logging.basicConfig(filename=log_file, level=log_level, format=log_format)
     config_file = argument_parser.parse_args().config
+    filter_active = argument_parser.parse_args().filter
+    filter_active = True  # Debug
 
     logging.info("Application started")
     logging.debug("Argument --log_file = %s" % log_file)
@@ -109,7 +112,14 @@ def main():
         logging.debug("VTAS records: %d" % len(vtas_data))
         json_data = load_json_content(vtas_data)
         logging.debug("JSON records: %d" % len(json_data))
-        csv_data = extract_csv_data(config._csv_columns, json_data)
+        if filter_active:
+            extracted_csv_data = extract_csv_data(config._csv_columns, json_data)
+            csv_data = []
+            for record in extracted_csv_data:
+                if any(record):
+                    csv_data.append(record)
+        else:
+            csv_data = extract_csv_data(config._csv_columns, json_data)
         output_file = os.path.splitext(input_file)[0] + ".csv"
         save_csv_file(output_file, csv_data)
         logging.debug("Created output file %s" % output_file)
