@@ -49,12 +49,11 @@ class JsonToCsv(object):
                     row.append(focus)
             self._csv_data.append(row)
 
-
-def save_csv_file(path, data):
-    with open(path, "w", newline="") as csv_file:
-        csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-        for record in data:
-            csv_writer.writerow(record)
+    def save_csv_file(self, path):
+        with open(path, "w", newline="") as csv_file:
+            csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+            for record in self._csv_data:
+                csv_writer.writerow(record)
 
 
 def print_records(records):
@@ -103,7 +102,7 @@ def main():
         json_to_csv.extract_csv_data()
         logging.debug("CSV records: %d" % len(json_to_csv._csv_data))
         output_file = os.path.splitext(input_file)[0] + ".csv"
-        save_csv_file(output_file, json_to_csv._csv_data)
+        json_to_csv.save_csv_file(output_file)
         logging.info("Created output file %s" % output_file)
 
     logging.info("Application finished")
