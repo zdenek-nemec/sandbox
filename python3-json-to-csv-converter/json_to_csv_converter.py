@@ -86,13 +86,14 @@ def main():
 
     config = Config()
     config.load("json_to_csv.cfg")
+    # config.generate("json_to_csv.cfg")
+    # config.save()
+
+    config.print()
+    return
 
     input_files = ["test_data.json"]
-    csv_columns = [
-        ("RECORD_ID", ["record_id"]),
-        ("CALLING_IMSI", ["calling", "imsi"]),
-        ("CALLED_IMSI", ["called", "imsi"])
-    ]
+    csv_columns = config.get_csv_columns()
 
     for input_file in input_files:
         logging.debug("Loading input file %s" % input_file)
