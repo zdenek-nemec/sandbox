@@ -6,12 +6,49 @@ import sys
 DEFAULT_NAME = "Test Configuration"
 DEFAULT_PATH = "."
 DEFAULT_MASK = "*.json"
-DEFAULT_CSV_COLUMNS = [
+DEFAULT_JSON_CSV_COLUMNS = [
     ("RECORD_ID", ["record_id"]),
     ("CALLING_IMSI", ["calling", "imsi"]),
     ("CALLED_IMSI", ["called", "imsi"])
 ]
-
+DEFAULT_VTAS_CSV_COLUMNS = [
+        ("csi",   ["body", "charging", "csi"]),
+        ("cri",   ["body", "charging", "cri"]),
+        ("crqt",  ["body", "charging", "crqt"]),
+        ("csct",  ["body", "charging", "csct"]),
+        ("cgn",   ["body", "charging", "cgn"]),
+        ("cdn",   ["body", "charging", "cdn"]),
+        ("cimsi", ["body", "charging", "cimsi"]),
+        ("csc",   ["body", "charging", "csc"]),
+        ("cst",   ["body", "charging", "cst"]),
+        ("crn",   ["body", "charging", "crn"]),
+        ("crt",   ["body", "charging", "crt"]),
+        ("cscid", ["body", "charging", "cscid"]),
+        ("cbc",   ["body", "charging", "cbc"]),
+        ("ctz",   ["body", "charging", "ctz"]),
+        ("cnpri", ["body", "charging", "cnpri"]),
+        ("crpa",  ["body", "charging", "crpa"]),
+        ("cra",   ["body", "charging", "cra"]),
+        ("cul",   ["body", "charging", "cul"]),
+        ("cli",   ["body", "charging", "cli"]),
+        ("cssd",  ["body", "charging", "cssd"]),
+        ("cd",    ["body", "charging", "cd"]),
+        ("cet",   ["body", "charging", "cet"]),
+        ("ccv",   ["body", "charging", "ccv"]),
+        ("cicid", ["body", "charging", "cicid"]),
+        ("cpann", ["body", "charging", "cpann"]),
+        ("ct",    ["body", "charging", "ct"]),
+        ("cres",  ["body", "charging", "cres"]),
+        ("csb",   ["body", "charging", "csb"]),
+        ("cvpn",  ["body", "charging", "cvpn"]),
+        ("cmpbx", ["body", "charging", "cmpbx"]),
+        ("css",   ["body", "charging", "css"]),
+        ("cbar",  ["body", "charging", "cbar"]),
+        ("ciai",  ["body", "charging", "ciai"]),
+        ("cocs",  ["body", "charging", "cocs"]),
+        ("ocsid", ["body", "charging", "ocsid"]),
+        ("crc",   ["body", "charging", "crc"])
+]
 
 class Config(object):
     def __init__(self):
@@ -41,7 +78,7 @@ class Config(object):
         self._name = DEFAULT_NAME
         self._path = DEFAULT_PATH
         self._mask = DEFAULT_MASK
-        self._csv_columns = DEFAULT_CSV_COLUMNS
+        self._csv_columns = DEFAULT_VTAS_CSV_COLUMNS
 
     def print(self):
         print("Current configuration:")
