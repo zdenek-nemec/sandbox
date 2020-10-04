@@ -1,4 +1,7 @@
+import argparse
 import configparser
+import logging
+import sys
 
 DEFAULT_NAME = "Test Configuration"
 DEFAULT_PATH = "."
@@ -58,14 +61,14 @@ class Config(object):
         parser = configparser.ConfigParser()
         parser.optionxform = str
 
-        parser.add_section("Settings")
-        parser.set("Settings", "name", self._name)
-        parser.set("Settings", "path", self._path)
-        parser.set("Settings", "mask", self._mask)
+        parser.add_section("settings")
+        parser.set("settings", "name", self._name)
+        parser.set("settings", "path", self._path)
+        parser.set("settings", "mask", self._mask)
 
-        parser.add_section("CSV Columns")
+        parser.add_section("csv_columns")
         for column in self._csv_columns:
-            parser.set("CSV Columns", column[0], ".".join(column[1]))
+            parser.set("csv_columns", column[0], ".".join(column[1]))
 
         try:
             with open(self._config_filename, "w") as config_file:
@@ -91,14 +94,57 @@ class Config(object):
             raise
 
         try:
-            self._name = parser.get("Settings", "name")
-            self._name = parser.get("Settings", "path")
-            self._name = parser.get("Settings", "mask")
+            self._name = parser.get("settings", "name")
+            self._name = parser.get("settings", "path")
+            self._name = parser.get("settings", "mask")
         except configparser.NoSectionError:
             raise
         except:
             raise
 
 
+def main():
+    argument_parser = argparse.ArgumentParser(prog="config")
+    argument_parser.add_argument("--log_file")
+    argument_parser.add_argument(
+        "--log_level",
+        default="DEBUG",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    )
+    argument_group = argument_parser.add_mutually_exclusive_group()
+    argument_group.add_argument("--read", "-r")
+    argument_group.add_argument("--write", "-w")
+
+    log_file = argument_parser.parse_args().log_file
+    log_level = getattr(logging, argument_parser.parse_args().log_level, None)
+    log_format = "%(asctime)s - %(levelname)s - %(message)s"
+    if log_file == None:
+        logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
+    else:
+        logging.basicConfig(filename=log_file, level=log_level, format=log_format)
+    read_config_file = argument_parser.parse_args().read
+    write_config_file = argument_parser.parse_args().write
+
+    logging.info("Application started")
+    logging.debug("Argument --log_file = %s" % log_file)
+    logging.debug("Argument --log_level = %s" % log_level)
+    logging.debug("Argument --read_config_file = %s" % read_config_file)
+    logging.debug("Argument --write_config_file = %s" % write_config_file)
+
+    # Debugging
+    write_config_file = "json_to_csv.cfg"
+
+    if read_config_file is not None:
+        logging.info("Reading configuration file %s" % read_config_file)
+    elif write_config_file is not None:
+        logging.info("Writing configuration file %s" % write_config_file)
+        config = Config()
+        config.generate(write_config_file)
+        config.save()
+        config.print()
+    else:
+        logging.info("No action requested")
+
+
 if __name__ == "__main__":
-    pass
+    main()
