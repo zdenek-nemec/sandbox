@@ -103,6 +103,11 @@ def main():
     os.chdir(config.get_path())
     input_files = glob.glob(config.get_mask())
 
+    if config.get_action().lower() == "delete":
+        delete_source_files = True
+    else:
+        delete_source_files = False
+
     for input_file in input_files:
         logging.debug("Loading input file %s" % input_file)
         vtas_data = load_vtas_file(input_file)
@@ -119,8 +124,12 @@ def main():
             csv_data = extract_csv_data(config._table_columns, json_data)
         logging.debug("CSV records: %d" % len(csv_data))
         output_file = os.path.splitext(input_file)[0] + ".csv"
+        logging.debug("Creating output file %s" % output_file)
         save_csv_file(output_file, csv_data)
-        logging.debug("Created output file %s" % output_file)
+
+        if delete_source_files:
+            logging.debug("Removing input file %s" % input_file)
+            os.remove(input_file)
 
     logging.info("Application finished")
 

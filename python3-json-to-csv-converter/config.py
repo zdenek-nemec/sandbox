@@ -7,6 +7,7 @@ DEFAULT_NAME = "Test Configuration"
 DEFAULT_PATH = "."
 DEFAULT_MASK = "*.json"
 DEFAULT_FILTER = True
+DEFAULT_ACTION = "Keep"
 DEFAULT_TABLE_COLUMNS = [
     ("RECORD_ID", ["record_id"]),
     ("CALLING_IMSI", ["calling", "imsi"]),
@@ -59,6 +60,7 @@ class Config(object):
         self._path = None
         self._mask = None
         self._filter = None
+        self._action = None
         self._table_columns = None
 
     def get_config_filename(self):
@@ -76,6 +78,9 @@ class Config(object):
     def get_filter(self):
         return self._filter
 
+    def get_action(self):
+        return self._action
+
     def get_table_columns(self):
         return self._table_columns
 
@@ -85,6 +90,7 @@ class Config(object):
         self._path = DEFAULT_PATH
         self._mask = DEFAULT_MASK
         self._filter = DEFAULT_FILTER
+        self._action = DEFAULT_ACTION
         self._table_columns = DEFAULT_TABLE_COLUMNS
 
     def print(self):
@@ -94,6 +100,7 @@ class Config(object):
         print("\tpath: %s" % self._path)
         print("\tmask: %s" % self._mask)
         print("\tfilter: %s" % self._filter)
+        print("\taction: %s" % self._action)
         print("\ttable_columns: %s" % self._table_columns)
 
     def write(self, filename=None):
@@ -108,6 +115,7 @@ class Config(object):
         config_parser.set("settings", "path", self._path)
         config_parser.set("settings", "mask", self._mask)
         config_parser.set("settings", "filter", str(self._filter))
+        config_parser.set("settings", "action", str(self._action))
         config_parser.add_section("table_columns")
         for column in self._table_columns:
             config_parser.set("table_columns", column[0], ".".join(column[1]))
@@ -139,6 +147,7 @@ class Config(object):
                 self._filter = True
             else:
                 self._filter = False
+            self._action = config_parser.get("settings", "action")
         except configparser.NoSectionError:
             raise
         except:
