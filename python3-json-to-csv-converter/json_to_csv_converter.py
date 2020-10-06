@@ -27,13 +27,14 @@ class JsonToTable(object):
     def set_table_columns(self, table_columns):
         self._table_columns = table_columns
 
+    def get_table_header(self):
+        header = []
+        for column in self._table_columns:
+            header.append(column[0])
+        return header
+
     def extract_table_data(self):
         self._table_data = []
-        row = []
-        for column in self._table_columns:
-            row.append(column[0])
-        self._table_data.append(row)
-
         for record in self._json_data:
             row = []
             for column in self._table_columns:
@@ -49,16 +50,21 @@ class JsonToTable(object):
                     row.append(focus)
             self._table_data.append(row)
 
-    def save_csv_file(self, path):
-        with open(path, "w", newline="") as csv_file:
-            csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-            for record in self._table_data:
-                csv_writer.writerow(record)
+    def get_table_data(self):
+        return self._table_data
 
 
 def print_records(records):
     for record in records:
         print(record)
+
+
+def save_csv_file(path, header, records):
+    with open(path, "w", newline="") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+        csv_writer.writerow(header)
+        for record in records:
+            csv_writer.writerow(record)
 
 
 def main():
@@ -102,7 +108,7 @@ def main():
         json_to_table.extract_table_data()
         logging.debug("Table records: %d" % len(json_to_table._table_data))
         output_file = os.path.splitext(input_file)[0] + ".csv"
-        json_to_table.save_csv_file(output_file)
+        save_csv_file(output_file, json_to_table.get_table_header(), json_to_table.get_table_data())
         logging.info("Created output file %s" % output_file)
 
     logging.info("Application finished")
