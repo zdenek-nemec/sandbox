@@ -7,49 +7,50 @@ DEFAULT_NAME = "Test Configuration"
 DEFAULT_PATH = "."
 DEFAULT_MASK = "*.json"
 DEFAULT_FILTER = True
-DEFAULT_JSON_CSV_COLUMNS = [
+DEFAULT_TABLE_COLUMNS = [
     ("RECORD_ID", ["record_id"]),
     ("CALLING_IMSI", ["calling", "imsi"]),
     ("CALLED_IMSI", ["called", "imsi"])
 ]
-DEFAULT_VTAS_CSV_COLUMNS = [
-        ("csi",   ["body", "charging", "csi"]),
-        ("cri",   ["body", "charging", "cri"]),
-        ("crqt",  ["body", "charging", "crqt"]),
-        ("csct",  ["body", "charging", "csct"]),
-        ("cgn",   ["body", "charging", "cgn"]),
-        ("cdn",   ["body", "charging", "cdn"]),
-        ("cimsi", ["body", "charging", "cimsi"]),
-        ("csc",   ["body", "charging", "csc"]),
-        ("cst",   ["body", "charging", "cst"]),
-        ("crn",   ["body", "charging", "crn"]),
-        ("crt",   ["body", "charging", "crt"]),
-        ("cscid", ["body", "charging", "cscid"]),
-        ("cbc",   ["body", "charging", "cbc"]),
-        ("ctz",   ["body", "charging", "ctz"]),
-        ("cnpri", ["body", "charging", "cnpri"]),
-        ("crpa",  ["body", "charging", "crpa"]),
-        ("cra",   ["body", "charging", "cra"]),
-        ("cul",   ["body", "charging", "cul"]),
-        ("cli",   ["body", "charging", "cli"]),
-        ("cssd",  ["body", "charging", "cssd"]),
-        ("cd",    ["body", "charging", "cd"]),
-        ("cet",   ["body", "charging", "cet"]),
-        ("ccv",   ["body", "charging", "ccv"]),
-        ("cicid", ["body", "charging", "cicid"]),
-        ("cpann", ["body", "charging", "cpann"]),
-        ("ct",    ["body", "charging", "ct"]),
-        ("cres",  ["body", "charging", "cres"]),
-        ("csb",   ["body", "charging", "csb"]),
-        ("cvpn",  ["body", "charging", "cvpn"]),
-        ("cmpbx", ["body", "charging", "cmpbx"]),
-        ("css",   ["body", "charging", "css"]),
-        ("cbar",  ["body", "charging", "cbar"]),
-        ("ciai",  ["body", "charging", "ciai"]),
-        ("cocs",  ["body", "charging", "cocs"]),
-        ("ocsid", ["body", "charging", "ocsid"]),
-        ("crc",   ["body", "charging", "crc"])
-]
+# DEFAULT_TABLE_COLUMNS = [
+#         ("csi",   ["body", "charging", "csi"]),
+#         ("cri",   ["body", "charging", "cri"]),
+#         ("crqt",  ["body", "charging", "crqt"]),
+#         ("csct",  ["body", "charging", "csct"]),
+#         ("cgn",   ["body", "charging", "cgn"]),
+#         ("cdn",   ["body", "charging", "cdn"]),
+#         ("cimsi", ["body", "charging", "cimsi"]),
+#         ("csc",   ["body", "charging", "csc"]),
+#         ("cst",   ["body", "charging", "cst"]),
+#         ("crn",   ["body", "charging", "crn"]),
+#         ("crt",   ["body", "charging", "crt"]),
+#         ("cscid", ["body", "charging", "cscid"]),
+#         ("cbc",   ["body", "charging", "cbc"]),
+#         ("ctz",   ["body", "charging", "ctz"]),
+#         ("cnpri", ["body", "charging", "cnpri"]),
+#         ("crpa",  ["body", "charging", "crpa"]),
+#         ("cra",   ["body", "charging", "cra"]),
+#         ("cul",   ["body", "charging", "cul"]),
+#         ("cli",   ["body", "charging", "cli"]),
+#         ("cssd",  ["body", "charging", "cssd"]),
+#         ("cd",    ["body", "charging", "cd"]),
+#         ("cet",   ["body", "charging", "cet"]),
+#         ("ccv",   ["body", "charging", "ccv"]),
+#         ("cicid", ["body", "charging", "cicid"]),
+#         ("cpann", ["body", "charging", "cpann"]),
+#         ("ct",    ["body", "charging", "ct"]),
+#         ("cres",  ["body", "charging", "cres"]),
+#         ("csb",   ["body", "charging", "csb"]),
+#         ("cvpn",  ["body", "charging", "cvpn"]),
+#         ("cmpbx", ["body", "charging", "cmpbx"]),
+#         ("css",   ["body", "charging", "css"]),
+#         ("cbar",  ["body", "charging", "cbar"]),
+#         ("ciai",  ["body", "charging", "ciai"]),
+#         ("cocs",  ["body", "charging", "cocs"]),
+#         ("ocsid", ["body", "charging", "ocsid"]),
+#         ("crc",   ["body", "charging", "crc"])
+# ]
+
 
 class Config(object):
     def __init__(self):
@@ -58,7 +59,7 @@ class Config(object):
         self._path = None
         self._mask = None
         self._filter = None
-        self._csv_columns = None
+        self._table_columns = None
 
     def get_config_filename(self):
         return self._config_filename
@@ -75,8 +76,8 @@ class Config(object):
     def get_filter(self):
         return self._filter
 
-    def get_csv_columns(self):
-        return self._csv_columns
+    def get_table_columns(self):
+        return self._table_columns
 
     def generate(self, filename):
         self._config_filename = filename
@@ -84,7 +85,7 @@ class Config(object):
         self._path = DEFAULT_PATH
         self._mask = DEFAULT_MASK
         self._filter = DEFAULT_FILTER
-        self._csv_columns = DEFAULT_VTAS_CSV_COLUMNS
+        self._table_columns = DEFAULT_TABLE_COLUMNS
 
     def print(self):
         print("Current configuration:")
@@ -93,7 +94,7 @@ class Config(object):
         print("\tpath: %s" % self._path)
         print("\tmask: %s" % self._mask)
         print("\tfilter: %s" % self._filter)
-        print("\tcsv_columns: %s" % self._csv_columns)
+        print("\ttable_columns: %s" % self._table_columns)
 
     def write(self, filename=None):
         if filename is not None:
@@ -107,9 +108,9 @@ class Config(object):
         parser.set("settings", "path", self._path)
         parser.set("settings", "mask", self._mask)
         parser.set("settings", "filter", str(self._filter))
-        parser.add_section("csv_columns")
-        for column in self._csv_columns:
-            parser.set("csv_columns", column[0], ".".join(column[1]))
+        parser.add_section("table_columns")
+        for column in self._table_columns:
+            parser.set("table_columns", column[0], ".".join(column[1]))
         try:
             with open(self._config_filename, "w") as config_file:
                 parser.write(config_file)
@@ -139,12 +140,12 @@ class Config(object):
             raise
         except:
             raise
-        items = parser.items("csv_columns")
-        self._csv_columns = []
+        items = parser.items("table_columns")
+        self._table_columns = []
         for item in items:
             column_name = item[0]
             column_path = item[1].split(".")
-            self._csv_columns.append((column_name, column_path))
+            self._table_columns.append((column_name, column_path))
 
 
 def main():

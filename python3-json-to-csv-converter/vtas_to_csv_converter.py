@@ -113,13 +113,13 @@ def main():
         json_data = load_json_content(vtas_data)
         logging.debug("JSON records: %d" % len(json_data))
         if filter_active:
-            extracted_csv_data = extract_csv_data(config._csv_columns, json_data)
+            extracted_csv_data = extract_csv_data(config._table_columns, json_data)
             csv_data = []
             for record in extracted_csv_data:
                 if any(record):
                     csv_data.append(record)
         else:
-            csv_data = extract_csv_data(config._csv_columns, json_data)
+            csv_data = extract_csv_data(config._table_columns, json_data)
         output_file = os.path.splitext(input_file)[0] + ".csv"
         save_csv_file(output_file, csv_data)
         logging.debug("Created output file %s" % output_file)
