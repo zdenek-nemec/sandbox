@@ -135,7 +135,10 @@ class Config(object):
             self._name = config_parser.get("settings", "name")
             self._path = config_parser.get("settings", "path")
             self._mask = config_parser.get("settings", "mask")
-            self._filter = bool(config_parser.get("settings", "filter"))
+            if config_parser.get("settings", "filter").lower() == "true":
+                self._filter = True
+            else:
+                self._filter = False
         except configparser.NoSectionError:
             raise
         except:
