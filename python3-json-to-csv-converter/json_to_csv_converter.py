@@ -53,17 +53,18 @@ class JsonToTable(object):
     def get_table_data(self):
         return self._table_data
 
+    def get_json_data_length(self):
+        return len(self._json_data)
 
-def print_records(records):
-    for record in records:
-        print(record)
+    def get_table_data_length(self):
+        return len(self._table_data)
 
 
-def save_csv_file(path, header, records):
+def save_csv_file(path, header, data):
     with open(path, "w", newline="") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=",", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
         csv_writer.writerow(header)
-        for record in records:
+        for record in data:
             csv_writer.writerow(record)
 
 
@@ -104,9 +105,9 @@ def main():
     for input_file in input_files:
         logging.info("Loading input file %s" % input_file)
         json_to_table.load_file(input_file)
-        logging.debug("JSON records: %d" % len(json_to_table._json_data))
+        logging.debug("JSON records: %d" % json_to_table.get_json_data_length())
         json_to_table.extract_table_data()
-        logging.debug("Table records: %d" % len(json_to_table._table_data))
+        logging.debug("Table records: %d" % json_to_table.get_table_data_length())
         output_file = os.path.splitext(input_file)[0] + ".csv"
         save_csv_file(output_file, json_to_table.get_table_header(), json_to_table.get_table_data())
         logging.info("Created output file %s" % output_file)
