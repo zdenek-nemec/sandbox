@@ -101,19 +101,19 @@ class Config(object):
             self._config_filename = filename
         if type(self._config_filename) != str:
             raise TypeError
-        parser = configparser.ConfigParser()
-        parser.optionxform = str
-        parser.add_section("settings")
-        parser.set("settings", "name", self._name)
-        parser.set("settings", "path", self._path)
-        parser.set("settings", "mask", self._mask)
-        parser.set("settings", "filter", str(self._filter))
-        parser.add_section("table_columns")
+        config_parser = configparser.ConfigParser()
+        config_parser.optionxform = str
+        config_parser.add_section("settings")
+        config_parser.set("settings", "name", self._name)
+        config_parser.set("settings", "path", self._path)
+        config_parser.set("settings", "mask", self._mask)
+        config_parser.set("settings", "filter", str(self._filter))
+        config_parser.add_section("table_columns")
         for column in self._table_columns:
-            parser.set("table_columns", column[0], ".".join(column[1]))
+            config_parser.set("table_columns", column[0], ".".join(column[1]))
         try:
             with open(self._config_filename, "w") as config_file:
-                parser.write(config_file)
+                config_parser.write(config_file)
         except FileNotFoundError:
             raise
         except:
@@ -123,24 +123,24 @@ class Config(object):
         if type(filename) != str:
             raise TypeError
         self._config_filename = filename
-        parser = configparser.ConfigParser()
-        parser.optionxform = str
+        config_parser = configparser.ConfigParser()
+        config_parser.optionxform = str
         try:
-            parser.read(filename)
+            config_parser.read(filename)
         except configparser.ParsingError:
             raise
         except:
             raise
         try:
-            self._name = parser.get("settings", "name")
-            self._path = parser.get("settings", "path")
-            self._mask = parser.get("settings", "mask")
-            self._filter = bool(parser.get("settings", "filter"))
+            self._name = config_parser.get("settings", "name")
+            self._path = config_parser.get("settings", "path")
+            self._mask = config_parser.get("settings", "mask")
+            self._filter = bool(config_parser.get("settings", "filter"))
         except configparser.NoSectionError:
             raise
         except:
             raise
-        items = parser.items("table_columns")
+        items = config_parser.items("table_columns")
         self._table_columns = []
         for item in items:
             column_name = item[0]
