@@ -1,9 +1,11 @@
 import argparse
 import csv
+import glob
 import json
 import logging
 import os
 import sys
+from config import Config
 
 
 def print_list_head(data, lines=10):
@@ -54,7 +56,7 @@ def extract_csv_data(csv_columns, json_data):
                 if level in focus.keys():
                     focus = focus[level]
                 else:
-                    logging.debug("Value for %s not found" % column[0])
+                    # logging.debug("Value for %s not found" % column[0])
                     row.append("")
                     break
             else:
@@ -71,13 +73,14 @@ def save_csv_file(path, data):
 
 
 def main():
-    argument_parser = argparse.ArgumentParser(prog="VTAS to CSV Converter")
+    argument_parser = argparse.ArgumentParser(prog="vtas_to_csv_converter")
     argument_parser.add_argument("--log_file")
     argument_parser.add_argument(
         "--log_level",
         default="DEBUG",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
-    argument_parser.add_argument("--input_file", "-i")
+    # argument_parser.add_argument("--config", "-c", required=True)
+    argument_parser.add_argument("--config", "-c", required=False)  # Debug
 
     log_file = argument_parser.parse_args().log_file
     log_level = getattr(logging, argument_parser.parse_args().log_level, None)
@@ -86,74 +89,49 @@ def main():
         logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
     else:
         logging.basicConfig(filename=log_file, level=log_level, format=log_format)
-    input_file = argument_parser.parse_args().input_file
+    config_file = argument_parser.parse_args().config
 
-    logging.debug("Application started")
+    logging.info("Application started")
     logging.debug("Argument --log_file = %s" % log_file)
     logging.debug("Argument --log_level = %s" % log_level)
-    logging.debug("Argument --input_file = %s" % input_file)
+    logging.debug("Argument --config = %s" % config_file)
 
-    input_file = "cdr-tp-b52-vtas1-seesd-0001-h3rop_CdrGW__0-default-1599743290859.done"
+    config = Config()
+    # config.read(config_file)
+    config.read("vtas_to_csv.cfg")  # Debug
 
-    logging.debug("Loading input file %s" % input_file)
+    os.chdir(config.get_path())
+    input_files = glob.glob(config.get_mask())
 
-    vtas_data = load_vtas_file(input_file)
-    logging.debug("VTAS records: %d" % len(vtas_data))
-    # print_list_head(vtas_data)
+    if config.get_action().lower() == "delete":
+        delete_source_files = True
+    else:
+        delete_source_files = False
 
-    json_data = load_json_content(vtas_data)
-    logging.debug("JSON records: %d" % len(json_data))
-    # print_list_head(json_data)
-    # print_json_record(json_data[0])
+    for input_file in input_files:
+        logging.debug("Loading input file %s" % input_file)
+        vtas_data = load_vtas_file(input_file)
+        logging.debug("VTAS records: %d" % len(vtas_data))
+        json_data = load_json_content(vtas_data)
+        logging.debug("JSON records: %d" % len(json_data))
+        if config.get_filter():
+            extracted_csv_data = extract_csv_data(config._table_columns, json_data)
+            csv_data = []
+            for record in extracted_csv_data:
+                if any(record):
+                    csv_data.append(record)
+        else:
+            csv_data = extract_csv_data(config._table_columns, json_data)
+        logging.debug("CSV records: %d" % len(csv_data))
+        output_file = os.path.splitext(input_file)[0] + ".csv"
+        logging.debug("Creating output file %s" % output_file)
+        save_csv_file(output_file, csv_data)
 
-    csv_columns = [
-        ("csi",   ["body", "charging", "csi"]),
-        ("cri",   ["body", "charging", "cri"]),
-        ("crqt",  ["body", "charging", "crqt"]),
-        ("csct",  ["body", "charging", "csct"]),
-        ("cgn",   ["body", "charging", "cgn"]),
-        ("cdn",   ["body", "charging", "cdn"]),
-        ("cimsi", ["body", "charging", "cimsi"]),
-        ("csc",   ["body", "charging", "csc"]),
-        ("cst",   ["body", "charging", "cst"]),
-        ("crn",   ["body", "charging", "crn"]),
-        ("crt",   ["body", "charging", "crt"]),
-        ("cscid", ["body", "charging", "cscid"]),
-        ("cbc",   ["body", "charging", "cbc"]),
-        ("ctz",   ["body", "charging", "ctz"]),
-        ("cnpri", ["body", "charging", "cnpri"]),
-        ("crpa",  ["body", "charging", "crpa"]),
-        ("cra",   ["body", "charging", "cra"]),
-        ("cul",   ["body", "charging", "cul"]),
-        ("cli",   ["body", "charging", "cli"]),
-        ("cssd",  ["body", "charging", "cssd"]),
-        ("cd",    ["body", "charging", "cd"]),
-        ("cet",   ["body", "charging", "cet"]),
-        ("ccv",   ["body", "charging", "ccv"]),
-        ("cicid", ["body", "charging", "cicid"]),
-        ("cpann", ["body", "charging", "cpann"]),
-        ("ct",    ["body", "charging", "ct"]),
-        ("cres",  ["body", "charging", "cres"]),
-        ("csb",   ["body", "charging", "csb"]),
-        ("cvpn",  ["body", "charging", "cvpn"]),
-        ("cmpbx", ["body", "charging", "cmpbx"]),
-        ("css",   ["body", "charging", "css"]),
-        ("cbar",  ["body", "charging", "cbar"]),
-        ("ciai",  ["body", "charging", "ciai"]),
-        ("cocs",  ["body", "charging", "cocs"]),
-        ("ocsid", ["body", "charging", "ocsid"]),
-        ("crc",   ["body", "charging", "crc"])
-    ]
+        if delete_source_files:
+            logging.debug("Removing input file %s" % input_file)
+            os.remove(input_file)
 
-    csv_data = extract_csv_data(csv_columns, json_data)
-    # print(csv_data)
-
-    output_file = os.path.splitext(input_file)[0] + ".csv"
-    save_csv_file(output_file, csv_data)
-
-    logging.debug("Created output file %s" % output_file)
-
-    logging.debug("Application finished")
+    logging.info("Application finished")
 
 
 if __name__ == "__main__":
