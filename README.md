@@ -5,11 +5,12 @@ experiments.
 
 ## Structure
 
-| Directory                       | Description                          |
-| ------------------------------- | ------------------------------------ |
-| `java-demos`                    | Java demos.                          |
-| `python3-demos`                 | Python 3 demos.                      |
-| `python3-json-to-csv-converter` | Application for JSON-CSV conversion. |
+| Directory                       | Description                         |
+| ------------------------------- | ----------------------------------- |
+| `bash-demos`                    | Bash demos                          |
+| `java-demos`                    | Java demos                          |
+| `python3-demos`                 | Python 3 demos                      |
+| `python3-json-to-csv-converter` | Application for JSON-CSV conversion |
 
 ## Rules
 

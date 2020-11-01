@@ -2,6 +2,6 @@
 
 ## Structure
 
-| Directory  | Description                                                    |
-| ---------- | -------------------------------------------------------------- |
-| `template` | Bash script template                                           |
+| Directory  | Description          |
+| ---------- | -------------------- |
+| `template` | Bash script template |
