@@ -24,7 +24,7 @@ function print_help {
     head -`grep -n -m 1 -v "^#" "$0" | cut -d ":" -f 1` "$0"
 }
 
-function print_error_message {
+function print_usage {
     echo "Usage: `basename $0` [-h] [-n NAME]"
     echo "Try \``basename $0` --help' for more information."
 }
@@ -40,9 +40,9 @@ if [[ "$#" == "2" && ("$1" == "-n" || "$1" == "--name") ]]; then
     name=$2
 else
     echo "Error: Unexpected arguments" 1>&2
-    print_error_message
+    print_usage
     exit -1
 fi
 
 # Execute
-echo "Hello, $name"
+echo "Hello, ${name}!"
