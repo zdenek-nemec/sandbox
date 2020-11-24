@@ -2,6 +2,7 @@
 
 ## Structure
 
-| Directory      | Description                                           |
-| -------------- | ----------------------------------------------------- |
-| `hello-world`  | Hello-World demo                                      |
+| Directory             | Description         |
+| --------------------- | ------------------- |
+| `hello-world`         | Hello-World demo    |
+| `python-without-root` | Python without root |
