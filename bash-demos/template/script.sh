@@ -6,8 +6,9 @@
 #     script.sh [-h] [-n NAME]
 #
 # Examples:
-#     script.sh -h
+#     script.sh
 #     script.sh -n Arcifrajer
+#     script.sh -h
 #
 # Description:
 #     Shell script for Arcifrajer.
@@ -18,15 +19,15 @@
 #         User's name
 #
 
-CONSTANT="."
-
-function print_help {
-    head -`grep -n -m 1 -v "^#" "$0" | cut -d ":" -f 1` "$0"
-}
+DEFAULT_NAME="Frajer"
 
 function print_usage {
     echo "Usage: `basename $0` [-h] [-n NAME]"
     echo "Try \``basename $0` --help' for more information."
+}
+
+function print_help {
+    head -`grep -n -m 1 -v "^#" "$0" | cut -d ":" -f 1` "$0"
 }
 
 # Help
@@ -36,7 +37,9 @@ if [[ "$#" == "1" && ("$1" == "-h" || "$1" == "--help") ]]; then
 fi
 
 # Arguments
-if [[ "$#" == "2" && ("$1" == "-n" || "$1" == "--name") ]]; then
+if [[ "$#" == "0" ]]; then
+    name=$DEFAULT_NAME
+elif [[ "$#" == "2" && ("$1" == "-n" || "$1" == "--name") ]]; then
     name=$2
 else
     echo "Error: Unexpected arguments" 1>&2
