@@ -2,10 +2,11 @@
 
 ## Structure
 
-| Directory             | Description         |
-| --------------------- | ------------------- |
-| `hello_world`         | Hello-World demo    |
-| `python_without-root` | Python without root |
+| Directory             | Description            |
+| --------------------- | ---------------------- |
+| `hello_world`         | Hello-World demo       |
+| `python_without-root` | Python without root    |
+| `template`            | Python script template |
 
 ## To Do
 
@@ -17,4 +18,4 @@
 * [ ] Timeout demo
 * [ ] Argparse demo
 * [ ] Config demo
-* [ ] Template
+* [x] Template
