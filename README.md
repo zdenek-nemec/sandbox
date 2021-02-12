@@ -15,9 +15,9 @@ experiments.
 ## Rules
 
 * Every sub-project has its own directory under the root.
-* Name of the sub-project directory is prefixed with the language or technology
-  used.
-* Dash `-` character is to be used in names of the directories, e.g.
-  `python-demos`, `python-demos/hello-world/hello_world.py`.
+* Name of the sub-project directory is prefixed with the main language or
+  technology used and dash `-` character is used in place of space ` `.
+* Structure under the sub-project directory follows language/technology
+  conventions.
 * Every sub-project directory contains `README.md` file with a basic
   documentation.
