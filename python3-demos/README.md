@@ -19,3 +19,5 @@
 * [ ] Argparse demo
 * [ ] Config demo
 * [x] Template
+* [ ] Package
+* [ ] Random demo
