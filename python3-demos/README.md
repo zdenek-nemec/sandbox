@@ -10,14 +10,16 @@
 
 ## To Do
 
+* [x] Hello, World!
+* [x] Template
 * [ ] Read and write text file
-* [ ] Read and write CSV file
 * [ ] Read and write binary file
-* [ ] Logging demo
-* [ ] Testing demo
-* [ ] Timeout demo
+* [ ] Read and write CSV file
+* [ ] Read and write JSON file
 * [ ] Argparse demo
 * [ ] Config demo
-* [x] Template
-* [ ] Package
+* [ ] Logging demo
+* [ ] Testing demo
 * [ ] Random demo
+* [ ] Timeout demo
+* [ ] Package
