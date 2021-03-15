@@ -2,17 +2,18 @@
 
 ## Structure
 
-| Directory             | Description            |
-| --------------------- | ---------------------- |
-| `hello_world`         | Hello-World demo       |
-| `python_without-root` | Python without root    |
-| `template`            | Python script template |
+| Directory             | Description               |
+| --------------------- | ------------------------- |
+| `hello_world`         | Hello-World               |
+| `python_without-root` | Python without root       |
+| `read_write_files`    | Reading and writing files |
+| `template`            | Script template           |
 
 ## To Do
 
 * [x] Hello, World!
 * [x] Template
-* [ ] Read and write text file
+* [x] Read and write text file
 * [ ] Read and write binary file
 * [ ] Read and write CSV file
 * [ ] Read and write JSON file

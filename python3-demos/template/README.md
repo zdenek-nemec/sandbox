@@ -1,3 +1,3 @@
 # Template
 
-Template of Python scripts.
+Python 3 script template.
