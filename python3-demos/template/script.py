@@ -17,7 +17,7 @@ class LuckyNumbers(object):
 def main():
     print("Hello, World!")
     lucky_numbers = LuckyNumbers(DEFAULT_LUCKY_NUMBERS)
-    print("My current lucky number is %d" % lucky_numbers.get_lucky_number())
+    print("Trending lucky number is %d" % lucky_numbers.get_lucky_number())
 
 
 if __name__ == "__main__":
