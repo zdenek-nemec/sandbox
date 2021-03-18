@@ -15,7 +15,7 @@
 * [x] Template
 * [x] Read and write text file
 * [ ] Read and write binary file
-* [ ] Read and write CSV file
+* [x] Read and write CSV file
 * [ ] Read and write JSON file
 * [ ] Argparse demo
 * [ ] Config demo
