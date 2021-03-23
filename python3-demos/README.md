@@ -16,7 +16,8 @@
 * [x] Read and write text file
 * [ ] Read and write binary file
 * [x] Read and write CSV file
-* [ ] Read and write JSON file
+* [x] Read and write JSON file
+* [ ] Read JSON lines (loads)
 * [ ] Argparse demo
 * [ ] Config demo
 * [ ] Logging demo
