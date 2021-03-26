@@ -5,6 +5,7 @@
 | Directory             | Description               |
 | --------------------- | ------------------------- |
 | `hello_world`         | Hello-World               |
+| `parsing_arguments`   | Parsing arguments         |
 | `python_without-root` | Python without root       |
 | `read_write_files`    | Reading and writing files |
 | `template`            | Script template           |
