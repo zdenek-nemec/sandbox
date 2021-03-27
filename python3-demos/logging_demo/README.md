@@ -1,5 +1,7 @@
 # Python Logging Demo
 
+Logging demo in Python 3.
+
 ## 1. Hello World
 ```
 print("Hello, World!")

@@ -6,7 +6,7 @@ DEFAULT_ARGUMENT_B = "X"
 
 def main():
     print("Hello, World!")
-    argument_parser = argparse.ArgumentParser(prog="parse_arguments_demo")
+    argument_parser = argparse.ArgumentParser(prog="Argument Parsing Demo")
     argument_parser.add_argument("--argument_a", "-a")
     argument_parser.add_argument("--argument_b", "-b", default=DEFAULT_ARGUMENT_B)
     argument_parser.add_argument("--argument_c", "-c", choices=["111", "222", "333"])
