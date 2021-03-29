@@ -2,14 +2,14 @@
 
 ## Structure
 
-| Directory             | Description               |
-| --------------------- | ------------------------- |
-| `hello_world`         | Hello-World               |
-| `logging_demo`        | Logging demo              |
-| `parsing_arguments`   | Parsing arguments         |
-| `python_without-root` | Python without root       |
-| `read_write_files`    | Reading and writing files |
-| `template`            | Script template           |
+| Directory              | Description               |
+| ---------------------- | ------------------------- |
+| `argument_parser_demo` | Parsing arguments         |
+| `hello_world`          | Hello-World               |
+| `logging_demo`         | Logging demo              |
+| `python_without-root`  | Python without root       |
+| `read_write_files`     | Reading and writing files |
+| `template`             | Script template           |
 
 ## To Do
 
@@ -27,3 +27,4 @@
 * [ ] Random demo
 * [ ] Timeout demo
 * [ ] Package
+* [ ] Mocking
