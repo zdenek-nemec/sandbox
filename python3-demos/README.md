@@ -8,6 +8,7 @@
 | `hello_world`          | Hello-World               |
 | `logging_demo`         | Logging demo              |
 | `python_without-root`  | Python without root       |
+| `random_demo`          | Random demo               |
 | `read_write_files`     | Reading and writing files |
 | `template`             | Script template           |
 
