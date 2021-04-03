@@ -50,4 +50,4 @@ Calling the method `LuckyNumbers.get_lucky_number` returns random lucky number.
 
 ## Picture
 
-![Zerg](./starcraft_zerg_500x500.png)
+![Zerg](starcraft_zerg_500x500.png)
