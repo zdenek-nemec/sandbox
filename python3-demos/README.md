@@ -11,6 +11,7 @@
 | `random_demo`          | Random demo               |
 | `read_write_files`     | Reading and writing files |
 | `template`             | Script template           |
+| `unit_test_demo`       | Unit test demo            |
 
 ## To Do
 
@@ -24,7 +25,10 @@
 * [x] Argparse demo
 * [ ] Config demo
 * [x] Logging demo
-* [ ] Testing demo
+* [ ] Basic unit test
+    * [x] Very basic
+    * [ ] Better basic demo
+* [ ] Parameterized unit test
 * [ ] Random demo
 * [ ] Timeout demo
 * [ ] Package
