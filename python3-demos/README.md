@@ -25,9 +25,9 @@
 * [x] Argparse demo
 * [ ] Config demo
 * [x] Logging demo
-* [ ] Basic unit test
+* [x] Basic unit test
     * [x] Very basic
-    * [ ] Better basic demo
+    * [x] Better basic demo
 * [ ] Parameterized unit test
 * [ ] Random demo
 * [ ] Timeout demo

@@ -10,7 +10,6 @@ def get_circle_area(radius):
 
 
 def main():
-    print("Hello, World!")
     print(get_circle_area(42))
 
 
