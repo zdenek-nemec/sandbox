@@ -28,7 +28,7 @@
 * [x] Basic unit test
     * [x] Very basic
     * [x] Better basic demo
-* [ ] Parameterized unit test
+* [x] Parameterized unit test
 * [ ] Random demo
 * [ ] Timeout demo
 * [ ] Package
