@@ -7,6 +7,7 @@
 | `argument_parser_demo` | Parsing arguments         |
 | `config_parser_demo`   | Configuration parser      |
 | `hello_world`          | Hello-World               |
+| `itertools_demo`       | Itertools demo            |
 | `logging_demo`         | Logging demo              |
 | `python_without-root`  | Python without root       |
 | `random_demo`          | Random demo               |
