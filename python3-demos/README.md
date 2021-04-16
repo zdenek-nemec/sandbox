@@ -2,14 +2,18 @@
 
 ## Structure
 
-| Directory             | Description               |
-| --------------------- | ------------------------- |
-| `hello_world`         | Hello-World               |
-| `logging_demo`        | Logging demo              |
-| `parsing_arguments`   | Parsing arguments         |
-| `python_without-root` | Python without root       |
-| `read_write_files`    | Reading and writing files |
-| `template`            | Script template           |
+| Directory              | Description               |
+| ---------------------- | ------------------------- |
+| `argument_parser_demo` | Parsing arguments         |
+| `config_parser_demo`   | Configuration parser      |
+| `hello_world`          | Hello-World               |
+| `itertools_demo`       | Itertools demo            |
+| `logging_demo`         | Logging demo              |
+| `python_without-root`  | Python without root       |
+| `random_demo`          | Random demo               |
+| `read_write_files`     | Reading and writing files |
+| `template`             | Script template           |
+| `unit_test_demo`       | Unit test demo            |
 
 ## To Do
 
@@ -23,7 +27,11 @@
 * [x] Argparse demo
 * [ ] Config demo
 * [x] Logging demo
-* [ ] Testing demo
+* [x] Basic unit test
+    * [x] Very basic
+    * [x] Better basic demo
+* [x] Parameterized unit test
 * [ ] Random demo
 * [ ] Timeout demo
 * [ ] Package
+* [ ] Mocking
