@@ -11,7 +11,7 @@
 #     script.sh -h
 #
 # Description:
-#     Shell script for Arcifrajer.
+#     Shell script for the Arcifrajer.
 #
 #     -h, --help
 #         Show this help message and exit
