@@ -9,3 +9,5 @@ Every final Bash script should have following structure
 5. Help
 6. Argument parser
 7. Main body
+
+Argument parsing
