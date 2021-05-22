@@ -1,3 +1,6 @@
+import parameterized
+
+
 class DemoReturnMultipleValues(object):
     """Demo: Return multiple values"""
     def __init__(self):
