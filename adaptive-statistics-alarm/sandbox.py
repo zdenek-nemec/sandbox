@@ -35,6 +35,21 @@ def get_todd_with_variance(todd):
     return toddv
 
 
+def alarm_when_variance_raises(toddv):
+    for hour in sorted(toddv.keys()):
+        print("Hour", hour)
+        for index, entry in enumerate(sorted(toddv[hour])):
+            if index in [0, 1]:
+                print("          ", entry)
+                last_variance = entry[2]
+            elif entry[2] > last_variance:
+                print("    alarm ", entry)
+                last_variance = entry[2]
+            else:
+                print("          ", entry)
+                last_variance = entry[2]
+
+
 def main():
     print("Hello, Adaptive Statistics Alarm!")
 
@@ -54,7 +69,7 @@ def main():
     # print(toddv)
     # [print(x) for x in sorted(toddv["10"])]
 
-    # Alarm if variance raises too much
+    alarm_when_variance_raises(toddv)
 
 
 if __name__ == "__main__":
