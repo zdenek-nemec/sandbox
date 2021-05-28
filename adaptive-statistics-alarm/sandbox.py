@@ -11,6 +11,17 @@ def generate_random_data(entries):
     return [(timestamps[i], values[i]) for i in range(entries)]
 
 
+def get_time_of_day_data(data):
+    todd = {}
+    for entry in data:
+        hour = entry[0].strftime("%H")
+        if hour in todd:
+            todd[hour].append((entry[0].strftime("%Y-%m-%d"), entry[1]))
+        else:
+            todd[hour] = [(entry[0].strftime("%Y-%m-%d"), entry[1])]
+    return todd
+
+
 def main():
     print("Hello, Adaptive Statistics Alarm!")
 
@@ -22,7 +33,8 @@ def main():
 
     # Load data from CSV
 
-    # Best match data timestamps
+    todd = get_time_of_day_data(data)
+    print(todd)
 
     # Calculate variance
 
