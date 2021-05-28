@@ -1,5 +1,6 @@
 import datetime
 import random
+import statistics
 
 
 DAYS_TO_GENERATE = 10
@@ -22,6 +23,18 @@ def get_time_of_day_data(data):
     return todd
 
 
+def get_todd_with_variance(todd):
+    toddv = {}
+    for hour in todd.keys():
+        for index, entry in enumerate(sorted(todd[hour])):
+            if index == 0:
+                toddv[hour] = [(entry[0], entry[1], 0)]
+            else:
+                processed = [x[1] for x in toddv[hour]]
+                toddv[hour].append((entry[0], entry[1], statistics.pvariance(processed + [entry[1]])))
+    return toddv
+
+
 def main():
     print("Hello, Adaptive Statistics Alarm!")
 
@@ -34,9 +47,12 @@ def main():
     # Load data from CSV
 
     todd = get_time_of_day_data(data)
-    print(todd)
+    # print(todd)
+    # [print(x) for x in sorted(todd["10"])]
 
-    # Calculate variance
+    toddv = get_todd_with_variance(todd)
+    # print(toddv)
+    # [print(x) for x in sorted(toddv["10"])]
 
     # Alarm if variance raises too much
 
