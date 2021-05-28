@@ -3,7 +3,7 @@ import random
 import statistics
 
 
-DAYS_TO_GENERATE = 10
+DAYS_TO_GENERATE = 31
 
 
 def generate_random_data(entries):
@@ -23,7 +23,7 @@ def get_time_of_day_data(data):
     return todd
 
 
-def get_todd_with_variance(todd):
+def get_todd_with_parameter(todd, function):
     toddv = {}
     for hour in todd.keys():
         for index, entry in enumerate(sorted(todd[hour])):
@@ -31,23 +31,23 @@ def get_todd_with_variance(todd):
                 toddv[hour] = [(entry[0], entry[1], 0)]
             else:
                 processed = [x[1] for x in toddv[hour]]
-                toddv[hour].append((entry[0], entry[1], statistics.pvariance(processed + [entry[1]])))
+                toddv[hour].append((entry[0], entry[1], function(processed + [entry[1]])))
     return toddv
 
 
-def alarm_when_variance_raises(toddv):
-    for hour in sorted(toddv.keys()):
+def alarm_when_parameter_raises(data):
+    for hour in sorted(data.keys()):
         print("Hour", hour)
-        for index, entry in enumerate(sorted(toddv[hour])):
+        for index, entry in enumerate(sorted(data[hour])):
             if index in [0, 1]:
-                print("          ", entry)
-                last_variance = entry[2]
-            elif entry[2] > last_variance:
-                print("    alarm ", entry)
-                last_variance = entry[2]
+                print("          ", entry[0], entry[1])
+                last_parameter = entry[2]
+            elif entry[2] > last_parameter:
+                print("    alarm ", entry[0], entry[1])
+                last_parameter = entry[2]
             else:
-                print("          ", entry)
-                last_variance = entry[2]
+                print("          ", entry[0], entry[1])
+                last_parameter = entry[2]
 
 
 def main():
@@ -65,11 +65,18 @@ def main():
     # print(todd)
     # [print(x) for x in sorted(todd["10"])]
 
-    toddv = get_todd_with_variance(todd)
+    # toddv = get_todd_with_parameter(todd, lambda data : statistics.pvariance(data))
     # print(toddv)
     # [print(x) for x in sorted(toddv["10"])]
 
-    alarm_when_variance_raises(toddv)
+    toddd = get_todd_with_parameter(todd, lambda data : statistics.pstdev(data))
+    # print(toddd)
+    # [print(x) for x in sorted(toddd["10"])]
+
+    # print("Variance")
+    # alarm_when_parameter_raises(toddv)
+    print("Deviance")
+    alarm_when_parameter_raises(toddd)
 
 
 if __name__ == "__main__":
