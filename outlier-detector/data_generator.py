@@ -4,7 +4,7 @@ import random
 
 NORMAL_MINIMUM = 100
 NORMAL_MAXIMUM = 999
-DAYS_TO_GENERATE = 1
+DAYS_TO_GENERATE = 31
 OUTLIERS = 5
 
 
@@ -25,8 +25,8 @@ class DataGenerator(object):
             [random.randint(self._minimum - (difference + 1), self._minimum - 1) for x in range(entries)]
             + [random.randint(self._maximum + 1, self._maximum + (difference + 1)) for x in range(entries)],
             outliers)
-        for index, value in zip(random.sample(range(0, entries), outliers), outlier_values):
-            values[index] = value
+        for index, outlier_value in zip(random.sample(range(0, entries), outliers), outlier_values):
+            values[index] = outlier_value
         return [(timestamps[i], values[i]) for i in range(entries)]
 
 

@@ -1,1 +1,1 @@
-# Adaptive Statistics Alarm
+# Outlier Detector
