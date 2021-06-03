@@ -34,17 +34,17 @@ class TestDataGenerator(unittest.TestCase):
 
     def test_get_random_data_range(self):
         data_generator = DataGenerator(0, 99)
-        data = data_generator.get_random_data(days=1, outliers=0)
+        data = data_generator.get_random_data(days=31, outliers=0)
         self.assertEqual(list, type(data))
-        self.assertEqual(24, len(data))
+        self.assertEqual(31 * 24, len(data))
         values = [x[1] for x in data]
         self.assertEqual(True, all((x := value) in range(0, 100) for value in values), "Encountered unexpected outlier %d" % x)
 
     def test_get_random_data_outliers(self):
         data_generator = DataGenerator(0, 99)
-        data = data_generator.get_random_data(days=1, outliers=5)
+        data = data_generator.get_random_data(days=31, outliers=5)
         self.assertEqual(list, type(data))
-        self.assertEqual(24, len(data))
+        self.assertEqual(31 * 24, len(data))
         values = [x[1] for x in data]
         outliers = list(filter(lambda x: x < 0 or x > 99, values))
         self.assertEqual(5, len(outliers), "Encountered unexpected number of outliers")

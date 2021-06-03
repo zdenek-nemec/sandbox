@@ -22,8 +22,8 @@ class DataGenerator(object):
         values = [random.randint(self._minimum, self._maximum) for x in range(entries)]
         difference = self._maximum - self._minimum
         outlier_values = random.sample(
-            [random.randint(self._minimum - (difference + 1), self._minimum - 1) for x in range(entries)]
-            + [random.randint(self._maximum + 1, self._maximum + (difference + 1)) for x in range(entries)],
+            [random.randint(self._minimum - (difference + 1), self._minimum - 1) for x in range(outliers)]
+            + [random.randint(self._maximum + 1, self._maximum + (difference + 1)) for x in range(outliers)],
             outliers)
         for index, outlier_value in zip(random.sample(range(0, entries), outliers), outlier_values):
             values[index] = outlier_value
