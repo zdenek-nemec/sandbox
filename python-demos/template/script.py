@@ -2,7 +2,7 @@
 
 import random
 
-DEFAULT_LUCKY_NUMBERS = [3, 7, 42]
+DEFAULT_LUCKY_NUMBERS = [3, 7, 13, 21, 42]
 
 class LuckyNumbers(object):
     """Lucky number generator"""
@@ -17,7 +17,6 @@ def main():
     print("Hello, Script!")
     lucky_numbers = LuckyNumbers(DEFAULT_LUCKY_NUMBERS)
     print("Trending lucky number is %d" % lucky_numbers.get_lucky_number())
-
 
 if __name__ == "__main__":
     main()
