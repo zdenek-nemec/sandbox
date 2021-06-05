@@ -2,21 +2,29 @@
 
 import random
 
-DEFAULT_LUCKY_NUMBERS = [3, 7, 13, 21, 42]
+DEFAULT_NUMBER_LIST = [-3, 0, 3, 3.14159, 4+2j, 7, "Seven", 13, 21, 42]
+
 
 class LuckyNumbers(object):
     """Lucky number generator"""
 
-    def __init__(self, lucky_numbers):
-        self.lucky_numbers = lucky_numbers
+    def __init__(self, number_list):
+        if type(number_list) != list:
+            raise TypeError("A list of numbers must be provided")
+        elif len(number_list) == 0:
+            raise ValueError("The list of numbers cannot be empty")
+        else:
+            self._number_list = number_list
 
     def get_lucky_number(self):
-        return random.choice(self.lucky_numbers)
+        return random.choice(self._number_list)
+
 
 def main():
-    print("Hello, Script!")
-    lucky_numbers = LuckyNumbers(DEFAULT_LUCKY_NUMBERS)
-    print("Trending lucky number is %d" % lucky_numbers.get_lucky_number())
+    print("Hello, Lucky Numbers!")
+    lucky_numbers = LuckyNumbers(DEFAULT_NUMBER_LIST)
+    print("Trending lucky number is " + str(lucky_numbers.get_lucky_number()))
+
 
 if __name__ == "__main__":
     main()
