@@ -1,19 +1,27 @@
-# Python 3 Demos
+# Python Demos
+
+Python tutorials and demonstrations.
 
 ## Structure
 
-| Directory              | Description               |
-| ---------------------- | ------------------------- |
-| `argument_parser_demo` | Parsing arguments         |
-| `config_parser_demo`   | Configuration parser      |
-| `hello_world`          | Hello-World               |
-| `itertools_demo`       | Itertools demo            |
-| `logging_demo`         | Logging demo              |
-| `python_without-root`  | Python without root       |
-| `random_demo`          | Random demo               |
-| `read_write_files`     | Reading and writing files |
-| `template`             | Script template           |
-| `unit_test_demo`       | Unit test demo            |
+* `argument_parser_demo` - Demonstration of argument parsser
+* `binec` - Everything that was not sorted yet
+* `config_parser_demo` - Demonstration of configuration parser
+* `hello_world` - Basic Hello-World application
+* `itertools_demo` - Demonstration of `itertools` module
+* `list_comprehension_demo` - Demonstration of list comprehension
+* `logging_demo` - Demonstration of logging
+* `memoization_demo` - Demonstration of memoization
+* `mock_demo` - Demonstration of mocking
+* `python_version` - Demonstration of retrieving Python version from within the script
+* `python_without-root` - Python installation manual
+* `random_demo` - Demonstration of `random` module
+* `read_write_files` - Demonstration of reading and writing files
+* `selenium_demo` - Demonstration of `selenium` module for web testing automation
+* `sftp_connectivity_check` - Demonstration of `paramiko` module for SFTP connections
+* `template` - Script template
+* `types_demo` - Demonstration of datatypes
+* `unit_test_demo` - Demonstration of unit tests
 
 ## To Do
 
@@ -35,3 +43,11 @@
 * [ ] Timeout demo
 * [ ] Package
 * [ ] Mocking
+* [ ] Print function with `,`, `+`, `%`, `{}` and `sep=""`
+* [ ] List comprehension
+* [ ] Lambda functions
+* [ ] `any`, `all` and `filter` functions
+* [ ] lists, tuples, dictionaries, enumerate function
+* [ ] Complex numbers
+* [ ] Rename python_without_root to python_installation_manual
+* [ ] Rename sftp_connectivity_check to paramiko_demo
