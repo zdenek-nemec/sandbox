@@ -30,12 +30,12 @@
 #
 
 function print_usage {
-    echo "Usage: `basename $0` [-h]"
-    echo "Try \``basename $0` --help' for more information."
+    echo "Usage: $(basename $0) [-h] [-s SELECTOR] [-p PATH] [-l LAST] [-n NEXT]"
+    echo "Try \`$(basename $0) --help' for more information."
 }
 
 function print_help {
-    head -`grep -n -m 1 -v "^#" "$0" | cut -d ":" -f 1` "$0"
+    head -$(grep -n -m 1 -v "^#" "$0" | cut -d ":" -f 1) "$0"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -79,20 +79,52 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "Selector: $selector"
-echo "Routing Path: $routing_path"
-echo "Last Sequence: $sequence_last"
-echo "Next Sequence: $sequence_next"
-
-if [[ -z $selector ]]; then
-    echo "All portals"
-fi
-
+echo "Setting up:"
 if [[ -z $routing_path  && -z $sequence_last && -z $sequence_next ]]; then
-    echo "Nothing to setup"
+    echo "* nothing, displaying portals only"
+fi
+if [[ $routing_path ]]; then
+    echo "* Routing > Path to $routing_path"
+fi
+if [[ $sequence_last ]]; then
+    echo "* Output > Last Sequence Number to $sequence_last"
+fi
+if [[ $sequence_next ]]; then
+    echo "* Output > Next Sequence Number to $sequence_next"
 fi
 
-portals=$(cat cetin_portals.txt | grep -E $selector)
+echo "Selected portals:"
+if [[ -z $selector ]]; then
+    echo "* no selector specified, apply to all portals"
+fi
+portals=$(cat cetin_portals.txt | grep -E $selector) # For testing purposes only
 for portal in $portals; do
-    echo $portal;
+    echo "* $portal"
 done
+
+read -p "Please confirm by pressing [Y] or [y]: " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "* approved"
+else
+    echo "* cancelled"
+    exit 0
+fi
+
+query="xxx"
+for portal in $portals; do
+    if [[ $routing_path ]]; then
+        query="${query}\nGET ROUTING FOR $portal"
+        query="${query}\nSET PATH FOR $portal $routing_path"
+    fi
+    if [[ $sequence_last ]]; then
+        query="${query}\nGET OUTPUT FOR $portal"
+        query="${query}\nSET LAST FOR $portal $sequence_last"
+    fi
+    if [[ $sequence_next ]]; then
+        query="${query}\nGET OUTPUT FOR $portal"
+        query="${query}\nSET LAST FOR $portal $sequence_next"
+    fi
+done
+
+echo $query
