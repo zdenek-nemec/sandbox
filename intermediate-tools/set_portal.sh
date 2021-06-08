@@ -7,11 +7,12 @@
 #
 # Examples:
 #     set_portal.sh
-#     set_portal.sh -s ZDENEK
-#     set_portal.sh -s ZDENEK[78]
-#     set_portal.sh -s "ZDENEK[78]\|.*PUT|ZDENEK\|"
-#     set_portal.sh -s O_OCSR -l 0 -n 0
-#     set_portal.sh -s O_OCSR -p /some/path
+#     set_portal.sh -s "ZDENEK"
+#     set_portal.sh -s "ZDENEK7|ZDENEK8"
+#     set_portal.sh -s "ZDENEK[78]"
+#     set_portal.sh -s "ZDENEK\|.*_OUTPUT"
+#     set_portal.sh -s "ZDENEK\|.*_OUTPUT" -l 0 -n 0
+#     set_portal.sh -s "ZDENEK\|.*_OUTPUT" -p /some/path/somewhere
 #     set_portal.sh -h
 #
 # Description:
@@ -96,8 +97,10 @@ fi
 echo "Selected portals:"
 if [[ -z $selector ]]; then
     echo "* no selector specified, apply to all portals"
+    portals=$(dcs_db_config_report -report_type dportal -stdout | grep "Portal Record: " | sed 's/Portal Record: //' | sort)
+else
+    portals=$(dcs_db_config_report -report_type dportal -stdout | grep "Portal Record: " | sed 's/Portal Record: //' | sort | grep -E $selector)
 fi
-portals=$(cat cetin_portals.txt | grep -E $selector) # For testing purposes only
 for portal in $portals; do
     echo "* $portal"
 done
@@ -111,20 +114,24 @@ else
     exit 0
 fi
 
-query="xxx"
+query=""
 for portal in $portals; do
+    s=$(echo $portal | cut -d "|" -f 1)
+    p=$(echo $portal | cut -d "|" -f 2)
     if [[ $routing_path ]]; then
-        query="${query}\nGET ROUTING FOR $portal"
-        query="${query}\nSET PATH FOR $portal $routing_path"
+        query="${query}GET ROUTING FOR $s $p\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_PATH=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -SFTP_DIR=$routing_path\n"
     fi
     if [[ $sequence_last ]]; then
-        query="${query}\nGET OUTPUT FOR $portal"
-        query="${query}\nSET LAST FOR $portal $sequence_last"
+        query="${query}GET_INFO $s $p -OUT_BATCH_LAST_SEQ\n"
+        query="${query}SET_INFO $s $p -OUT_BATCH_LAST_SEQ=$sequence_last\n"
     fi
     if [[ $sequence_next ]]; then
-        query="${query}\nGET OUTPUT FOR $portal"
-        query="${query}\nSET LAST FOR $portal $sequence_next"
+        query="${query}GET_INFO $s $p -OUT_BATCH_NEXT_SEQ\n"
+        query="${query}SET_INFO $s $p -OUT_BATCH_NEXT_SEQ=$sequence_next\n"
     fi
 done
-
-echo $query
+dcs_dportal_utl <<- EOF
+`echo -e $query`
+EOF
