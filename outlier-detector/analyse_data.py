@@ -41,7 +41,6 @@ def main():
 
     outliers = HardLimit(100, 999).get_outliers(data)
     print("HardLimit:", len(outliers))
-
     output_filename = DATA_FILE[:-4] + "_hard_limit.txt"
     with open(output_filename, "w") as text_file:
         for entry in data:
