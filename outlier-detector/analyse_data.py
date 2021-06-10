@@ -41,15 +41,29 @@ class MinMax(object):
         return outliers
 
 
-def get_time_of_day_data(data):
-    todd = {}
-    for entry in data:
-        hour = entry[0].strftime("%H")
-        if hour in todd:
-            todd[hour].append((entry[0].strftime("%Y-%m-%d"), entry[1]))
-        else:
-            todd[hour] = [(entry[0].strftime("%Y-%m-%d"), entry[1])]
-    return todd
+class MinMaxHour(object):
+    def __init__(self):
+        self._hours = {}
+
+    def learn(self, data):
+        for entry in data:
+            hour = entry[0].strftime("%H")
+            if hour not in self._hours:
+                self._hours[hour] = (entry[1], entry[1])
+            else:
+                minimum, maximum = self._hours[hour]
+                self._hours[hour] = (min(minimum, entry[1]), max(maximum, entry[1]))
+
+    def get_outliers(self, data):
+        outliers = []
+        for entry in data:
+            hour = entry[0].strftime("%H")
+            if hour not in self._hours:
+                continue
+            else:
+                if entry[1] < self._hours[hour][0] or entry[1] > self._hours[hour][1]:
+                    outliers.append(entry)
+        return outliers
 
 
 def main():
@@ -101,8 +115,17 @@ def main():
             else:
                 text_file.write("      " + str(entry[0]) + ", " + str(entry[1]) + "\n")
 
-    # todd = get_time_of_day_data(data)
-    # [print(x) for x in sorted(todd["10"])]
+    min_max_hour = MinMaxHour()
+    min_max_hour.learn(data1)
+    outliers = min_max_hour.get_outliers(data2)
+    print("MinMaxHour 2:", len(outliers))
+    output_filename = DATA_FILENAME_2[:-4] + "_min_max_hour.txt"
+    with open(output_filename, "w") as text_file:
+        for entry in data2:
+            if entry in outliers:
+                text_file.write("Alarm " + str(entry[0]) + ", " + str(entry[1]) + "\n")
+            else:
+                text_file.write("      " + str(entry[0]) + ", " + str(entry[1]) + "\n")
 
 
 if __name__ == "__main__":
