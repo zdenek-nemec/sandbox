@@ -218,19 +218,39 @@ class WeekdayLeftRightMinimum(object):
 
         outliers = []
         for i, entry in enumerate(sorted(data)):
-            if i == 0 or i == len(data) - 1:
+            if i in [0, 1] or i in [len(data)-1, len(data)-1]:
                 continue
-            if (entry in candidates
-                    and entry[1] < sorted(data)[i-1][1]
-                    and entry[1] < sorted(data)[i+1][1]):
-                outliers.append(entry)
-                if True:
-                    weekday = datetime.datetime.weekday(entry[0])
-                    hour = entry[0].strftime("%H")
-                    key = str(weekday) + "-" + str(hour)
-                    trained_values = [x[1] for x in self._trained[key]]
-                    print(key, trained_values)
-                    print(entry[0], entry[1])
+            last_entry = sorted(data)[i-1][1]
+            next_entry = sorted(data)[i+1][1]
+            if entry in candidates and entry[1] < last_entry and entry[1] < next_entry:
+                ADV_CHECK = True
+                DEBUG = True
+                if not ADV_CHECK:
+                    outliers.append(entry)
+                    if DEBUG:
+                        weekday = datetime.datetime.weekday(entry[0])
+                        hour = entry[0].strftime("%H")
+                        key = str(weekday) + "-" + str(hour)
+                        trained_values = [x[1] for x in self._trained[key]]
+                        print(key, trained_values)
+                        print(entry[0], entry[1])
+                else:
+                    last_last_entry = sorted(data)[i-2][1]
+                    next_next_entry = sorted(data)[i+2][1]
+                    diff = statistics.pstdev([last_last_entry, last_entry, next_entry, next_next_entry])
+                    if entry[1] < min(last_last_entry, last_entry, next_entry, next_next_entry) - diff:
+                        if (last_last_entry > last_entry and next_entry < next_next_entry
+                                and entry[1] > min(last_last_entry, last_entry, next_entry, next_next_entry) - 2*diff):  # If following trend, allow double difference
+                            continue
+                        outliers.append(entry)
+                        if DEBUG:
+                            weekday = datetime.datetime.weekday(entry[0])
+                            hour = entry[0].strftime("%H")
+                            key = str(weekday) + "-" + str(hour)
+                            trained_values = [x[1] for x in self._trained[key]]
+                            print(key, trained_values)
+                            print(last_last_entry, last_entry, next_entry, next_next_entry, diff)
+                            print(entry[0], entry[1])
 
         return outliers
 
