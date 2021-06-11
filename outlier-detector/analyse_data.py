@@ -181,9 +181,57 @@ class WeekdayMinimum(object):
                 trained_values = [x[1] for x in self._trained[key]]
                 if entry[1] < min(trained_values):
                     outliers.append(entry)
-                    print(key)
-                    print(trained_values)
-                    print(entry)
+                    # print(key)
+                    # print(trained_values)
+                    # print(entry)
+        return outliers
+
+
+class WeekdayLeftRightMinimum(object):
+    def __init__(self):
+        self._trained = {}
+
+    def learn(self, data):
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                self._trained[key] = [entry]
+            else:
+                entries = sorted(self._trained[key] + [entry])
+                self._trained[key] = entries[-2:]
+
+    def get_outliers(self, data):
+        candidates = []
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                self._trained[key] = [entry]
+                continue
+            else:
+                trained_values = [x[1] for x in self._trained[key]]
+                if entry[1] < min(trained_values):
+                    candidates.append(entry)
+
+        outliers = []
+        for i, entry in enumerate(sorted(data)):
+            if i == 0 or i == len(data) - 1:
+                continue
+            if (entry in candidates
+                    and entry[1] < sorted(data)[i-1][1]
+                    and entry[1] < sorted(data)[i+1][1]):
+                outliers.append(entry)
+                if True:
+                    weekday = datetime.datetime.weekday(entry[0])
+                    hour = entry[0].strftime("%H")
+                    key = str(weekday) + "-" + str(hour)
+                    trained_values = [x[1] for x in self._trained[key]]
+                    print(key, trained_values)
+                    print(entry[0], entry[1])
+
         return outliers
 
 
@@ -289,6 +337,12 @@ def main():
     outliers = weekday_minimum.get_outliers(data2)
     print("WeekdayMinimum 2:", len(outliers))
     save_report("weekday_minimum", data2, outliers)
+
+    weekday_left_right_minimum = WeekdayLeftRightMinimum()
+    weekday_left_right_minimum.learn(data1)
+    outliers = weekday_left_right_minimum.get_outliers(data2)
+    print("WeekdayLeftRightMinimum 2:", len(outliers))
+    save_report("weekday_left_right_minimum", data2, outliers)
 
 
 if __name__ == "__main__":
