@@ -143,13 +143,47 @@ class LearningDeviance(object):
                 new_deviance = statistics.pstdev(hour_list + [entry[1]])
                 if new_deviance > current_deviance and abs(new_deviance - current_deviance) > 1000:
                     outliers.append(entry)
-                    print(hour)
-                    print(sorted(hour_list))
-                    print(entry[1])
-                    print(abs(new_deviance - current_deviance))
+                    # print(hour)
+                    # print(sorted(hour_list))
+                    # print(entry[1])
+                    # print(abs(new_deviance - current_deviance))
                 self._hours[hour].append(entry[1])
                 # else:
                 #     print(abs(new_deviance - current_deviance))
+        return outliers
+
+
+class WeekdayMinimum(object):
+    def __init__(self):
+        self._trained = {}
+
+    def learn(self, data):
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                self._trained[key] = [entry]
+            else:
+                entries = sorted(self._trained[key] + [entry])
+                self._trained[key] = entries[-2:]
+
+    def get_outliers(self, data):
+        outliers = []
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                self._trained[key] = [entry]
+                continue
+            else:
+                trained_values = [x[1] for x in self._trained[key]]
+                if entry[1] < min(trained_values):
+                    outliers.append(entry)
+                    print(key)
+                    print(trained_values)
+                    print(entry)
         return outliers
 
 
@@ -249,6 +283,12 @@ def main():
     outliers = learning_deviance.get_outliers(data2)
     print("LearningDeviance 2:", len(outliers))
     save_report("learning_deviance", data2, outliers)
+
+    weekday_minimum = WeekdayMinimum()
+    weekday_minimum.learn(data1)
+    outliers = weekday_minimum.get_outliers(data2)
+    print("WeekdayMinimum 2:", len(outliers))
+    save_report("weekday_minimum", data2, outliers)
 
 
 if __name__ == "__main__":
