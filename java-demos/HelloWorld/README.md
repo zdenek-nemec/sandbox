@@ -2,9 +2,7 @@
 
 Basic Hello-World application.
 
-Implemented in Java 8 and Maven.
-
-Run via command line
+Run
 
 ```bash
 java -cp ./target/HelloWorld-1.0-SNAPSHOT.jar HelloWorld
