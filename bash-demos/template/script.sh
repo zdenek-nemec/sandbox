@@ -6,9 +6,9 @@
 #     script.sh [-h] [-n NAME]
 #
 # Examples:
+#     script.sh -h
 #     script.sh
 #     script.sh -n Arcifrajer
-#     script.sh -h
 #
 # Description:
 #     Shell script for the Arcifrajer.

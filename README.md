@@ -29,15 +29,15 @@ Every sub-project has its own directory.
 
 ## Open Issues
 
-* #6 - Text Editor in Python
+* #6 - Python Text Editor
 * #8 - Udemy - The Python Mega Course - Section 3 - Beyond the Basics
 * #9 - Udemy - The Python Mega Course - Section 4 - Fixing Programming Errors
-* #14 - Python Unit Test Demo
-* #20 - Java Logger Demo
+* #14 - Python Demos: Unit Tests
+* #20 - Java Demos: Logging
 * #24 - JSON to CSV Converter
-* #28 - Intermediate Synchronisation
+* #28 - CSG Intermediate Tools: Synchronisation
 * #31 - Bash Demos
-* #48 - Intermediate Tools: Portal Setup
+* #48 - CSG Intermediate Tools: Portal Setup
 * #49 - Outlier Detector
 * #50 - Java Demos
 * #51 - FWR Check
