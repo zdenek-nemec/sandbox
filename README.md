@@ -26,3 +26,25 @@ Every sub-project has its own directory.
 * Dash (-) character is used instead of a space ( ) in the name of the sub-project directory.
 * Structure under the sub-project directory follows language/technology conventions and allows to be imported to IDE (IntelliJ IDEA, PyCharm, etc.).
 * Every sub-project directory contains the `README.md` file with a basic documentation.
+
+## Open Issues
+
+* #6 - Text Editor in Python
+* #8 - Udemy - The Python Mega Course - Section 3 - Beyond the Basics
+* #9 - Udemy - The Python Mega Course - Section 4 - Fixing Programming Errors
+* #14 - Python Unit Test Demo
+* #20 - Java Logger Demo
+* #24 - JSON to CSV Converter
+* #28 - Intermediate Synchronisation
+* #31 - Bash Demos
+* #48 - Intermediate Tools: Portal Setup
+* #49 - Outlier Detector
+* #50 - Java Demos
+* #51 - FWR Check
+* #52 - AutoHotkey Demos
+* #53 - Heroes of Might and Magic 3
+* #54 - CSG Intermediate Tools
+* #55 - Markdown Demos
+* #56 - Math Demos
+* #57 - Python Demos
+* #58 - Spring Demos
