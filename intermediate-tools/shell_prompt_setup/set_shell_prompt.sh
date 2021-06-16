@@ -3,12 +3,15 @@
 # Name: set_shell_prompt.sh
 #
 # Synopsis:
-#     set_shell_prompt.sh [-h] -p {FULL,SHORT}
+#     set_shell_prompt.sh [-h] [-p {FULL,SHORT}] [-c {DEFAULT,RED,GREEN,YELLOW,BLUE,PURPLE}]
 #
 # Examples:
 #     set_portal.sh -h
 #     set_portal.sh -p FULL
 #     set_portal.sh -p SHORT
+#     set_portal.sh -c DEFAULT
+#     set_portal.sh -c RED
+#     set_portal.sh -p SHORT -c RED
 #
 # Description:
 #     Set shell prompt (variable PS1).
@@ -19,39 +22,58 @@
 #     -h, --help
 #         Show this help message and exit
 #     -p {FULL,SHORT}, --path {FULL,SHORT}
+#         Show full/short path in the shell prompt
+#     -c {RED,GREEN,YELLOW,BLUE,PURPLE}, --colour {RED,GREEN,YELLOW,BLUE,PURPLE}
+#         Display shell prompt in specific colour
 #
 
 function print_usage {
-    echo "Usage: `basename $0` [-h] -p {FULL,SHORT}"
-    echo "Try \``basename $0` --help' for more information."
+    echo "Usage: set_shell_prompt.sh [-h] [-p {FULL,SHORT}] [-c {DEFAULT,RED,GREEN,YELLOW,BLUE,PURPLE}]"
+    echo "Try \`set_shell_prompt.sh --help' for more information."
 }
 
 function print_help {
-    head -`grep -n -m 1 -v "^#" "$0" | cut -d ":" -f 1` "$0"
+    head -$(grep -n -m 1 -v "^#" "$BASH_SOURCE" | cut -d ":" -f 1) "$BASH_SOURCE"
 }
 
-run_script=1
+ssp_run_script=1
 
 while [[ $# -gt 0 ]]; do
-    option="$1"
-    case $option in
+    ssp_option="$1"
+    case $ssp_option in
         -h|--help)
             print_help
-            unset run_script
+            unset ssp_run_script
             shift
             ;;
         -p|--path)
             if [[ -z $2 ]]; then
                 echo "Error: Missing path value" 1>&2
                 print_usage
-                unset run_script
+                unset ssp_run_script
             elif [[ $2 != "FULL" && $2 != "SHORT" ]]; then
                 echo "Error: Invalid path value $2" 1>&2
                 print_usage
-                unset run_script
+                unset ssp_run_script
                 shift
             else
-                path="$2"
+                ssp_path="$2"
+                shift
+            fi
+            shift
+            ;;
+        -c|--colour)
+            if [[ -z $2 ]]; then
+                echo "Error: Missing colour value" 1>&2
+                print_usage
+                unset ssp_run_script
+            elif [[ $2 != "DEFAULT" && $2 != "RED" && $2 != "GREEN" && $2 != "YELLOW" && $2 != "BLUE" && $2 != "PURPLE" ]]; then
+                echo "Error: Invalid colour value $2" 1>&2
+                print_usage
+                unset ssp_run_script
+                shift
+            else
+                ssp_colour="$2"
                 shift
             fi
             shift
@@ -59,39 +81,52 @@ while [[ $# -gt 0 ]]; do
         *)
             echo "Error: Unexpected arguments" 1>&2
             print_usage
-            unset run_script
+            unset ssp_run_script
             shift
             ;;
     esac
 done
 
-default_colour="\033[0m"
-if [[ $HOSTNAME == "av2l377p" ]]; then # Production = Red
-    colour="\033[1;31m"
-elif [[ $HOSTNAME == "avl2783t" ]]; then # Development = Green
-    colour="\033[1;32m"
-elif [[ $HOSTNAME == "avl2807t" ]]; then # Test = Blue
-    colour="\033[1;34m"
-elif [[ $HOSTNAME == "av3l378p" ]]; then # Standby = Yellow
-    colour="\033[1;33m"
+ssp_default_colour_code="\033[0m"
+if [[ $ssp_colour == "RED" ]]; then
+    ssp_colour_code="\033[1;31m"
+elif [[ $ssp_colour == "GREEN" ]]; then
+    ssp_colour_code="\033[1;32m"
+elif [[ $ssp_colour == "YELLOW" ]]; then
+    ssp_colour_code="\033[1;33m"
+elif [[ $ssp_colour == "BLUE" ]]; then
+    ssp_colour_code="\033[1;34m"
+elif [[ $ssp_colour == "PURPLE" ]]; then
+    ssp_colour_code="\033[1;35m"
 else
-    colour=$default_colour
+    ssp_colour_code=$ssp_default_colour_code
 fi
 
-if [[ $run_script ]]; then
-    if [[ -z $path ]]; then
-        echo "Error: Missing mandatory option path" 1>&2
-        print_usage
-        unset run_script
-    elif [[ $path == "FULL" ]]; then
-        PS1="\[${colour}\]\u@\h:\w]\\$\[${default_colour}\] "
-    elif [[ $path == "SHORT" ]]; then
-        PS1="\[${colour}\]\u@\h \W]\\$\[${default_colour}\] "
+if [[ $ssp_run_script ]]; then
+    if [[ -z $ssp_path && -z $ssp_colour ]]; then
+        echo "No changes"
+        unset ssp_run_script
+    elif [[ -z $ssp_path ]]; then
+        PS1=$(echo $PS1 | sed 's/\\\[\\033\[.;..m\\\]//g' | sed 's/\\\[\\033\[0m\\\]//g')
+        PS1="\[${ssp_colour_code}\]$PS1\[${ssp_default_colour_code}\] "
+    elif [[ $ssp_path == "FULL" ]]; then
+        PS1="\[${ssp_colour_code}\][\u@\h:\w]\\$\[${ssp_default_colour_code}\] "
+    elif [[ $ssp_path == "SHORT" ]]; then
+        PS1="\[${ssp_colour_code}\][\u@\h \W]\\$\[${ssp_default_colour_code}\] "
     else
-        echo "Error: Unexpected option path" 1>&2
+        echo "Error: Unexpected options" 1>&2
         print_usage
-        unset run_script
+        unset ssp_run_script
     fi
 fi
 
-export PS1
+if [[ $ssp_run_script ]]; then
+    export PS1
+fi
+
+[[ $ssp_run_script ]] && unset ssp_run_script
+[[ $ssp_option ]] && unset ssp_option
+[[ $ssp_path ]] && unset ssp_path
+[[ $ssp_colour ]] && unset ssp_colour
+[[ $ssp_default_colour_code ]] && unset ssp_default_colour_code
+[[ $ssp_colour_code ]] && unset ssp_colour_code
