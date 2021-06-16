@@ -6,7 +6,6 @@
 #     set_portal.sh [-h] [-p PORTALS] [-s SELECTOR] [--status {ENABLE,DISABLE}] [--dispatch {ENABLE,DISABLE}] [--node NODE] [--user USER] [--password PASSWORD] [--path PATH] [--last LAST] [--next NEXT]
 #
 # Examples:
-#     set_portal.sh -h
 #     set_portal.sh
 #     set_portal.sh -s "ZDENEK"
 #     set_portal.sh -p "portals.txt" -s "ZDENEK"

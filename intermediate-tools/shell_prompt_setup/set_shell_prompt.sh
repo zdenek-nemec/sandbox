@@ -6,7 +6,6 @@
 #     set_shell_prompt.sh [-h] [-p {FULL,SHORT}] [-c {DEFAULT,RED,GREEN,YELLOW,BLUE,PURPLE}]
 #
 # Examples:
-#     set_portal.sh -h
 #     set_portal.sh -p FULL
 #     set_portal.sh -p SHORT
 #     set_portal.sh -c DEFAULT
@@ -17,7 +16,7 @@
 #     Set shell prompt (variable PS1).
 #
 #     Must be run as a sourced script
-#         `. ./set_portals.sh'
+#         `. ./set_shell_prompt.sh'
 #
 #     -h, --help
 #         Show this help message and exit
