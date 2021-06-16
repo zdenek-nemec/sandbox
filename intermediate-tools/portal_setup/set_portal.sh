@@ -20,6 +20,19 @@
 # Description:
 #     Shell script for setting up CSG Intermediate portals.
 #
+#     Depending on Intermediate version, some options may not be supported.
+#
+#     | Intermediate | 7 | 8 |
+#     | ------------ | - | - |
+#     | status       | Y | Y |
+#     | dispatch     | Y | Y |
+#     | node         | - | Y |
+#     | user         | - | Y |
+#     | password     | - | Y |
+#     | path         | - | Y |
+#     | last         | Y | Y |
+#     | next         | Y | Y |
+#
 #     -h, --help
 #         Show this help message and exit
 #     -p PORTALS, --portals PORTALS
@@ -133,6 +146,14 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+intermediate_version=$(cgi_status | grep "DCS Release" | sed 's/^\t//g')
+if [[ ${intermediate_version:12:2} == "7." ]]; then
+    if [[ $routing_node || $routing_user || $routing_password || $routing_path ]]; then
+        echo "Error: Unsupported options on Intermediate 7" 1>&2
+        exit -1
+    fi
+fi
+
 echo "Setting up:"
 if [[ -z $portal_status && -z $dispatch_status && -z $routing_node && -z $routing_user && -z $routing_password && -z $routing_path && -z $sequence_last && -z $sequence_next ]]; then
     echo "* Nothing, displaying portals only"
@@ -192,20 +213,25 @@ query=""
 for portal in $selected_portals; do
     s=$(echo $portal | cut -d "|" -f 1)
     p=$(echo $portal | cut -d "|" -f 2)
-    if [[ $portal_status ]]; then
-        query="${query}" # TODO
-    fi
-    if [[ $dispatch_status ]]; then
-        query="${query}" # TODO
+    if [[ $portal_status == "ENABLE" ]]; then
+        query="${query}ACTIVATE $s $p\n"
+    elif [[ $portal_status == "DISABLE" ]]; then
+        query="${query}SUSPEND $s $p\n"
     fi
     if [[ $routing_node ]]; then
-        query="${query}" # TODO
+        query="${query}GET ROUTING FOR $s $p\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_NAME=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -SFTP_HOSTNAME=$routing_path\n"
     fi
     if [[ $routing_user ]]; then
-        query="${query}" # TODO
+        query="${query}GET ROUTING FOR $s $p\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_LOGIN=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -SFTP_USERNAME=$routing_path\n"
     fi
     if [[ $routing_password ]]; then
-        query="${query}" # TODO
+        query="${query}GET ROUTING FOR $s $p\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_SECURITY=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -SFTP_PASSWORD=$routing_path\n"
     fi
     if [[ $routing_path ]]; then
         query="${query}GET ROUTING FOR $s $p\n"
@@ -222,5 +248,19 @@ for portal in $selected_portals; do
     fi
 done
 dcs_dportal_utl <<- EOF
+`echo -e $query`
+EOF
+
+query=""
+for portal in $selected_portals; do
+    s=$(echo $portal | cut -d "|" -f 1)
+    p=$(echo $portal | cut -d "|" -f 2)
+    if [[ $dispatch_status == "ENABLE" ]]; then
+        query="${query}ENABLE -OWNER=$s -PORTAL=$p\n"
+    elif [[ $dispatch_status == "DISABLE" ]]; then
+        query="${query}DISABLE -OWNER=$s -PORTAL=$p\n"
+    fi
+done
+dcs_dispatch_utl <<- EOF
 `echo -e $query`
 EOF
