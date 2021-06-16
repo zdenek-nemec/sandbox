@@ -6,11 +6,11 @@
 #     set_shell_prompt.sh [-h] [-p {FULL,SHORT}] [-c {DEFAULT,RED,GREEN,YELLOW,BLUE,PURPLE}]
 #
 # Examples:
-#     set_portal.sh -p FULL
-#     set_portal.sh -p SHORT
-#     set_portal.sh -c DEFAULT
-#     set_portal.sh -c RED
-#     set_portal.sh -p SHORT -c RED
+#     set_shell_prompt.sh -p FULL
+#     set_shell_prompt.sh -p SHORT
+#     set_shell_prompt.sh -c DEFAULT
+#     set_shell_prompt.sh -c RED
+#     set_shell_prompt.sh -p SHORT -c RED
 #
 # Description:
 #     Set shell prompt (variable PS1).
