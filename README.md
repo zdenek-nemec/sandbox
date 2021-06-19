@@ -37,7 +37,6 @@ Every sub-project has its own directory.
 * #24 - JSON to CSV Converter
 * #28 - CSG Intermediate Tools: Synchronisation
 * #31 - Bash Demos
-* #48 - CSG Intermediate Tools: Portal Setup
 * #49 - Outlier Detector
 * #50 - Java Demos
 * #51 - FWR Check
