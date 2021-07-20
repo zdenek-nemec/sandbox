@@ -3,7 +3,9 @@ import datetime
 import os
 
 
+DEBUG = True
 DATA_PATH = "./data"
+
 
 class StatisticsData(object):
     def __init__(self):
@@ -29,18 +31,25 @@ class StatisticsData(object):
     def print_data(self):
         [print(key, self._data[key]) for key in self._data]
 
+    def get_data(self):
+        return self._data
+
 
 def main():
     print("Hello, SIP Statistics Check!")
 
-    data_file_list = os.listdir(DATA_PATH)
-    data_file_list = [("sip_20210720_%02d.csv" % x) for x in range(1, 19)]
+    if DEBUG:
+        data_file_list = [("sip_20210714_%02d.csv" % x) for x in range(1, 24)]
+    else:
+        data_file_list = os.listdir(DATA_PATH)
     print(data_file_list)
 
     train = StatisticsData()
     for data_file in data_file_list:
         train.load(DATA_PATH + "/" + data_file)
     train.print_data()
+
+    print(len(train.get_data()))
 
 
 if __name__ == "__main__":
