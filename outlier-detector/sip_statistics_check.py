@@ -2,14 +2,15 @@ import csv
 import datetime
 import os
 import re
+import statistics
 
 
 DEBUG = False
 DATA_PATH = "./data"
-TRAIN_FILES_REGEX = r"^sip_20210[3456].._..\.csv$"
-DATA_FILES_REGEX = r"^sip_2021071[456]_..\.csv$"
+TRAIN_FILES_REGEX = r"^sip_20210[6].*\.csv$"
+DATA_FILES_REGEX = r"^sip_20210[7].*\.csv$"
 SKIP = 3
-HARD_MINIMUM_OUTLIERS = 100
+HARD_MINIMUM_OUTLIERS = 4000
 
 
 class StatisticsData(object):
@@ -34,7 +35,7 @@ class StatisticsData(object):
                         self._data[timestamp] = self._data[timestamp] + records
 
     def get(self, skip=0):
-        return [(key, self._data[key]) for key in sorted(self._data)][skip:]
+        return [(key, self._data[key]) for key in sorted(self._data)][skip:-skip]
 
 
 class HardMinimum(object):
@@ -114,6 +115,68 @@ class WeekdayHourMinimum(object):
         return outliers
 
 
+class WeekdayLeftRightHourMinimum(object):
+    def __init__(self, data):
+        self._trained = {}
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                self._trained[key] = [entry]
+            else:
+                entries = sorted(self._trained[key] + [entry])
+                self._trained[key] = entries
+
+    def get_outliers(self, data):
+        candidates = []
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                continue
+            else:
+                trained_values = [x[1] for x in self._trained[key]]
+                if entry[1] < min(trained_values):
+                    candidates.append(entry)
+        outliers = []
+        for i, entry in enumerate(sorted(data)):
+            if i in [0, 1] or i in [len(data)-1, len(data)-1]:
+                continue
+            last_entry = sorted(data)[i-1][1]
+            next_entry = sorted(data)[i+1][1]
+            if entry in candidates and entry[1] < last_entry and entry[1] < next_entry:
+                ADV_CHECK = True
+                DEBUG = False
+                if not ADV_CHECK:
+                    outliers.append(entry)
+                    if DEBUG:
+                        weekday = datetime.datetime.weekday(entry[0])
+                        hour = entry[0].strftime("%H")
+                        key = str(weekday) + "-" + str(hour)
+                        trained_values = [x[1] for x in self._trained[key]]
+                        print(key, trained_values)
+                        print(entry[0], entry[1])
+                else:
+                    last_last_entry = sorted(data)[i-2][1]
+                    next_next_entry = sorted(data)[i+2][1]
+                    diff = statistics.pstdev([last_last_entry, last_entry, next_entry, next_next_entry])
+                    if entry[1] < min(last_last_entry, last_entry, next_entry, next_next_entry) - diff:
+                        if (last_last_entry > last_entry and next_entry < next_next_entry
+                                and entry[1] > min(last_last_entry, last_entry, next_entry, next_next_entry) - 2*diff):  # If following trend, allow double difference
+                            continue
+                        outliers.append(entry)
+                        if DEBUG:
+                            weekday = datetime.datetime.weekday(entry[0])
+                            hour = entry[0].strftime("%H")
+                            key = str(weekday) + "-" + str(hour)
+                            trained_values = [x[1] for x in self._trained[key]]
+                            print(key, trained_values)
+                            print(last_last_entry, last_entry, next_entry, next_next_entry, diff)
+                            print(entry[0], entry[1])
+        return outliers
+
 def main():
     print("Hello, SIP Statistics Check!")
 
@@ -153,6 +216,10 @@ def main():
     weekday_hour_minimum = WeekdayHourMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
     print("Weekday Hour Minimum Outliers: %d" % len(weekday_hour_minimum))
     [print(entry[0], entry[1]) for entry in weekday_hour_minimum]
+
+    weekday_left_right_hour_minimum = WeekdayLeftRightHourMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
+    print("Weekday Left Right Hour Minimum Outliers: %d" % len(weekday_left_right_hour_minimum))
+    [print(entry[0], entry[1]) for entry in weekday_left_right_hour_minimum]
 
 
 if __name__ == "__main__":
