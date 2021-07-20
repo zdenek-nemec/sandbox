@@ -33,7 +33,7 @@ class StatisticsData(object):
                         self._data[timestamp] = self._data[timestamp] + records
 
     def get_data(self):
-        return [(key, self._data[key]) for key in sorted(self._data)]
+        return [(key, self._data[key]) for key in sorted(self._data)][1:]
 
 
 class HardLimit(object):
