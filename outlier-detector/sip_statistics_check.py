@@ -6,9 +6,10 @@ import re
 
 DEBUG = False
 DATA_PATH = "./data"
-TRAIN_FILES_REGEX = r"sip_202106.._..\.csv"
-DATA_FILES_REGEX = r"sip_20210714_..\.csv"
-HARD_LIMIT_OUTLIERS = 10
+TRAIN_FILES_REGEX = r"^sip_202106.._..\.csv$"
+DATA_FILES_REGEX = r"^sip_20210714_..\.csv$"
+SKIP = 3
+HARD_LIMIT_OUTLIERS = 100
 
 
 class StatisticsData(object):
@@ -32,13 +33,28 @@ class StatisticsData(object):
                     else:
                         self._data[timestamp] = self._data[timestamp] + records
 
-    def get_data(self):
-        return [(key, self._data[key]) for key in sorted(self._data)][1:]
+    def get_data(self, skip=0):
+        return [(key, self._data[key]) for key in sorted(self._data)][skip:]
 
 
 class HardLimit(object):
     def __init__(self, minimum):
         self._minimum = minimum
+
+    def get_outliers(self, data):
+        outliers = []
+        for entry in data:
+            if entry[1] < self._minimum:
+                outliers.append(entry)
+        return outliers
+
+
+class AllTimeMinimum(object):
+    def __init__(self, data):
+        self._minimum = data[0][1]
+        for entry in data:
+            if entry[1] < self._minimum:
+                self._minimum = entry[1]
 
     def get_outliers(self, data):
         outliers = []
@@ -72,11 +88,14 @@ def main():
     print("Data Entries: %d" % len(data._data))
     # [print(key, data._data[key]) for key in data._data]
 
-    hard_limit_outliers = HardLimit(HARD_LIMIT_OUTLIERS).get_outliers(data.get_data())
+    hard_limit_outliers = HardLimit(HARD_LIMIT_OUTLIERS).get_outliers(data.get_data(SKIP))
     print("Hard Limit Outliers: %d" % len(hard_limit_outliers))
     [print(entry[0], entry[1]) for entry in hard_limit_outliers]
+
+    all_time_minimum_outliers = AllTimeMinimum(train.get_data(SKIP)).get_outliers(data.get_data(SKIP))
+    print("All Time Minimum Outliers: %d" % len(all_time_minimum_outliers))
+    [print(entry[0], entry[1]) for entry in all_time_minimum_outliers]
 
 
 if __name__ == "__main__":
     main()
-
