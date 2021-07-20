@@ -9,7 +9,7 @@ DATA_PATH = "./data"
 TRAIN_FILES_REGEX = r"^sip_202106.._..\.csv$"
 DATA_FILES_REGEX = r"^sip_20210714_..\.csv$"
 SKIP = 3
-HARD_LIMIT_OUTLIERS = 100
+HARD_MINIMUM_OUTLIERS = 100
 
 
 class StatisticsData(object):
@@ -33,11 +33,11 @@ class StatisticsData(object):
                     else:
                         self._data[timestamp] = self._data[timestamp] + records
 
-    def get_data(self, skip=0):
+    def get(self, skip=0):
         return [(key, self._data[key]) for key in sorted(self._data)][skip:]
 
 
-class HardLimit(object):
+class HardMinimum(object):
     def __init__(self, minimum):
         self._minimum = minimum
 
@@ -61,6 +61,28 @@ class AllTimeMinimum(object):
         for entry in data:
             if entry[1] < self._minimum:
                 outliers.append(entry)
+        return outliers
+
+
+class HourMinimum(object):
+    def __init__(self, data):
+        self._hours = {}
+        for entry in data:
+            hour = entry[0].strftime("%H")
+            if hour not in self._hours:
+                self._hours[hour] = entry[1]
+            else:
+                self._hours[hour] = min(self._hours[hour], entry[1])
+
+    def get_outliers(self, data):
+        outliers = []
+        for entry in data:
+            hour = entry[0].strftime("%H")
+            if hour not in self._hours:
+                continue
+            else:
+                if entry[1] < self._hours[hour]:
+                    outliers.append(entry)
         return outliers
 
 
@@ -88,13 +110,17 @@ def main():
     print("Data Entries: %d" % len(data._data))
     # [print(key, data._data[key]) for key in data._data]
 
-    hard_limit_outliers = HardLimit(HARD_LIMIT_OUTLIERS).get_outliers(data.get_data(SKIP))
-    print("Hard Limit Outliers: %d" % len(hard_limit_outliers))
-    [print(entry[0], entry[1]) for entry in hard_limit_outliers]
+    hard_minimum_outliers = HardMinimum(HARD_MINIMUM_OUTLIERS).get_outliers(data.get(SKIP))
+    print("Hard Minimum Outliers: %d" % len(hard_minimum_outliers))
+    [print(entry[0], entry[1]) for entry in hard_minimum_outliers]
 
-    all_time_minimum_outliers = AllTimeMinimum(train.get_data(SKIP)).get_outliers(data.get_data(SKIP))
+    all_time_minimum_outliers = AllTimeMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
     print("All Time Minimum Outliers: %d" % len(all_time_minimum_outliers))
     [print(entry[0], entry[1]) for entry in all_time_minimum_outliers]
+
+    hour_minimum_outliers = HourMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
+    print("Hour Minimum Outliers: %d" % len(hour_minimum_outliers))
+    [print(entry[0], entry[1]) for entry in hour_minimum_outliers]
 
 
 if __name__ == "__main__":
