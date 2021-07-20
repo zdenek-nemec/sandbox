@@ -6,8 +6,8 @@ import re
 
 DEBUG = False
 DATA_PATH = "./data"
-TRAIN_FILES_REGEX = r"^sip_202106.._..\.csv$"
-DATA_FILES_REGEX = r"^sip_20210714_..\.csv$"
+TRAIN_FILES_REGEX = r"^sip_20210[3456].._..\.csv$"
+DATA_FILES_REGEX = r"^sip_2021071[456]_..\.csv$"
 SKIP = 3
 HARD_MINIMUM_OUTLIERS = 100
 
@@ -86,6 +86,34 @@ class HourMinimum(object):
         return outliers
 
 
+class WeekdayHourMinimum(object):
+    def __init__(self, data):
+        self._trained = {}
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                self._trained[key] = [entry]
+            else:
+                entries = sorted(self._trained[key] + [entry])
+                self._trained[key] = entries
+
+    def get_outliers(self, data):
+        outliers = []
+        for entry in data:
+            weekday = datetime.datetime.weekday(entry[0])
+            hour = entry[0].strftime("%H")
+            key = str(weekday) + "-" + str(hour)
+            if key not in self._trained:
+                continue
+            else:
+                trained_values = [x[1] for x in self._trained[key]]
+                if entry[1] < min(trained_values):
+                    outliers.append(entry)
+        return outliers
+
+
 def main():
     print("Hello, SIP Statistics Check!")
 
@@ -121,6 +149,10 @@ def main():
     hour_minimum_outliers = HourMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
     print("Hour Minimum Outliers: %d" % len(hour_minimum_outliers))
     [print(entry[0], entry[1]) for entry in hour_minimum_outliers]
+
+    weekday_hour_minimum = WeekdayHourMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
+    print("Weekday Hour Minimum Outliers: %d" % len(weekday_hour_minimum))
+    [print(entry[0], entry[1]) for entry in weekday_hour_minimum]
 
 
 if __name__ == "__main__":
