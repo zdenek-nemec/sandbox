@@ -3,8 +3,9 @@ import datetime
 import os
 
 
-DEBUG = True
+DEBUG = False
 DATA_PATH = "./data"
+HARD_LIMIT_OUTLIERS = 10
 
 
 class StatisticsData(object):
@@ -28,28 +29,41 @@ class StatisticsData(object):
                     else:
                         self._data[timestamp] = self._data[timestamp] + records
 
-    def print_data(self):
-        [print(key, self._data[key]) for key in self._data]
-
     def get_data(self):
-        return self._data
+        return [(key, self._data[key]) for key in self._data]
+
+
+class HardLimit(object):
+    def __init__(self, minimum):
+        self._minimum = minimum
+
+    def get_outliers(self, data):
+        outliers = []
+        for entry in data:
+            if entry[1] < self._minimum:
+                outliers.append(entry)
+        return outliers
 
 
 def main():
     print("Hello, SIP Statistics Check!")
 
     if DEBUG:
-        data_file_list = [("sip_20210714_%02d.csv" % x) for x in range(1, 24)]
+        data_file_list = [("sip_20210714_%02d.csv" % x) for x in range(0, 24)]
     else:
         data_file_list = os.listdir(DATA_PATH)
-    print(data_file_list)
+    print("Files: %d" % len(data_file_list))
+    # print(data_file_list)
 
     train = StatisticsData()
     for data_file in data_file_list:
         train.load(DATA_PATH + "/" + data_file)
-    train.print_data()
+    print("Entries: %d" % len(train._data))
+    # [print(key, train._data[key]) for key in train._data]
 
-    print(len(train.get_data()))
+    hard_limit_outliers = HardLimit(HARD_LIMIT_OUTLIERS).get_outliers(train.get_data())
+    print("Hard Limit Outliers: %d" % len(hard_limit_outliers))
+    [print(entry[0], entry[1]) for entry in hard_limit_outliers]
 
 
 if __name__ == "__main__":
