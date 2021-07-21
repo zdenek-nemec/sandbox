@@ -9,6 +9,8 @@ DEBUG = False
 DATA_PATH = "./data"
 TRAIN_FILES_REGEX = r"^sip_20210[6].*\.csv$"
 DATA_FILES_REGEX = r"^sip_20210[7].*\.csv$"
+TRAIN_DAYS = 40
+DATA_DAYS = 1
 SKIP = 3
 HARD_MINIMUM_OUTLIERS = 4000
 
@@ -35,7 +37,7 @@ class StatisticsData(object):
                         self._data[timestamp] = self._data[timestamp] + records
 
     def get(self, skip=0):
-        return [(key, self._data[key]) for key in sorted(self._data)][skip:-skip]
+        return [(key, self._data[key]) for key in sorted(self._data)][skip:]
 
 
 class HardMinimum(object):
@@ -147,7 +149,7 @@ class WeekdayLeftRightHourMinimum(object):
             last_entry = sorted(data)[i-1][1]
             next_entry = sorted(data)[i+1][1]
             if entry in candidates and entry[1] < last_entry and entry[1] < next_entry:
-                ADV_CHECK = True
+                ADV_CHECK = False
                 DEBUG = False
                 if not ADV_CHECK:
                     outliers.append(entry)
@@ -184,9 +186,15 @@ def main():
     print("Files: %d" % len(all_files))
     # print(all_files)
 
-    train_files = filter(lambda entry: re.match(TRAIN_FILES_REGEX, entry), all_files)
+    # train_files = filter(lambda entry: re.match(TRAIN_FILES_REGEX, entry), all_files)
+    train_files = all_files[-(TRAIN_DAYS+DATA_DAYS)*24:-DATA_DAYS*24]
+    print("Train Files: %d"  % len(train_files))
+    # print(train_files)
     # [print(filename) for filename in train_files]
-    data_files = filter(lambda entry: re.match(DATA_FILES_REGEX, entry), all_files)
+    # data_files = filter(lambda entry: re.match(DATA_FILES_REGEX, entry), all_files)
+    data_files = all_files[-DATA_DAYS*24:]
+    print("Data Files: %d"  % len(data_files))
+    # print(data_files)
     # [print(filename) for filename in data_files]
 
     train = StatisticsData()
@@ -199,7 +207,7 @@ def main():
     for filename in data_files:
         data.load(DATA_PATH + "/" + filename)
     print("Data Entries: %d" % len(data._data))
-    # [print(key, data._data[key]) for key in data._data]
+    [print(key, data._data[key]) for key in data._data]
 
     hard_minimum_outliers = HardMinimum(HARD_MINIMUM_OUTLIERS).get_outliers(data.get(SKIP))
     print("Hard Minimum Outliers: %d" % len(hard_minimum_outliers))
