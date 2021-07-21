@@ -13,6 +13,7 @@ TRAIN_DAYS = 40
 DATA_DAYS = 1
 SKIP = 3
 HARD_MINIMUM_OUTLIERS = 4000
+REPORT_FILE = "./alarms.log"
 
 
 class StatisticsData(object):
@@ -207,7 +208,7 @@ def main():
     for filename in data_files:
         data.load(DATA_PATH + "/" + filename)
     print("Data Entries: %d" % len(data._data))
-    [print(key, data._data[key]) for key in data._data]
+    # [print(key, data._data[key]) for key in data._data]
 
     hard_minimum_outliers = HardMinimum(HARD_MINIMUM_OUTLIERS).get_outliers(data.get(SKIP))
     print("Hard Minimum Outliers: %d" % len(hard_minimum_outliers))
@@ -228,6 +229,38 @@ def main():
     weekday_left_right_hour_minimum = WeekdayLeftRightHourMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
     print("Weekday Left Right Hour Minimum Outliers: %d" % len(weekday_left_right_hour_minimum))
     [print(entry[0], entry[1]) for entry in weekday_left_right_hour_minimum]
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    report_content = []
+    for entry in hard_minimum_outliers:
+        period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
+        records = entry[1]
+        line = timestamp + f" - CRITICAL - Hard minimum {HARD_MINIMUM_OUTLIERS} breached, period {period}, {records} records"
+        report_content.append(line)
+    for entry in all_time_minimum_outliers:
+        period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
+        records = entry[1]
+        line = timestamp + f" - MAJOR - New all-time minimum, period {period}, {records} records"
+        report_content.append(line)
+    for entry in hour_minimum_outliers:
+        period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
+        records = entry[1]
+        line = timestamp + f" - MINOR - New hour minimum, period {period}, {records} records"
+        report_content.append(line)
+    for entry in weekday_hour_minimum:
+        period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
+        records = entry[1]
+        line = timestamp + f" - MINOR - New weekday hour minimum, period {period}, {records} records"
+        report_content.append(line)
+    for entry in weekday_left_right_hour_minimum:
+        period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
+        records = entry[1]
+        line = timestamp + f" - MAJOR - New weekday left-right hour minimum, period {period}, {records} records"
+        report_content.append(line)
+
+    with open(REPORT_FILE, "a") as text_file:
+        for line in report_content:
+            text_file.write(line + "\n")
 
 
 if __name__ == "__main__":
