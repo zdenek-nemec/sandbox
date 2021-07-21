@@ -15,6 +15,8 @@ SKIP = 3
 HARD_MINIMUM_OUTLIERS = 4000
 REPORT_FILE = "./alarms.log"
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+MIN_AGE_TO_REPORT = 1
+MAX_AGE_TO_REPORT = 4
 
 
 class StatisticsData(object):
@@ -232,32 +234,45 @@ def main():
     [print(entry[0], entry[1]) for entry in weekday_left_right_hour_minimum]
 
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    oldest_valid_time = datetime.datetime.now() - datetime.timedelta(hours=MAX_AGE_TO_REPORT)
+    newest_valid_time = datetime.datetime.now() - datetime.timedelta(hours=MIN_AGE_TO_REPORT)
     report_content = []
     for entry in hard_minimum_outliers:
+        print(entry[0])
+        if entry[0] < oldest_valid_time or entry[0] > newest_valid_time:
+            continue
         weekday = DAYS[datetime.datetime.weekday(entry[0])]
         period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
         records = entry[1]
         line = timestamp + f" - CRITICAL - Hard minimum {HARD_MINIMUM_OUTLIERS} breached, {weekday}, period {period}, {records} records"
         report_content.append(line)
     for entry in all_time_minimum_outliers:
+        if entry[0] < oldest_valid_time or entry[0] > newest_valid_time:
+            continue
         weekday = DAYS[datetime.datetime.weekday(entry[0])]
         period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
         records = entry[1]
         line = timestamp + f" - MAJOR - New all-time minimum, {weekday} period {period}, {records} records"
         report_content.append(line)
     for entry in hour_minimum_outliers:
+        if entry[0] < oldest_valid_time or entry[0] > newest_valid_time:
+            continue
         weekday = DAYS[datetime.datetime.weekday(entry[0])]
         period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
         records = entry[1]
         line = timestamp + f" - MINOR - New hour minimum, {weekday}, period {period}, {records} records"
         report_content.append(line)
     for entry in weekday_hour_minimum:
+        if entry[0] < oldest_valid_time or entry[0] > newest_valid_time:
+            continue
         weekday = DAYS[datetime.datetime.weekday(entry[0])]
         period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
         records = entry[1]
         line = timestamp + f" - MINOR - New weekday hour minimum, {weekday}, period {period}, {records} records"
         report_content.append(line)
     for entry in weekday_left_right_hour_minimum:
+        if entry[0] < oldest_valid_time or entry[0] > newest_valid_time:
+            continue
         weekday = DAYS[datetime.datetime.weekday(entry[0])]
         period = entry[0].strftime("%Y-%m-%d %H:00:00 -- %H:59:59")
         records = entry[1]
