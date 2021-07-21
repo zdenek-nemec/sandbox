@@ -184,7 +184,7 @@ class WeekdayLeftRightHourMinimum(object):
         return outliers
 
 def main():
-    print("Hello, SIP Statistics Check!")
+    print("SIP Statistics Check")
 
     all_files = sorted(os.listdir(DATA_PATH))
     print("Files: %d" % len(all_files))
@@ -238,7 +238,6 @@ def main():
     newest_valid_time = datetime.datetime.now() - datetime.timedelta(hours=MIN_AGE_TO_REPORT)
     report_content = []
     for entry in hard_minimum_outliers:
-        print(entry[0])
         if entry[0] < oldest_valid_time or entry[0] > newest_valid_time:
             continue
         weekday = DAYS[datetime.datetime.weekday(entry[0])]
