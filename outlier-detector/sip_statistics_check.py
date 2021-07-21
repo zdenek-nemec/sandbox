@@ -183,7 +183,7 @@ class WeekdayLeftRightHourMinimum(object):
 def main():
     print("Hello, SIP Statistics Check!")
 
-    all_files = os.listdir(DATA_PATH)
+    all_files = sorted(os.listdir(DATA_PATH))
     print("Files: %d" % len(all_files))
     # print(all_files)
 
