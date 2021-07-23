@@ -32,6 +32,14 @@ function print_help {
     head -$(grep -n -m 1 -v "^#" "$BASH_SOURCE" | cut -d ":" -f 1) "$BASH_SOURCE"
 }
 
+# if [[ "$#" == "1" && ("$1" == "-h" || "$1" == "--help") ]]; then
+#     print_help
+#     exit 0
+# elif [[ "$#" != "0" ]]; then
+#     print_usage
+#     exit -1
+# fi
+
 name=$DEFAULT_NAME
 greeting=$DEFAULT_GREETING
 while [[ $# -gt 0 ]]; do
