@@ -12,7 +12,7 @@ DATA_FILES_REGEX = r"^sip_20210[7].*\.csv$"
 TRAIN_DAYS = 40
 DATA_DAYS = 1
 SKIP = 3
-HARD_MINIMUM_OUTLIERS = 4000
+FIX_THRESHOLD = 4000
 REPORT_FILE = "./alarms.log"
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 MIN_AGE_TO_REPORT = 1
@@ -44,7 +44,7 @@ class StatisticsData(object):
         return [(key, self._data[key]) for key in sorted(self._data)][skip:]
 
 
-class HardMinimum(object):
+class FixThreshold(object):
     def __init__(self, minimum):
         self._minimum = minimum
 
@@ -213,9 +213,9 @@ def main():
     print("Data Entries: %d" % len(data._data))
     # [print(key, data._data[key]) for key in data._data]
 
-    hard_minimum_outliers = HardMinimum(HARD_MINIMUM_OUTLIERS).get_outliers(data.get(SKIP))
-    print("Hard Minimum Outliers: %d" % len(hard_minimum_outliers))
-    [print(entry[0], entry[1]) for entry in hard_minimum_outliers]
+    fix_threshold_outliers = FixThreshold(FIX_THRESHOLD).get_outliers(data.get(skip=SKIP))
+    print("Fix threshold outliers: %d" % len(fix_threshold_outliers))
+    [print(entry[0], entry[1]) for entry in fix_threshold_outliers]
 
     all_time_minimum_outliers = AllTimeMinimum(train.get(SKIP)).get_outliers(data.get(SKIP))
     print("All Time Minimum Outliers: %d" % len(all_time_minimum_outliers))
@@ -237,7 +237,7 @@ def main():
     oldest_valid_time = datetime.datetime.now() - datetime.timedelta(hours=MAX_AGE_TO_REPORT)
     newest_valid_time = datetime.datetime.now() - datetime.timedelta(hours=MIN_AGE_TO_REPORT)
     report_content = []
-    for entry in hard_minimum_outliers:
+    for entry in fix_threshold_outliers:
         if entry[0] < oldest_valid_time or entry[0] > newest_valid_time:
             continue
         weekday = DAYS[datetime.datetime.weekday(entry[0])]
