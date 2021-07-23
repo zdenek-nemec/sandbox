@@ -4,6 +4,8 @@ class FixThreshold(object):
     """Fix Threshold"""
 
     def __init__(self, minimum):
+        if type(minimum) not in [int]:
+            raise TypeError("The minimum must be an integer")
         self._minimum = minimum
 
     def get_outliers(self, data):
