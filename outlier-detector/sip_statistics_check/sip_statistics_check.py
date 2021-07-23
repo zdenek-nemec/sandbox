@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 import csv
 import datetime
 import os
 import re
 import statistics
 
+from fix_threshold import FixThreshold
 
 DEBUG = False
 DATA_PATH = "./data"
@@ -42,18 +45,6 @@ class StatisticsData(object):
 
     def get(self, skip=0):
         return [(key, self._data[key]) for key in sorted(self._data)][skip:]
-
-
-class FixThreshold(object):
-    def __init__(self, minimum):
-        self._minimum = minimum
-
-    def get_outliers(self, data):
-        outliers = []
-        for entry in data:
-            if entry[1] < self._minimum:
-                outliers.append(entry)
-        return outliers
 
 
 class AllTimeMinimum(object):
