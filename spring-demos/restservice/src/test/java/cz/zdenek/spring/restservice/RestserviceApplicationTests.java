@@ -1,10 +1,10 @@
-package com.example.demo;
+package cz.zdenek.spring.restservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class RestserviceApplicationTests {
 
 	@Test
 	void contextLoads() {
