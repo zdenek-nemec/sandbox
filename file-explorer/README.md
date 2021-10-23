@@ -6,9 +6,9 @@ Created to aid with salvaging the data from MP2TB.
 Log entry
 
 1. Path
-2. Type
-3. Target name
-4. Target size
+2. Parent path
+3. Name
+4. Size
 
 Parameters
 

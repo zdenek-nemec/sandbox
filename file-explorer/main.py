@@ -8,6 +8,13 @@ def get_directory_content(path):
     return [path + "/" + item for item in os.listdir(path)]
 
 
+def get_file_properties(path):
+    return (
+        path,
+        os.path.getsize(path),
+    )
+
+
 def main():
     print("File Explorer")
 
@@ -24,7 +31,7 @@ def main():
         if os.path.isdir(item):
             content += get_directory_content(item)
         else:
-            files.append(item)
+            files.append(get_file_properties(item))
     print(files)
 
 
