@@ -13,8 +13,15 @@ def get_directory_content(path):
 def get_file_properties(path):
     return {
         "path": path,
+        "creation time": os.path.getctime(path),
+        "modification time": os.path.getmtime(path),
         "size": os.path.getsize(path),
     }
+
+
+def save_report(files, report, mode):
+    with open(report, mode, encoding="utf-8") as json_file:
+        json.dump(files, json_file, ensure_ascii=False, indent=4)
 
 
 def main():
@@ -28,9 +35,10 @@ def main():
     path = argument_parser.parse_args().path
     report = argument_parser.parse_args().report
     batch = argument_parser.parse_args().batch
-    print("Exploring path: %s" % path)
-    print("Report: %s" % report)
-    print("Batch: %s" % batch)
+    print("Arguments")
+    print("* path: %s" % path)
+    print("* report: %s" % report)
+    print("* batch: %s" % batch)
 
     content = get_directory_content(path)
     files = []
@@ -39,6 +47,7 @@ def main():
         if os.path.isdir(item):
             content += get_directory_content(item)
         else:
+            print("Current item:", item)
             files.append(get_file_properties(item))
         if batch is not None and len(files) > 1 and len(files) % batch == 0:
             save_report(files, report, "a")
@@ -49,11 +58,6 @@ def main():
             save_report(files, report, "a")
     else:
         save_report(files, report, "w")
-
-
-def save_report(files, report, mode):
-    with open(report, mode, encoding="utf-8") as json_file:
-        json.dump(files, json_file, ensure_ascii=False, indent=4)
 
 
 if __name__ == "__main__":
