@@ -4,6 +4,7 @@ import os
 
 DEFAULT_PATH = "./sample"
 DEFAULT_REPORT_PATH = "./report.json"
+EXCEPTIONS = [".ssh"]
 
 
 def get_directory_content(path):
@@ -44,12 +45,18 @@ def main():
     files = []
     while len(content) > 0:
         item = content.pop(0)
+        print("Current item:", item)
+        if os.path.basename(item) in EXCEPTIONS:
+            print("* Skipping exception")
+            continue
         if os.path.isdir(item):
+            print("* Listing directory")
             content += get_directory_content(item)
         else:
-            print("Current item:", item)
+            print("* Reporting file")
             files.append(get_file_properties(item))
         if batch is not None and len(files) > 1 and len(files) % batch == 0:
+            print("* Saving batch")
             save_report(files, report, "a")
             files = []
 
