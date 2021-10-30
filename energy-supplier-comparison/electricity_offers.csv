@@ -1,0 +1,12 @@
+"Typ","Polozka","Uctovani","MND D25d 3x25 A","MND D26d 3x25 A","E.ON D25d 3x25 A","E.ON D26d 3x25 A"
+"Obchodni","Poplatky","CZK/mesic",77,77,96,96
+"Obchodni","Elektrina VT","CZK/MWh",4875,4875,4394,4394
+"Obchodni","Elektrina NT","CZK/MWh",381,381,3903,3903
+"Regulovane","Distribuce VT","CZK/MWh",2080.72,763.64,2143.27,775.63
+"Regulovane","Distribuce NT","CZK/MWh",164.45,164.45,178.95,178.95
+"Regulovane","Rezervovany prikon","CZK/mesic",164.56,274.67,159,288
+"Regulovane","Systemove sluzby","CZK/MWh",112.89,112.89,112.89,112.89
+"Regulovane","Podpora vykupu","CZK/mesic",0,0,0,0
+"Regulovane","Podpora vykupu","CZK/MWh",598.95,598.95,598.95,598.95
+"Regulovane","OTE","CZK/mesic",4.73,4.73,4.73,4.73
+"Regulovane","Dan","CZK/MWh",34.24,34.24,34.24,34.24
