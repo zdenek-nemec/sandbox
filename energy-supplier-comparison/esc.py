@@ -15,7 +15,7 @@ def get_offers_csv_list(offers_file):
 def initialise_offers_list(csv_list):
     offer_list = []
     for index, field in enumerate(csv_list[0]):
-        if field in ["Typ", "Polozka", "Uctovani"]:
+        if field in ["Polozka", "Uctovani"]:
             continue
         else:
             offer_list.append({
@@ -28,8 +28,8 @@ def initialise_offers_list(csv_list):
 def load_offer(offer, csv_list):
     column = offer["Sloupec"]
     for csv_entry in csv_list[1:]:
-        item = csv_entry[1]
-        unit = csv_entry[2]
+        item = csv_entry[0]
+        unit = csv_entry[1]
         if unit not in offer:
             offer[unit] = {}
         offer[unit][item] = csv_entry[column]
@@ -51,7 +51,7 @@ def get_offers(offers_file):
 
 
 def main():
-    print("Energy Supplier Comparison")
+    print("Energy Supplier Comparison - CSV")
     offers = get_offers(DEFAULT_OFFERS_FILE)
     [print(offer) for offer in offers]
 

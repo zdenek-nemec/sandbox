@@ -108,7 +108,7 @@ def compare_electricity(offer_list, usage_high_tariff, usage_low_tariff):
 
 
 def main():
-    print("Energy Supplier Comparison")
+    print("Energy Supplier Comparison - Hardcoded")
     compare_electricity(ELECTRICITY_OFFERS, DEFAULT_USAGE_HIGH_TARIFF, DEFAULT_USAGE_LOW_TARIFF)
 
 
