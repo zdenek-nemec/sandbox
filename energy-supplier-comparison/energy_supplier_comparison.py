@@ -78,6 +78,7 @@ def compare_electricity(offer_list, usage_high_tariff, usage_low_tariff):
                 offer["Obchodni"]["Poplatky CZK/mesic"]
                 + offer["Regulovane"]["Rezervovany prikon CZK/mesic"]
                 + offer["Regulovane"]["OTE CZK/mesic"]
+                + offer["Regulovane"]["Podpora vykupu CZK/mesic"]
         )
         price_per_mwh_high_tariff = (
                 offer["Obchodni"]["Elektrina VT CZK/MWh"]
@@ -91,7 +92,6 @@ def compare_electricity(offer_list, usage_high_tariff, usage_low_tariff):
                 + offer["Regulovane"]["Distribuce NT CZK/MWh"]
                 + offer["Regulovane"]["Systemove sluzby CZK/MWh"]
                 + offer["Regulovane"]["Podpora vykupu CZK/MWh"]
-                + offer["Regulovane"]["Podpora vykupu CZK/mesic"]
                 + offer["Regulovane"]["Dan CZK/MWh"]
         )
         print(offer["Dodavatel"])
