@@ -4,7 +4,7 @@ import os
 
 DEFAULT_PATH = "./sample"
 DEFAULT_REPORT_PATH = "./report.json"
-EXCEPTIONS = [".ssh"]
+EXCLUSIONS = [".ssh"]
 
 
 def get_directory_content(path):
@@ -46,7 +46,7 @@ def main():
     while len(content) > 0:
         item = content.pop(0)
         print("Current item:", item)
-        if os.path.basename(item) in EXCEPTIONS:
+        if os.path.basename(item) in EXCLUSIONS:
             print("* Skipping exception")
             continue
         if os.path.isdir(item):
