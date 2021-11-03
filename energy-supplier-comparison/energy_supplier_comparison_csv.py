@@ -1,6 +1,8 @@
 import csv
 
 DEFAULT_OFFERS_FILE = "electricity_offers.csv"
+DEFAULT_USAGE_HIGH_TARIFF = 2.398
+DEFAULT_USAGE_LOW_TARIFF = 3.305
 
 
 def get_offers_csv_list(offers_file):
@@ -50,10 +52,28 @@ def get_offers(offers_file):
     return offers_json_list
 
 
+def compare_offers(offer_list, usage_high_tariff, usage_low_tariff):
+    for offer in offer_list:
+        price_per_month = sum([float(value) for value in offer["Mesic"].values()])
+        price_per_mwh_high_tariff = sum([float(offer["MWh"][key]) for key in offer["MWh"].keys() if key[-2:] != "NT"])
+        price_per_mwh_low_tariff = sum([float(offer["MWh"][key]) for key in offer["MWh"].keys() if key[-2:] != "VT"])
+        print(offer["Dodavatel"])
+        print("* Poplatky CZK/mesic: %f" % price_per_month)
+        print("* VT CZK/MWh: %f" % price_per_mwh_high_tariff)
+        print("* NT CZK/MWh: %f" % price_per_mwh_low_tariff)
+        total_price_per_year = (
+                12 * price_per_month
+                + usage_high_tariff * price_per_mwh_high_tariff
+                + usage_low_tariff * price_per_mwh_low_tariff
+        )
+        print("* Celkem za rok CZK: %f" % total_price_per_year)
+        print("* Mesicni zalohy CZK: %f" % (total_price_per_year / 12))
+
+
 def main():
     print("Energy Supplier Comparison - CSV")
     offers = get_offers(DEFAULT_OFFERS_FILE)
-    [print(offer) for offer in offers]
+    compare_offers(offers, DEFAULT_USAGE_HIGH_TARIFF, DEFAULT_USAGE_LOW_TARIFF)
 
 
 if __name__ == "__main__":
