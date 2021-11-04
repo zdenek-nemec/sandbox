@@ -1,7 +1,7 @@
 # File Explorer
 
 Application that explores given path and reports all files saved in it and its sub-directories.
-Created to aid with salvaging the data from MP2TB.
+Created to aid with salvaging the data from MP2 external disk.
 
 Log entry
 
@@ -12,4 +12,6 @@ Log entry
 
 Parameters
 
-* p = path to explore
+* `--path` - Path to explore
+* `--report` - Where the report will be saved
+* `--batch` - If present, save report after every N located files

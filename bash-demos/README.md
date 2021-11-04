@@ -1,8 +1,5 @@
-# Bash Demos
+# Bash Tutorials and Demonstrations
 
-## Structure
-
-| Directory   | Description                                       |
-| ----------- | ------------------------------------------------- |
-| `math_demo` | Demonstration of mathematical expressions in Bash |
-| `template`  | Bash script template                              |
+* `colours_demo` - ...
+* `math_demo` - Demonstration of mathematical expressions in Bash
+* `template` - Bash script template

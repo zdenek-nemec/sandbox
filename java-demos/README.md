@@ -9,4 +9,5 @@ Using Java 8, Maven.
 ## Structure
 
 * `binec` - Everything that was not sorted yet
+* `hello-world` - ???, probably throw away
 * `HelloWorld` - Basic Hello-World application

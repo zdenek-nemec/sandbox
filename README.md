@@ -9,14 +9,17 @@ Every sub-project has its own directory.
 
 * `ahk-demos` - AutoHotkey tutorials and demonstrations
 * `bash-demos` - Bash tutorials and demonstrations
-* `binec` - Everything that is not sorted yet
-* `heroes3` - Ideas related to the TBS Heroes of Might and Magic 3
+* `binec` - Everything that is not sorted out yet
+* `energy-supplier-comparison` - Comparison of energy supplier offers
+* `file-explorer` - Tool for locating files and saving basic information about them
+* `heroes3` - Ideas related to the turn based strategy game Heroes of Might and Magic 3
 * `intermediate-tools` - Experimental tools for CSG Intermediate
+* `janca` - Janca
 * `java-demos` - Java tutorials and demonstrations
 * `json-to-csv-converter` - Experimental application for JSON-CSV conversion
 * `markdown-demos` - Markdown tutorials and demonstrations
 * `math-demos` - Demonstration of mathematical operations and problem solving
-* `outlier-detector` - PoC outlier detector in statistical data
+* `outlier-detector` - Outlier detector in statistical data
 * `python-demos` - Python tutorials and demonstrations
 * `spring-demos` - Java Spring tutorials and demonstrations
 
@@ -29,21 +32,24 @@ Every sub-project has its own directory.
 
 ## Open Issues
 
-* #6 - Python Text Editor
-* #8 - Udemy - The Python Mega Course - Section 3 - Beyond the Basics
-* #9 - Udemy - The Python Mega Course - Section 4 - Fixing Programming Errors
-* #14 - Python Demos: Unit Tests
-* #20 - Java Demos: Logging
-* #24 - JSON to CSV Converter
-* #28 - CSG Intermediate Tools: Synchronisation
-* #31 - Bash Demos
-* #49 - Outlier Detector
-* #50 - Java Demos
-* #51 - FWR Check
-* #52 - AutoHotkey Demos
-* #53 - Heroes of Might and Magic 3
-* #54 - CSG Intermediate Tools
-* #55 - Markdown Demos
-* #56 - Math Demos
-* #57 - Python Demos
-* #58 - Spring Demos
+* `#6` Python Text Editor
+* `#8` Udemy - The Python Mega Course - Section 3 - Beyond the Basics
+* `#9` Udemy - The Python Mega Course - Section 4 - Fixing Programming Errors
+* `#14` Python Demos: Unit Tests
+* `#20` Java Demos: Logging
+* `#24` JSON to CSV Converter
+* `#28` CSG Intermediate Tools: Synchronisation
+* `#31` Bash Demos
+* `#49` Outlier Detector
+* `#50` Java Demos
+* `#51` FWR Check
+* `#52` AutoHotkey Demos
+* `#53` Heroes of Might and Magic 3
+* `#54` CSG Intermediate Tools
+* `#55` Markdown Demos
+* `#56` Math Demos
+* `#57` Python Demos
+* `#58` Spring Demos
+* `#69` File Explorer
+* `#71` Compare Energy Suppliers
+* `#73` Janca
