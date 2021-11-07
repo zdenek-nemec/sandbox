@@ -5,17 +5,19 @@ import logging
 import multiprocessing
 import shutil
 import sys
+import time
 
 from collector import Collector
 from config import Config
 from exceptions import CannotBuildDataConnectionError
-from exceptions import SourceFileNotFoundError
 from exceptions import CorruptedFileError
+from exceptions import SourceFileNotFoundError
 from validator import Validator
-
 
 DEFAULT_CONFIG_FILE = "default.cfg"
 DEFAULT_COLLECTION_TIMEOUT = 900
+
+collector = Collector()
 
 
 def generate_new_config(filename):
@@ -26,7 +28,7 @@ def generate_new_config(filename):
     logging.debug("Finished generate_new_config()")
 
 
-def collect_file(filename, path, config, collector, ewsd_check):
+def collect_file(filename, path, config, ewsd_check):
     logging.debug("Initiated collect_file()")
 
     logging.debug("Parameter filename = %s" % filename)
@@ -102,7 +104,7 @@ def main():
     parser.add_argument("--generate", "-g", action="store_true")
     parser.add_argument("--log_file", "-f")
     parser.add_argument("--log_level", "-l", default="INFO",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
+                        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
     parser.add_argument("--skip_site_commands", "-s", action="store_true")
     parser.add_argument("--skip_ewsd_check", "-e", action="store_true")
 
@@ -127,9 +129,9 @@ def main():
     logging.debug("Argument --log_file = %s" % parser.parse_args().log_file)
     logging.debug("Argument --log_level = %s" % parser.parse_args().log_level)
     logging.debug("Argument --skip_site_commands = %s"
-        % parser.parse_args().skip_site_commands)
+                  % parser.parse_args().skip_site_commands)
     logging.debug("Argument --skip_ewsd_check = %s"
-        % parser.parse_args().skip_ewsd_check)
+                  % parser.parse_args().skip_ewsd_check)
 
     logging.info("Configuration: %s" % parser.parse_args().config)
 
@@ -147,7 +149,6 @@ def main():
 
     logging.info("Establishing connection")
     use_site_commands = not parser.parse_args().skip_site_commands
-    collector = Collector()
     collector.connect(
         host=config.get_host(),
         username=config.get_username(),
@@ -173,22 +174,14 @@ def main():
     logging.info("Collecting new file")
     new_filename = config.generate_new_filename()
 
-    process = multiprocessing.Process(
-        target=collect_file,
-        args=(
-            new_filename,
-            config.get_ewsd_path(),
-            config,
-            collector,
-            ewsd_check
-        )
-    )
+    process = multiprocessing.Process(target=collect_file,
+                                      args=(new_filename, config.get_ewsd_path(), config, ewsd_check))
     process.start()
-    process.join(DEFAULT_CONFIG_FILE)
+    process.join(DEFAULT_COLLECTION_TIMEOUT)
     if process.is_alive():
         logging.error(
             "File %s not collected due to timeout, aborting, download and release manually"
-            % filename)
+            % new_filename)
         process.terminate()
         process.join()
 
