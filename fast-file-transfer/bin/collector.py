@@ -183,8 +183,8 @@ class Collector(object):
                         % (attempt, filename))
                     if attempt in ["First", "Second"]:
                         logging.info(
-                            "Waiting 5 seconds before another attempt")
-                        time.sleep(5)
+                            "Waiting 30 seconds before another attempt")
+                        time.sleep(30)
                 else:
                     logging.critical(
                         "Unknown error - ftplib.retrbinary() failed when "
