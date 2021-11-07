@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-
 import argparse
 import logging
+import multiprocessing
 import shutil
 import sys
 
@@ -15,6 +15,7 @@ from validator import Validator
 
 
 DEFAULT_CONFIG_FILE = "default.cfg"
+DEFAULT_COLLECTION_TIMEOUT = 900
 
 
 def generate_new_config(filename):
@@ -171,12 +172,25 @@ def main():
 
     logging.info("Collecting new file")
     new_filename = config.generate_new_filename()
-    collect_file(
-        filename=new_filename,
-        path=config.get_ewsd_path(),
-        config=config,
-        collector=collector,
-        ewsd_check=ewsd_check)
+
+    process = multiprocessing.Process(
+        target=collect_file,
+        args=(
+            new_filename,
+            config.get_ewsd_path(),
+            config,
+            collector,
+            ewsd_check
+        )
+    )
+    process.start()
+    process.join(DEFAULT_CONFIG_FILE)
+    if process.is_alive():
+        logging.error(
+            "File %s not collected due to timeout, aborting, download and release manually"
+            % filename)
+        process.terminate()
+        process.join()
 
     logging.info("Disconnecting")
     collector.disconnect()
