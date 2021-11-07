@@ -1,0 +1,8 @@
+*.pyc
+bin/sftp-config.json
+config/sftp-config.json
+.cache/
+.idea/
+__pycache__/
+sandbox.py
+
