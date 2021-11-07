@@ -2,10 +2,9 @@
 
 import argparse
 import logging
-import multiprocessing
 import shutil
+import signal
 import sys
-import time
 
 from collector import Collector
 from config import Config
@@ -17,7 +16,9 @@ from validator import Validator
 DEFAULT_CONFIG_FILE = "default.cfg"
 DEFAULT_COLLECTION_TIMEOUT = 900
 
-collector = Collector()
+
+def signal_handler(signum, frame):
+    raise Exception(f"Timeout {signum} {frame}")
 
 
 def generate_new_config(filename):
@@ -28,7 +29,7 @@ def generate_new_config(filename):
     logging.debug("Finished generate_new_config()")
 
 
-def collect_file(filename, path, config, ewsd_check):
+def collect_file(filename, path, config, collector, ewsd_check):
     logging.debug("Initiated collect_file()")
 
     logging.debug("Parameter filename = %s" % filename)
@@ -60,7 +61,8 @@ def collect_file(filename, path, config, ewsd_check):
             "File %s not collected, aborting, download and release manually"
             % filename)
         raise
-    except:
+    except Exception as exception:
+        logging.debug(exception)
         logging.critical(
             "Unknown error - Collector.download() failed when downloading %s "
             "from %s to %s, aborting" % (filename, path, download_path))
@@ -79,7 +81,8 @@ def collect_file(filename, path, config, ewsd_check):
                 download_path + "/" + filename,
                 config.get_mediation_path() + "/" + filename)
             logging.debug("Result of shutil.move() = %s" % result)
-        except:
+        except Exception as exception:
+            logging.debug(exception)
             logging.critical(
                 "Unknown error - shutil.move() failed for file %s, aborting, "
                 "investigate and move file manually" % filename)
@@ -149,6 +152,7 @@ def main():
 
     logging.info("Establishing connection")
     use_site_commands = not parser.parse_args().skip_site_commands
+    collector = Collector()
     collector.connect(
         host=config.get_host(),
         username=config.get_username(),
@@ -174,16 +178,21 @@ def main():
     logging.info("Collecting new file")
     new_filename = config.generate_new_filename()
 
-    process = multiprocessing.Process(target=collect_file,
-                                      args=(new_filename, config.get_ewsd_path(), config, ewsd_check))
-    process.start()
-    process.join(DEFAULT_COLLECTION_TIMEOUT)
-    if process.is_alive():
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(DEFAULT_COLLECTION_TIMEOUT)
+    try:
+        collect_file(
+            filename=new_filename,
+            path=config.get_ewsd_path(),
+            config=config,
+            collector=collector,
+            ewsd_check=ewsd_check)
+    except Exception as exception:
+        logging.debug(exception)
         logging.error(
             "File %s not collected due to timeout, aborting, download and release manually"
             % new_filename)
-        process.terminate()
-        process.join()
+    signal.alarm(0)
 
     logging.info("Disconnecting")
     collector.disconnect()
