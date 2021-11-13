@@ -19,7 +19,18 @@ def update_offset(data, offset):
             end_time = datetime.datetime.strptime(entry[17:-1], "%H:%M:%S,%f")
             start_time += datetime.timedelta(seconds=offset)
             end_time += datetime.timedelta(seconds=offset)
-            data[index] = start_time.strftime("%H:%M:%S,%f")[:-3] + " --> " + end_time.strftime("%H:%M:%S,%f")[:-2]
+            data[index] = (
+                    start_time.strftime("%H:%M:%S,%f")[:-3]
+                    + " --> "
+                    + end_time.strftime("%H:%M:%S,%f")[:-2]
+                    + "\n"
+            )
+
+
+def save_updated(file, data):
+    with open(file, "w") as text_file:
+        for line in data:
+            text_file.write(line)
 
 
 def main():
@@ -31,6 +42,7 @@ def main():
     update_offset(data, DEFAULT_OFFSET)
     print("Updated: ", end="")
     [print(entry[:-1]) for entry in data[:2] if entry[:3] == "00:"]
+    save_updated("updated/Stargate.SG-1.S06E01.1080p.BluRay.x264-BORDURE Cz dabing.srt", data)
 
 
 if __name__ == "__main__":
