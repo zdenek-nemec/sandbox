@@ -4,6 +4,7 @@ import os
 import re
 
 DEFAULT_OFFSET = 0.0
+SUBTITLES_FILE_EXTENSIONS = [".srt"]
 
 
 def load_subtitles(file):
@@ -44,7 +45,7 @@ def main():
     offset = argument_parser.parse_args().offset
     print(f"Argument --offset = {offset}")
 
-    file_list = os.listdir("original")
+    file_list = list(filter(lambda file: file[-4:] in SUBTITLES_FILE_EXTENSIONS, os.listdir("original")))
     for file in file_list:
         data = load_subtitles("original/" + file)
         update_offset(data, offset)
