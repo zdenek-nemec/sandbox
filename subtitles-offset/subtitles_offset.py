@@ -1,7 +1,9 @@
+import argparse
 import datetime
+import os
 import re
 
-DEFAULT_OFFSET = 3.5
+DEFAULT_OFFSET = 0.0
 
 
 def load_subtitles(file):
@@ -14,7 +16,8 @@ def update_offset(data, offset):
     for index, entry in enumerate(data):
         if re.findall(
                 "^[0-9][0-9]:[0-9][0-9]:[0-9][0-9],[0-9][0-9][0-9] --> [0-9][0-9]:[0-9][0-9]:[0-9][0-9],[0-9][0-9][0-9]$",
-                entry):
+                entry
+        ):
             start_time = datetime.datetime.strptime(entry[:12], "%H:%M:%S,%f")
             end_time = datetime.datetime.strptime(entry[17:-1], "%H:%M:%S,%f")
             start_time += datetime.timedelta(seconds=offset)
@@ -22,7 +25,7 @@ def update_offset(data, offset):
             data[index] = (
                     start_time.strftime("%H:%M:%S,%f")[:-3]
                     + " --> "
-                    + end_time.strftime("%H:%M:%S,%f")[:-2]
+                    + end_time.strftime("%H:%M:%S,%f")[:-3]
                     + "\n"
             )
 
@@ -36,13 +39,16 @@ def save_updated(file, data):
 def main():
     print("Subtitles Offset")
 
-    data = load_subtitles("original/Stargate.SG-1.S06E01.1080p.BluRay.x264-BORDURE Cz dabing.srt")
-    print("Loaded:  ", end="")
-    [print(entry[:-1]) for entry in data[:2] if entry[:3] == "00:"]
-    update_offset(data, DEFAULT_OFFSET)
-    print("Updated: ", end="")
-    [print(entry[:-1]) for entry in data[:2] if entry[:3] == "00:"]
-    save_updated("updated/Stargate.SG-1.S06E01.1080p.BluRay.x264-BORDURE Cz dabing.srt", data)
+    argument_parser = argparse.ArgumentParser(prog="Subtitles Offset")
+    argument_parser.add_argument("--offset", "-o", type=float, default=DEFAULT_OFFSET)
+    offset = argument_parser.parse_args().offset
+    print(f"Argument --offset = {offset}")
+
+    file_list = os.listdir("original")
+    for file in file_list:
+        data = load_subtitles("original/" + file)
+        update_offset(data, offset)
+        save_updated("updated/" + file, data)
 
 
 if __name__ == "__main__":
