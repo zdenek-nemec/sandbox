@@ -38,7 +38,7 @@ def save_updated(file, data):
 def main():
     print("Subtitles Offset")
 
-    argument_parser = argparse.ArgumentParser(prog="Subtitles Offset")
+    argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument("--offset", "-o", type=float, default=DEFAULT_OFFSET)
     offset = argument_parser.parse_args().offset
     print(f"Argument --offset = {offset}")
