@@ -1,1 +1,8 @@
+original/*.srt
+!original/test.srt
+!original/test2.srt
+
+original/*.sub
+!original/test.sub
+
 updated
