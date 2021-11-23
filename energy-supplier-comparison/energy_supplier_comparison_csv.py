@@ -1,8 +1,8 @@
 import csv
 
 DEFAULT_OFFERS_FILE = "electricity_offers.csv"
-DEFAULT_USAGE_HIGH_TARIFF = 2.398
-DEFAULT_USAGE_LOW_TARIFF = 3.305
+DEFAULT_USAGE_HIGH_TARIFF = 1.5
+DEFAULT_USAGE_LOW_TARIFF = 0.0
 
 
 def get_offers_csv_list(offers_file):
