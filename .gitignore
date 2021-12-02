@@ -6,6 +6,7 @@
 **/tasks.xml
 **/usage.statistics.xml
 **/workspace.xml
+.idea
 
 # Python
 *.pyc

@@ -1,12 +1,12 @@
-"Polozka","Uctovani","MND D25d 3x25 A","MND D26d 3x25 A","E.ON D25d 3x25 A","E.ON D26d 3x25 A"
-"Obchodni - Poplatky","Mesic",77,77,96,96
-"Obchodni - Elektrina VT","MWh",4875,4875,4394,4394
-"Obchodni - Elektrina NT","MWh",3818,3818,3903,3903
-"Regulovane - Distribuce VT","MWh",2080.72,763.64,2143.27,775.63
-"Regulovane - Distribuce NT","MWh",164.45,164.45,178.95,178.95
-"Regulovane - Rezervovany prikon","Mesic",164.56,274.67,159,288
-"Regulovane - Systemove sluzby","MWh",112.89,112.89,112.89,112.89
-"Regulovane - Podpora vykupu","Mesic",0,0,0,0
-"Regulovane - Podpora vykupu","MWh",598.95,598.95,598.95,598.95
-"Regulovane - OTE","Mesic",4.73,4.73,4.73,4.73
-"Regulovane - Dan","MWh",34.24,34.24,34.24,34.24
+"Polozka","Uctovani","MND D25d 3x25 A","MND D26d 3x25 A","E.ON D25d 3x25 A","E.ON D26d 3x25 A","E.ON D02d 1x25 A","MND D02d 1x25 A","E.ON 36 D02d 1x25 A"
+"Obchodni - Poplatky","Mesic",77,77,96,96,96,77,110
+"Obchodni - Elektrina VT","MWh",4875,4875,4394,4394,4127,4742,3689
+"Obchodni - Elektrina NT","MWh",3818,3818,3903,3903,0,0,0
+"Regulovane - Distribuce VT","MWh",2080.72,763.64,2143.27,775.63,2195.87,1995.17,2714.37
+"Regulovane - Distribuce NT","MWh",164.45,164.45,178.95,178.95,0,0,0
+"Regulovane - Rezervovany prikon","Mesic",164.56,274.67,159,288,51,53.24,51
+"Regulovane - Systemove sluzby","MWh",112.89,112.89,112.89,112.89,112.89,112.89,112.89
+"Regulovane - Podpora vykupu","Mesic",0,0,0,0,0,0,0
+"Regulovane - Podpora vykupu","MWh",598.95,598.95,598.95,598.95,598.95,598.95,598.95
+"Regulovane - OTE","Mesic",4.73,4.73,4.73,4.73,4.73,4.73,4.73
+"Regulovane - Dan","MWh",34.24,34.24,34.24,34.24,34.24,34.24,34.24

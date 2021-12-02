@@ -5,6 +5,7 @@ import re
 
 DEFAULT_OFFSET = 0.0
 SUBTITLES_FILE_EXTENSIONS = [".srt"]
+TIMESTAMP = "[0-9][0-9]:[0-9][0-9]:[0-9][0-9],[0-9][0-9][0-9]"
 
 
 def load_subtitles(file):
@@ -15,10 +16,7 @@ def load_subtitles(file):
 
 def update_offset(data, offset):
     for index, entry in enumerate(data):
-        if re.findall(
-                "^[0-9][0-9]:[0-9][0-9]:[0-9][0-9],[0-9][0-9][0-9] --> [0-9][0-9]:[0-9][0-9]:[0-9][0-9],[0-9][0-9][0-9]$",
-                entry
-        ):
+        if re.findall("^" + TIMESTAMP + " --> " + TIMESTAMP + "$", entry):
             start_time = datetime.datetime.strptime(entry[:12], "%H:%M:%S,%f")
             end_time = datetime.datetime.strptime(entry[17:-1], "%H:%M:%S,%f")
             start_time += datetime.timedelta(seconds=offset)
@@ -40,12 +38,12 @@ def save_updated(file, data):
 def main():
     print("Subtitles Offset")
 
-    argument_parser = argparse.ArgumentParser(prog="Subtitles Offset")
+    argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument("--offset", "-o", type=float, default=DEFAULT_OFFSET)
     offset = argument_parser.parse_args().offset
     print(f"Argument --offset = {offset}")
 
-    file_list = list(filter(lambda file: file[-4:] in SUBTITLES_FILE_EXTENSIONS, os.listdir("original")))
+    file_list = list(filter(lambda filename: filename[-4:] in SUBTITLES_FILE_EXTENSIONS, os.listdir("original")))
     for file in file_list:
         data = load_subtitles("original/" + file)
         update_offset(data, offset)
