@@ -5,6 +5,7 @@ Python tutorials and demonstrations.
 * `argument_parser_demo` - Demonstration of argument parsser
 * `binec` - Everything that was not sorted yet
 * `config_parser_demo` - Demonstration of configuration parser
+* `date_time_demo` - Demonstration of work with dates and times
 * `hello_world` - Basic Hello-World application
 * `itertools_demo` - Demonstration of `itertools` module
 * `list_comprehension_demo` - Demonstration of list comprehension
