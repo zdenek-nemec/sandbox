@@ -16,6 +16,7 @@ Every sub-project has its own directory.
 * `intermediate-tools` - Experimental tools for CSG Intermediate
 * `janca` - Janca
 * `java-demos` - Java tutorials and demonstrations
+* `JavaSelenium`
 * `json-to-csv-converter` - Experimental application for JSON-CSV conversion
 * `markdown-demos` - Markdown tutorials and demonstrations
 * `math-demos` - Demonstration of mathematical operations and problem solving
@@ -53,3 +54,6 @@ Every sub-project has its own directory.
 * `#69` File Explorer
 * `#71` Compare Energy Suppliers
 * `#73` Janca
+* `#74` Fast File Transfer
+* `#76` Subtitles Offset
+* `#79` Selenium
