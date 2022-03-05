@@ -1,7 +1,8 @@
+# Obsolete - Missing header filter, port report
+
 import collections
 import csv
 import paramiko
-
 
 TARGETS_FILE = "targets.csv"
 PRIVATE_KEY = "path/to/private_key"

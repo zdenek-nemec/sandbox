@@ -2,7 +2,6 @@ import collections
 import csv
 import paramiko
 
-
 TARGETS_FILE = "targets.csv"
 PRIVATE_KEY = "path/to/private_key"
 
@@ -16,7 +15,12 @@ def main():
     with open(TARGETS_FILE, "r") as csv_file:
         reader = csv.reader(csv_file, delimiter=",")
         for row in reader:
-            target_list.append(Target(row[0], row[1], int(row[2])))
+            if row[0][0] == "#":
+                continue
+            else:
+                target_list.append(Target(row[0], row[1], int(row[2])))
+
+    print("Target,Connectivity Test,Login Test")
 
     for target in target_list:
         try:
@@ -40,7 +44,7 @@ def main():
             finally:
                 transport.close()
 
-        print("%s@%s, %s, %s" % (target.user, target.host, connectivity_test, login_test))
+        print("%s@%s:%s,%s,%s" % (target.user, target.host, target.port, connectivity_test, login_test))
 
 
 if __name__ == "__main__":
