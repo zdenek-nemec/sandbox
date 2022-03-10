@@ -10,15 +10,20 @@ import java.util.stream.Collectors;
 
 public class ConnectivityCheck {
     public static void main(String[] args) throws IOException {
-        new ConnectivityCheck().runCheck();
+        new ConnectivityCheck().runConnectivityCheck(args);
     }
 
-    private void runCheck() throws IOException {
-        System.out.println("Hello, Connectivity Check!");
+    private void runConnectivityCheck(String[] args) throws IOException {
+        String target_list_file;
+        if (args.length == 1) {
+            target_list_file = args[0];
+        } else {
+            target_list_file = "sftp_targets.txt";
+        }
 
         List<String> target_list;
         try {
-            target_list = Files.lines(Paths.get("sftp_targets.txt")).collect(Collectors.toList());
+            target_list = Files.lines(Paths.get(target_list_file)).collect(Collectors.toList());
         } catch (FileNotFoundException e) {
             System.out.println("Cannot read input file");
             throw e;
@@ -28,7 +33,7 @@ public class ConnectivityCheck {
         for (String target : target_list) {
             System.out.print(target + ":22,");
             try (Socket clientSocket = new Socket(target, 22)) {
-                System.out.println("success");
+                System.out.println("successful");
             } catch (Exception e) {
                 System.out.println("failed");
             }
