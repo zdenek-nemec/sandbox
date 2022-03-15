@@ -18,7 +18,7 @@ public class ConnectivityCheck {
         if (args.length == 1) {
             target_list_file = args[0];
         } else {
-            target_list_file = "sftp_targets.txt";
+            target_list_file = "targets.csv";
         }
 
         List<String> target_list;
@@ -29,13 +29,24 @@ public class ConnectivityCheck {
             throw e;
         }
 
-        System.out.println("Target,Connectivity Test");
+        System.out.println("#Target,Connectivity Test,Login Test");
         for (String target : target_list) {
-            System.out.print(target + ":22,");
-            try (Socket clientSocket = new Socket(target, 22)) {
-                System.out.println("successful");
+            if (target.startsWith("#User")) {
+                continue;
+            }
+            String[] targetInfo = target.split(",");
+            String login = targetInfo[0];
+            String host = targetInfo[1];
+            int port = Integer.parseInt(targetInfo[2]);
+            if (targetInfo[0].equals("")) {
+                System.out.print(host + ":" + port + ",");
+            } else {
+                System.out.print(login + "@" + host + ":" + port + ",");
+            }
+            try (Socket clientSocket = new Socket(host, port)) {
+                System.out.println("successful,-");
             } catch (Exception e) {
-                System.out.println("failed");
+                System.out.println("failed,-");
             }
         }
     }
