@@ -1,36 +1,36 @@
 #!/bin/bash
 #
-# Name: set_portal.sh
+# Name: set_portals.sh
 #
 # Synopsis:
-#     set_portal.sh [-h] [-p PORTALS] [-s SELECTOR] [--status {ENABLE,DISABLE}] [--dispatch {ENABLE,DISABLE}] [--node NODE] [--user USER] [--password PASSWORD] [--path PATH] [--last LAST] [--next NEXT]
+#     set_portals.sh [-h] [-p PORTALS] [-s SELECTOR] [--status {ENABLE,DISABLE}] [--dispatch {ENABLE,DISABLE}] [--node NODE] [--user USER] [--password PASSWORD] [--path PATH] [--last LAST] [--next NEXT]
 #
 # Examples:
-#     set_portal.sh
-#     set_portal.sh -s "ZDENEK"
-#     set_portal.sh -p "portals.txt" -s "ZDENEK"
-#     set_portal.sh -s "ZDENEK7|ZDENEK8"
-#     set_portal.sh -s "ZDENEK[78]"
-#     set_portal.sh -s "ZDENEK\|.*_DATA"
-#     set_portal.sh -s "ZDENEK\|.*_DATA" --status "ENABLE" --dispatch "ENABLE"
-#     set_portal.sh -s "ZDENEK\|.*_DATA" --node "localhost" --user "zdenek" --password "tajne" --path "/tmp"
-#     set_portal.sh -s "ZDENEK\|.*_DATA" --last 0 --next 1
+#     set_portals.sh
+#     set_portals.sh -s "ZDENEK"
+#     set_portals.sh -p "portals.txt" -s "ZDENEK"
+#     set_portals.sh -s "ZDENEK7|ZDENEK8"
+#     set_portals.sh -s "ZDENEK[78]"
+#     set_portals.sh -s "ZDENEK\|.*_DATA"
+#     set_portals.sh -s "ZDENEK\|.*_DATA" --status "ENABLE" --dispatch "ENABLE"
+#     set_portals.sh -s "ZDENEK\|.*_DATA" --node "localhost" --user "zdenek" --password "tajne" --path "/tmp"
+#     set_portals.sh -s "ZDENEK\|.*_DATA" --last 0 --next 1
 #
 # Description:
 #     Shell script for setting up CSG Intermediate portals.
 #
 #     Depending on Intermediate version, some options may not be supported.
 #
-#     | Intermediate | 7 | 8 |
-#     | ------------ | - | - |
-#     | status       | Y | Y |
-#     | dispatch     | Y | Y |
-#     | node         | - | Y |
-#     | user         | - | Y |
-#     | password     | - | Y |
-#     | path         | - | Y |
-#     | last         | Y | Y |
-#     | next         | Y | Y |
+#     | Intermediate | 7 | 8 | 9 |
+#     | ------------ | - | - | - |
+#     | status       | Y | Y | Y |
+#     | dispatch     | Y | Y | Y |
+#     | node         | - | Y | Y |
+#     | user         | - | Y | Y |
+#     | password     | - | Y | Y |
+#     | path         | - | Y | Y |
+#     | last         | Y | Y | Y |
+#     | next         | Y | Y | Y |
 #
 #     -h, --help
 #         Show this help message and exit
@@ -219,23 +219,27 @@ for portal in $selected_portals; do
     fi
     if [[ $routing_node ]]; then
         query="${query}GET ROUTING FOR $s $p\n"
-        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_NAME=$routing_path\n"
-        query="${query}UPDATE ROUTING FOR $s $p -SFTP_HOSTNAME=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_NAME=$routing_node\n"
+        query="${query}UPDATE ROUTING FOR $s $p -SFTP_HOSTNAME=$routing_node\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_ROUTE_STATUS=ENABLED\n"
     fi
     if [[ $routing_user ]]; then
         query="${query}GET ROUTING FOR $s $p\n"
-        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_LOGIN=$routing_path\n"
-        query="${query}UPDATE ROUTING FOR $s $p -SFTP_USERNAME=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_LOGIN=$routing_user\n"
+        query="${query}UPDATE ROUTING FOR $s $p -SFTP_USERNAME=$routing_user\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_ROUTE_STATUS=ENABLED\n"
     fi
     if [[ $routing_password ]]; then
         query="${query}GET ROUTING FOR $s $p\n"
-        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_SECURITY=$routing_path\n"
-        query="${query}UPDATE ROUTING FOR $s $p -SFTP_PASSWORD=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_SECURITY=$routing_password\n"
+        query="${query}UPDATE ROUTING FOR $s $p -SFTP_PASSWORD=$routing_password\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_ROUTE_STATUS=ENABLED\n"
     fi
     if [[ $routing_path ]]; then
         query="${query}GET ROUTING FOR $s $p\n"
         query="${query}UPDATE ROUTING FOR $s $p -DATA_TGT_PATH=$routing_path\n"
         query="${query}UPDATE ROUTING FOR $s $p -SFTP_DIR=$routing_path\n"
+        query="${query}UPDATE ROUTING FOR $s $p -DATA_ROUTE_STATUS=ENABLED\n"
     fi
     if [[ $sequence_last ]]; then
         query="${query}GET_INFO $s $p -OUT_BATCH_LAST_SEQ\n"

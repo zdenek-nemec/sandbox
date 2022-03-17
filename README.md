@@ -57,3 +57,4 @@ Every sub-project has its own directory.
 * `#74` Fast File Transfer
 * `#76` Subtitles Offset
 * `#79` Selenium
+* `#81` Connectivity Check
