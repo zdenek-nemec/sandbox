@@ -31,7 +31,7 @@ public class ConnectivityCheck {
 
         System.out.println("#Target,Connectivity Test,Login Test,Description");
         for (String target : target_list) {
-            if (target.startsWith("#User")) {
+            if (target.startsWith("#")) {
                 continue;
             }
             String[] targetInfo = target.split(",");
