@@ -29,7 +29,7 @@ public class ConnectivityCheck {
             throw e;
         }
 
-        System.out.println("#Target,Connectivity Test,Login Test");
+        System.out.println("#Target,Connectivity Test,Login Test,Description");
         for (String target : target_list) {
             if (target.startsWith("#User")) {
                 continue;
@@ -38,16 +38,18 @@ public class ConnectivityCheck {
             String login = targetInfo[0];
             String host = targetInfo[1];
             int port = Integer.parseInt(targetInfo[2]);
+            String description = targetInfo[3];
             if (targetInfo[0].equals("")) {
                 System.out.print(host + ":" + port + ",");
             } else {
                 System.out.print(login + "@" + host + ":" + port + ",");
             }
             try (Socket clientSocket = new Socket(host, port)) {
-                System.out.println("successful,-");
+                System.out.print("successful,-,");
             } catch (Exception e) {
-                System.out.println("failed,-");
+                System.out.print("failed,-,");
             }
+            System.out.println(description);
         }
     }
 }

@@ -1,4 +1,5 @@
-#User,Host,Port
-zdenek,localhost,22
-cgi,avl4658t,22
-,www.google.com,80
+#User,Host,Port,Description
+zdenek,localhost,22,Localhost
+cgi,avl4658t,22,Intermediate 9 Test
+cgi,avl4688t,22,Intermediate 9 Development
+,www.google.com,80,Google
