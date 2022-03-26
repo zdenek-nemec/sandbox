@@ -34,7 +34,7 @@ public class ConnectivityCheck {
             if (target.startsWith("#")) {
                 continue;
             }
-            String[] targetInfo = target.split(",");
+            String[] targetInfo = target.split(",", 4);
             String login = targetInfo[0];
             String host = targetInfo[1];
             int port = Integer.parseInt(targetInfo[2]);
