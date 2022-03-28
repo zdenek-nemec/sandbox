@@ -1,7 +1,6 @@
 package cz.zdenek.sandbox.connectivitycheck;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,21 +19,12 @@ public class ConnectivityCheck {
     }
 
     private void runConnectivityCheck(String[] args) throws IOException {
-        List<Target> targets = getTargets(args);
+        List<Target> targets = getTargets(args); // TODO: Wouldn't be better to have variable name targetList?
 
-        System.out.println("#Target,Connectivity Test,Login Test,Description");
+        System.out.println(targets.get(0).getTestReportHeader());
         for (Target target : targets) {
-            if (target.login.equals("")) {
-                System.out.print(target.host + ":" + target.port + ",");
-            } else {
-                System.out.print(target.login + "@" + target.host + ":" + target.port + ",");
-            }
-            try (Socket clientSocket = new Socket(target.host, target.port)) {
-                System.out.print("successful,-,");
-            } catch (Exception e) {
-                System.out.print("failed,-,");
-            }
-            System.out.println(target.description);
+            target.testConnectivity();
+            System.out.println(target.getTestReport());
         }
     }
 
@@ -52,7 +42,7 @@ public class ConnectivityCheck {
         try {
             return Files.lines(Paths.get(filename)).collect(Collectors.toList());
         } catch (IOException e) {
-            System.out.println("Cannot read input file");
+            System.out.println("Cannot read the input file");
             throw e;
         }
     }
