@@ -3,11 +3,12 @@ package cz.zdenek.sandbox.connectivitycheck;
 import java.net.Socket;
 
 public class Target {
-    public String login;
-    public String host;
-    public int port;
-    public String description;
-    private boolean connectionTestPassed = false;
+    public static final String REPORT_HEADER = "#Target,Connection Test,Login Test,Description";
+    public final String login;
+    public final String host;
+    public final int port;
+    public final String description;
+    private TestResult connectionTestPassed = TestResult.NOT_TESTED;
 
     Target(String line) {
         String[] targetInfo = line.split(",", 4);
@@ -17,10 +18,6 @@ public class Target {
         description = targetInfo[3];
     }
 
-    public String getTestReportHeader() {
-        return "#Target,Connection Test,Login Test,Description";
-    }
-
     public void testConnectivity() {
         testConnection();
 //        testLogin();
@@ -28,9 +25,9 @@ public class Target {
 
     public void testConnection() {
         try (Socket clientSocket = new Socket(host, port)) {
-            connectionTestPassed = true;
+            connectionTestPassed = TestResult.SUCCESSFUL;
         } catch (Exception e) {
-            connectionTestPassed = false; // TODO: Is this necessary? Can I store null to boolean?
+            connectionTestPassed = TestResult.FAILED;
         }
     }
 
@@ -43,18 +40,22 @@ public class Target {
     }
 
     private String getConnectionTestResult() {
-        return getTestResult(connectionTestPassed);
+        return connectionTestPassed.description;
     }
 
     private String getLoginTestResult() {
-        return "-";
+        return TestResult.NOT_TESTED.description;
     }
 
-    private String getTestResult(boolean result) {
-        if (result) {
-            return "successful";
-        } else {
-            return "failed";
+    public enum TestResult {
+        NOT_TESTED("-"),
+        SUCCESSFUL("successful"),
+        FAILED("failed");
+
+        public final String description;
+
+        TestResult(String description) {
+            this.description = description;
         }
     }
 }

@@ -8,21 +8,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConnectivityCheck {
-    private static final boolean DEBUG = false; // TODO: Is this an idiotic idea? Using build configuration is probably better idea.
-
     public static void main(String[] args) throws IOException {
-        if (DEBUG) {
-            new ConnectivityCheck().runConnectivityCheck(new String[]{"targets.csv"});
-        } else {
-            new ConnectivityCheck().runConnectivityCheck(args);
-        }
+        new ConnectivityCheck().runConnectivityCheck(args);
     }
 
     private void runConnectivityCheck(String[] args) throws IOException {
-        List<Target> targets = getTargets(args); // TODO: Wouldn't be better to have variable name targetList?
-
-        System.out.println(targets.get(0).getTestReportHeader());
-        for (Target target : targets) {
+        System.out.println(Target.REPORT_HEADER);
+        for (Target target : getTargets(args)) {
             target.testConnectivity();
             System.out.println(target.getTestReport());
         }
