@@ -8,6 +8,7 @@ and experimental projects.
 Every sub-project has its own directory.
 
 * `ahk-demos` - AutoHotkey tutorials and demonstrations
+* `anomaly-detector` - Anomaly detection in statistical data
 * `bash-demos` - Bash tutorials and demonstrations
 * `binec` - Everything that is not sorted out yet
 * `energy-supplier-comparison` - Comparison of energy supplier offers
@@ -20,14 +21,14 @@ Every sub-project has its own directory.
 * `json-to-csv-converter` - Experimental application for JSON-CSV conversion
 * `markdown-demos` - Markdown tutorials and demonstrations
 * `math-demos` - Demonstration of mathematical operations and problem solving
-* `outlier-detector` - Outlier detector in statistical data
 * `python-demos` - Python tutorials and demonstrations
 * `spring-demos` - Java Spring tutorials and demonstrations
 
 ## Rules
 
-* Every sub-project has its own directory under the root.
-* Dash (-) character is used instead of a space ( ) in the name of the sub-project directory.
+* Every sub-project has its own directory under the root and its name follows language/technology conventions.
+    * Java: Pascal case with space characters ` ` removed
+    * Python: Lower case with dash `-` character used instead of a space ` `
 * Structure under the sub-project directory follows language/technology conventions and allows to be imported to IDE (IntelliJ IDEA, PyCharm, etc.).
 * Every sub-project directory contains the `README.md` file with a basic documentation.
 
@@ -41,7 +42,7 @@ Every sub-project has its own directory.
 * `#24` JSON to CSV Converter
 * `#28` CSG Intermediate Tools: Synchronisation
 * `#31` Bash Demos
-* `#49` Outlier Detector
+* `#49` Anomaly Detector
 * `#50` Java Demos
 * `#51` FWR Check
 * `#52` AutoHotkey Demos
