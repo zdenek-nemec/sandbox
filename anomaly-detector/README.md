@@ -1,1 +1,1 @@
-# Outlier Detector
+# Anomaly Detector

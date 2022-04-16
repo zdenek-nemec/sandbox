@@ -1,5 +1,6 @@
-import parameterized
 import unittest
+
+import parameterized
 
 from data_generator import DataGenerator
 

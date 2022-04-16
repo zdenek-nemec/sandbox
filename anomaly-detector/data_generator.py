@@ -1,11 +1,10 @@
 import datetime
 import random
 
-
 NORMAL_MINIMUM = 100
 NORMAL_MAXIMUM = 999
 DAYS_TO_GENERATE = 31
-OUTLIERS = 5
+ANOMALIES = 5
 
 
 class DataGenerator(object):
@@ -34,7 +33,7 @@ def main():
     print("Hello, Data Generator!")
 
     data_generator = DataGenerator(NORMAL_MINIMUM, NORMAL_MAXIMUM)
-    data = data_generator.get_random_data(DAYS_TO_GENERATE, OUTLIERS)
+    data = data_generator.get_random_data(DAYS_TO_GENERATE, ANOMALIES)
     for entry in data:
         print(entry[0].strftime("%Y-%m-%d %H:%M:%S"), ",", entry[1], sep="")
 
