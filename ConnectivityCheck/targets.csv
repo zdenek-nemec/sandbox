@@ -1,0 +1,7 @@
+#User,Host,Port,Description
+zdenek,localhost,22,Localhost
+#cgi,avl4658t,22,Intermediate 9 Test
+cgi,avl4688t,22,Intermediate 9 Development
+cgi,avl4713p,22,-
+cgi,avl4715p,22,
+,www.google.com,80,Google
