@@ -22,6 +22,7 @@ Every sub-project has its own directory.
 * `markdown-demos` - Markdown tutorials and demonstrations
 * `math-demos` - Demonstration of mathematical operations and problem solving
 * `python-demos` - Python tutorials and demonstrations
+* `python-mega-course` - The Python Mega Course on Udemy
 * `spring-demos` - Java Spring tutorials and demonstrations
 
 ## Rules
@@ -60,3 +61,4 @@ Every sub-project has its own directory.
 * `#79` Selenium
 * `#81` Connectivity Check
 * `#84` Billions
+* `#85` Udemy - The Python Mega Course
