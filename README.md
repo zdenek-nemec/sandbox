@@ -62,3 +62,4 @@ Every sub-project has its own directory.
 * `#81` Connectivity Check
 * `#84` Billions
 * `#85` Udemy - The Python Mega Course
+* `#86` CSG Intermediate Tools: Synchronisation
