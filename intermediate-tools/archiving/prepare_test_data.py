@@ -51,6 +51,8 @@ def main():
 
     logging.info("Creating test data")
     write_file(current_path + "/tests/" + get_random_filename())
+    for path in directory_structure:
+        write_file(current_path + "/tests/" + path + "/" + get_random_filename());
 
 
 if __name__ == "__main__":
