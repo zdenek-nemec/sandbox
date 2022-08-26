@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+from datetime import datetime
 
 archive_path = os.path.normpath("c:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests")
 
@@ -27,13 +28,15 @@ def main():
     # [print(item) for item in content]
     # [print(item) for item in files]
 
+    current_hour = datetime.now().strftime("%Y%m%d_%H")
     to_archive = {}
     for item in files:
         directory = os.path.dirname(item)
         filename = os.path.basename(item)
         if (filename[0:4] != "2022"
                 or filename[8] != "_"
-                or filename[15:18] != "___"):
+                or filename[15:18] != "___"
+                or filename[0:11] == current_hour):
             print("Skipping", item)
             continue
         if directory not in to_archive:
@@ -43,10 +46,10 @@ def main():
                 to_archive[directory][filename[0:11]] = [filename]
             else:
                 to_archive[directory][filename[0:11]].append(filename)
-    # print(to_archive)
 
     for key in to_archive.keys():
         print(key, to_archive[key])
+
 
 
 if __name__ == "__main__":
