@@ -4,6 +4,13 @@ import shutil
 import sys
 
 directory_structure = [
+    "BlackMed",
+    "BlackMed/stream1",
+    "BlackMed/stream2",
+    "BlackMed/stream2/a",
+    "BlackMed/stream2/b",
+    "BM_old_stream1",
+    "BM_old_stream2",
     "I_MSC",
     "I_MSC/INPUT_1",
     "I_MSC/INPUT_2",
@@ -11,9 +18,7 @@ directory_structure = [
     "I_ICS",
     "I_ICS/INPUT_1",
     "I_ICS/INPUT_2",
-    "I_ICS/INPUT_3",
-    "BM_stream1",
-    "BM_stream2"
+    "I_ICS/INPUT_3"
 ]
 
 
@@ -51,8 +56,14 @@ def main():
 
     logging.info("Creating test data")
     write_file(current_path + "/tests/" + get_random_filename())
-    for path in directory_structure:
-        write_file(current_path + "/tests/" + path + "/" + get_random_filename());
+    for prefix in [
+        "20220826_015959",
+        "20220826_025958",
+        "20220826_025959",
+        "20220826_035959",
+        "20220826_115959"]:
+        for path in directory_structure:
+            write_file(current_path + "/tests/" + path + "/" + prefix + "___" + get_random_filename())
 
 
 if __name__ == "__main__":
