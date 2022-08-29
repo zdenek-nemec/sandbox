@@ -10,46 +10,30 @@ from enum import Enum
 
 VALID_HOSTS = ["avl4658t", "JISKRA", "N007510"]
 
-MEDIATION_ARCHIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation",
+MEDIATION_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
-}
-TAR_ARCHIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target2_tar",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"}
+TAR_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target2_tar",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
-}
-NAS_ARCHIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target3_nas",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"}
+NAS_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target3_nas",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
-}
-OPS_ARCHIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target4_ops",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"}
+OPS_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target4_ops",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
-}
-MEDIATION_ARCHIVE_LIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/mediation_archive",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"}
+MEDIATION_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/mediation_archive",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
-}
-TAR_ARCHIVE_LIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tar_archive",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"}
+TAR_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tar_archive",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
-}
-NAS_ARCHIVE_LIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/nas_archive",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"}
+NAS_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/nas_archive",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
-}
-OPS_ARCHIVE_LIVE = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/ops_archive",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"}
+OPS_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/ops_archive",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
-}
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"}
 
 
 class ArchiveTarget(Enum):
@@ -62,34 +46,34 @@ class ArchiveTarget(Enum):
 class Archive(object):
     def __init__(self, is_live: bool = False):
         self._is_live = is_live
+        self._host = socket.gethostname()
 
     def is_live(self):
         return self._is_live
 
     def get_path(self, target: ArchiveTarget):
-        host = socket.gethostname()
         if self._is_live:
             if target == ArchiveTarget.MEDIATION:
-                return os.path.normpath(MEDIATION_ARCHIVE_LIVE[host])
+                return os.path.normpath(MEDIATION_ARCHIVE_LIVE[self._host])
             elif target == ArchiveTarget.TAR:
-                return os.path.normpath(TAR_ARCHIVE_LIVE[host])
+                return os.path.normpath(TAR_ARCHIVE_LIVE[self._host])
             elif target == ArchiveTarget.NAS:
-                return os.path.normpath(NAS_ARCHIVE_LIVE[host])
+                return os.path.normpath(NAS_ARCHIVE_LIVE[self._host])
             elif target == ArchiveTarget.OPS:
-                return os.path.normpath(OPS_ARCHIVE_LIVE[host])
+                return os.path.normpath(OPS_ARCHIVE_LIVE[self._host])
             else:
-                logging.error("Unexpected target path requested")  # TODO: Throw exception
+                raise ValueError("Unexpected target path {0} requested".format(target))
         else:
             if target == ArchiveTarget.MEDIATION:
-                return os.path.normpath(MEDIATION_ARCHIVE[host])
+                return os.path.normpath(MEDIATION_ARCHIVE[self._host])
             elif target == ArchiveTarget.TAR:
-                return os.path.normpath(TAR_ARCHIVE[host])
+                return os.path.normpath(TAR_ARCHIVE[self._host])
             elif target == ArchiveTarget.NAS:
-                return os.path.normpath(NAS_ARCHIVE[host])
+                return os.path.normpath(NAS_ARCHIVE[self._host])
             elif target == ArchiveTarget.OPS:
-                return os.path.normpath(OPS_ARCHIVE[host])
+                return os.path.normpath(OPS_ARCHIVE[self._host])
             else:
-                logging.error("Unexpected target path requested")  # TODO: Throw exception
+                raise ValueError("Unexpected target path {0} requested".format(target))
 
 
 def is_valid_host():
@@ -159,8 +143,7 @@ def main():
         file_hour = filename[0:11]
         # Check filename
         if (len(filename) <= 18  # YYYYmmdd_HHMMSS___
-                or filename[8] != "_"
-                or filename[15:18] != "___"):
+                or filename[8] != "_" or filename[15:18] != "___"):
             logging.debug("Skipping invalid filename {0}".format(item))
             continue
         if (file_hour == current_hour):
