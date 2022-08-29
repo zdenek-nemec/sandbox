@@ -4,19 +4,25 @@ import sys
 import tarfile
 from datetime import datetime
 
-archive_path = os.path.normpath("C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation")
-archive_output_path = os.path.normpath("C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar")
+MEDIATION_ARCHIVE = "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
+TAR_ARCHIVE = "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
+NAS_ARCHIVE = "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
 
 
 def main():
-    print("Hello")
+    print("Intermediate Tools - Archiving")
 
-    log_level = "INFO"
+    log_level = "DEBUG"
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    # logging.debug(os.listdir(archive_path))
-    content = [os.path.normpath(archive_path + "/" + item) for item in os.listdir(archive_path)]
+    mediation_archive = os.path.normpath(MEDIATION_ARCHIVE)
+    logging.info("Scanning Mediation archive {0}".format(mediation_archive))
+    logging.debug("os.getcwd({1}) = {0}".format(os.listdir(mediation_archive), mediation_archive))
+    content = [os.path.normpath(mediation_archive + "/" + item) for item in os.listdir(mediation_archive)]
+    logging.debug("content first item = {0}".format(content[0]))
+    logging.debug("content length = {0}".format(len(content)))
+    logging.debug("content basenames = {0}".format([os.path.basename(item) for item in content]))
     directories = []
     files = []
     for current_path in content:
@@ -26,52 +32,60 @@ def main():
         elif os.path.isfile(current_path):
             files.append(current_path)
         else:
-            print("Error")
-    # [print(item) for item in content]
-    # [print(item) for item in files]
+            logging.error("Item is neither a file nor directory")
+    logging.debug("directories first item = {0}".format(directories[0]))
+    logging.debug("directories length = {0}".format(len(directories)))
+    logging.debug("directories basenames = {0}".format([os.path.basename(item) for item in directories]))
+    logging.debug("files first item = {0}".format(files[0]))
+    logging.debug("files second item = {0}".format(files[1]))
+    logging.debug("files length = {0}".format(len(files)))
+    logging.debug("files first 10 basenames = {0}".format([os.path.basename(item) for item in files[0:10]]))
 
+    logging.info("Getting the list of files to archive")
     current_hour = datetime.now().strftime("%Y%m%d_%H")
-    to_archive = {}
+    logging.debug("current_hour = {0}".format(current_hour))
+    files_to_archive = {}
     for item in files:
-        directory = os.path.dirname(item)
+        directory_path = os.path.dirname(item)
         filename = os.path.basename(item)
-        if (filename[0:4] != "2022"
+        file_hour = filename[0:11]
+        # Check filename
+        if (len(filename) <= 18  # YYYYmmdd_HHMMSS___
                 or filename[8] != "_"
-                or filename[15:18] != "___"
-                or filename[0:11] == current_hour):
-            logging.debug("Skipping", item)
+                or filename[15:18] != "___"):
+            logging.debug("Skipping invalid filename {0}".format(item))
             continue
-        if directory not in to_archive:
-            to_archive[directory] = {filename[0:11]: [filename]}
+        if (file_hour == current_hour):
+            logging.debug("Skipping current hour {0}".format(item))
+            continue
+        if directory_path not in files_to_archive:
+            files_to_archive[directory_path] = {file_hour: [filename]}
         else:
-            if filename[0:11] not in to_archive[directory]:
-                to_archive[directory][filename[0:11]] = [filename]
+            if file_hour not in files_to_archive[directory_path]:
+                files_to_archive[directory_path][file_hour] = [filename]
             else:
-                to_archive[directory][filename[0:11]].append(filename)
+                files_to_archive[directory_path][file_hour].append(filename)
+    logging.debug("files_to_archive length (streams/portals) = {0}".format(len(files_to_archive.keys())))
 
-    for stream_key in to_archive.keys():
-        # print(stream_key, to_archive[stream_key])
-        stream = stream_key[len(archive_path) + 1:].replace("\\", "-").replace("/", "-")
-        for hour_key in to_archive[stream_key]:
-            tar_file_path = os.path.normpath(archive_output_path + "/" + stream + "-" + hour_key + ".tar")
+    logging.info("Creating TAR files")
+    for stream_key in files_to_archive.keys():
+        stream = stream_key[len(mediation_archive) + 1:].replace("\\", "-").replace("/", "-")
+        logging.debug(stream)
+        for hour_key in files_to_archive[stream_key]:
+            tar_file_path = os.path.normpath(TAR_ARCHIVE + "/" + stream + "-" + hour_key + ".tar")
+            logging.debug(tar_file_path)
             tar = tarfile.open(tar_file_path, "w")
-            # Or w:gz if we want extra compression - Don't
-            # TODO: Check if file already exists and handle exception
-            os.chdir(stream_key)  # TODO: Or keep absolute path or keep path from main directory? - be flat
-            for filename in to_archive[stream_key][hour_key]:
+            os.chdir(stream_key)
+            for filename in files_to_archive[stream_key][hour_key]:
                 path_to_file = os.path.normpath(filename)
                 tar.add(path_to_file)
-            tar.close()  # TODO: Check exceptions!
+            tar.close()
 
-            # Delete archived files
-            for filename in to_archive[stream_key][hour_key]:
+            logging.debug("Deleting archived files")
+            for filename in files_to_archive[stream_key][hour_key]:
                 path_to_file = os.path.normpath(stream_key + "/" + filename)
                 os.remove(path_to_file)
 
-
-# TODO: When all TAR files are created move them to a structure: month/stream (subdirs x 31 x 24)
-# TODO: Check if target file already exists and handle
-# TODO: When all TAR files are moved, rsync the structure to NAS - Don't rsync, write app
 
 if __name__ == "__main__":
     main()
