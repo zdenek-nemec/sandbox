@@ -22,6 +22,11 @@ NAS_ARCHIVE = {
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
 }
+OPS_ARCHIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target4_ops",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
+}
 MEDIATION_ARCHIVE_LIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/mediation_archive",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
@@ -36,6 +41,11 @@ NAS_ARCHIVE_LIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/nas_archive",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
+}
+OPS_ARCHIVE_LIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/ops_archive",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
 }
 
 
@@ -54,11 +64,13 @@ def main():
         mediation_archive = MEDIATION_ARCHIVE_LIVE
         tar_archive = TAR_ARCHIVE_LIVE
         nas_archive = NAS_ARCHIVE_LIVE
+        ops_archive = OPS_ARCHIVE_LIVE
     else:
         logging.info("Running test")
         mediation_archive = MEDIATION_ARCHIVE
         tar_archive = TAR_ARCHIVE
         nas_archive = NAS_ARCHIVE
+        ops_archive = OPS_ARCHIVE
 
     logging.info("Checking the host")
     logging.debug("socket.gethostname() = {0}".format(socket.gethostname()))
@@ -141,12 +153,18 @@ def main():
     tar_directory_content = os.listdir()
     nas_directories = list(filter(lambda item: os.path.isdir(nas_archive[socket.gethostname()] + "/" + item),
                                   [item for item in os.listdir(nas_archive[socket.gethostname()])]))
+    ops_directories = list(filter(lambda item: os.path.isdir(ops_archive[socket.gethostname()] + "/" + item),
+                                  [item for item in os.listdir(ops_archive[socket.gethostname()])]))
     for tar_file in tar_directory_content:
         main_directory = tar_file.split("-")[0]
         if main_directory not in nas_directories:
             os.mkdir(nas_archive[socket.gethostname()] + "/" + main_directory)
             nas_directories.append(main_directory)
+        if main_directory not in ops_directories:
+            os.mkdir(ops_archive[socket.gethostname()] + "/" + main_directory)
+            ops_directories.append(main_directory)
         shutil.copyfile(tar_file, nas_archive[socket.gethostname()] + "/" + main_directory + "/" + tar_file)
+        shutil.move(tar_file, ops_archive[socket.gethostname()] + "/" + main_directory)
     print("Finished")
 
 

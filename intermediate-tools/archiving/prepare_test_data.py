@@ -16,7 +16,8 @@ MAIN_DIRECTORY_STRUCTURE = [
     "tests",
     "tests/target1_mediation",
     "tests/target2_tar",
-    "tests/target3_nas"
+    "tests/target3_nas",
+    "tests/target4_ops"
 ]
 DATA_DIRECTORY_STRUCTURE = [
     "BlackMed",
