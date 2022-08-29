@@ -6,6 +6,9 @@ import socket
 import sys
 import tarfile
 from datetime import datetime
+from enum import Enum
+
+VALID_HOSTS = ["avl4658t", "JISKRA", "N007510"]
 
 MEDIATION_ARCHIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation",
@@ -49,6 +52,50 @@ OPS_ARCHIVE_LIVE = {
 }
 
 
+class ArchiveTarget(Enum):
+    MEDIATION = 1
+    TAR = 2
+    NAS = 3
+    OPS = 4
+
+
+class Archive(object):
+    def __init__(self, is_live: bool = False):
+        self._is_live = is_live
+
+    def is_live(self):
+        return self._is_live
+
+    def get_path(self, target: ArchiveTarget):
+        host = socket.gethostname()
+        if self._is_live:
+            if target == ArchiveTarget.MEDIATION:
+                return os.path.normpath(MEDIATION_ARCHIVE_LIVE[host])
+            elif target == ArchiveTarget.TAR:
+                return os.path.normpath(TAR_ARCHIVE_LIVE[host])
+            elif target == ArchiveTarget.NAS:
+                return os.path.normpath(NAS_ARCHIVE_LIVE[host])
+            elif target == ArchiveTarget.OPS:
+                return os.path.normpath(OPS_ARCHIVE_LIVE[host])
+            else:
+                logging.error("Unexpected target path requested")  # TODO: Throw exception
+        else:
+            if target == ArchiveTarget.MEDIATION:
+                return os.path.normpath(MEDIATION_ARCHIVE[host])
+            elif target == ArchiveTarget.TAR:
+                return os.path.normpath(TAR_ARCHIVE[host])
+            elif target == ArchiveTarget.NAS:
+                return os.path.normpath(NAS_ARCHIVE[host])
+            elif target == ArchiveTarget.OPS:
+                return os.path.normpath(OPS_ARCHIVE[host])
+            else:
+                logging.error("Unexpected target path requested")  # TODO: Throw exception
+
+
+def is_valid_host():
+    return socket.gethostname() in VALID_HOSTS
+
+
 def main():
     print("Intermediate Tools - Archiving")
 
@@ -56,27 +103,28 @@ def main():
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    logging.info("Checking the options")
+    logging.info("Parsing the arguments")
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument("--live", action='store_true')
-    if argument_parser.parse_args().live:
-        logging.info("Running live")
-        mediation_archive = MEDIATION_ARCHIVE_LIVE
-        tar_archive = TAR_ARCHIVE_LIVE
-        nas_archive = NAS_ARCHIVE_LIVE
-        ops_archive = OPS_ARCHIVE_LIVE
+
+    archive = Archive(argument_parser.parse_args().live)
+    logging.debug("archive.is_live() = {0}".format(archive.is_live()))
+    if archive.is_live():
+        logging.info("Live run")
     else:
-        logging.info("Running test")
-        mediation_archive = MEDIATION_ARCHIVE
-        tar_archive = TAR_ARCHIVE
-        nas_archive = NAS_ARCHIVE
-        ops_archive = OPS_ARCHIVE
+        logging.info("Test run")
 
-    logging.info("Checking the host")
-    logging.debug("socket.gethostname() = {0}".format(socket.gethostname()))
-    assert socket.gethostname() in mediation_archive.keys()
+    logging.info("Validating the host")
+    if is_valid_host():
+        logging.info("Host {0} is valid".format(socket.gethostname()))
+    else:
+        raise ValueError("Unknown host {0}".format(socket.gethostname()))
 
-    mediation_archive_path = os.path.normpath(mediation_archive[socket.gethostname()])
+    mediation_archive_path = archive.get_path(ArchiveTarget.MEDIATION)
+    tar_archive_path = archive.get_path(ArchiveTarget.TAR)
+    nas_archive_path = archive.get_path(ArchiveTarget.NAS)
+    ops_archive_path = archive.get_path(ArchiveTarget.OPS)
+
     logging.info("Scanning Mediation archive {0}".format(mediation_archive_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(mediation_archive_path), mediation_archive_path))
     content = [os.path.normpath(mediation_archive_path + "/" + item) for item in os.listdir(mediation_archive_path)]
@@ -132,7 +180,7 @@ def main():
         stream = stream_key[len(mediation_archive_path) + 1:].replace("\\", "-").replace("/", "-")
         logging.debug(stream)
         for hour_key in files_to_archive[stream_key]:
-            tar_file_path = os.path.normpath(tar_archive[socket.gethostname()] + "/" + stream + "-" + hour_key + ".tar")
+            tar_file_path = os.path.normpath(tar_archive_path + "/" + stream + "-" + hour_key + ".tar")
             logging.debug(tar_file_path)
             tar = tarfile.open(tar_file_path, "w")
             os.chdir(stream_key)
@@ -147,24 +195,24 @@ def main():
                 os.remove(path_to_file)
 
     logging.info("Distributing TAR files")
-    os.chdir(tar_archive[socket.gethostname()])
+    os.chdir(tar_archive_path)
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
     logging.debug("os.listdir() first 10 = {0}".format(os.listdir()[0:10]))
     tar_directory_content = os.listdir()
-    nas_directories = list(filter(lambda item: os.path.isdir(nas_archive[socket.gethostname()] + "/" + item),
-                                  [item for item in os.listdir(nas_archive[socket.gethostname()])]))
-    ops_directories = list(filter(lambda item: os.path.isdir(ops_archive[socket.gethostname()] + "/" + item),
-                                  [item for item in os.listdir(ops_archive[socket.gethostname()])]))
+    nas_directories = list(filter(lambda item: os.path.isdir(nas_archive_path + "/" + item),
+                                  [item for item in os.listdir(nas_archive_path)]))
+    ops_directories = list(filter(lambda item: os.path.isdir(ops_archive_path + "/" + item),
+                                  [item for item in os.listdir(ops_archive_path)]))
     for tar_file in tar_directory_content:
         main_directory = tar_file.split("-")[0]
         if main_directory not in nas_directories:
-            os.mkdir(nas_archive[socket.gethostname()] + "/" + main_directory)
+            os.mkdir(nas_archive_path + "/" + main_directory)
             nas_directories.append(main_directory)
         if main_directory not in ops_directories:
-            os.mkdir(ops_archive[socket.gethostname()] + "/" + main_directory)
+            os.mkdir(ops_archive_path + "/" + main_directory)
             ops_directories.append(main_directory)
-        shutil.copyfile(tar_file, nas_archive[socket.gethostname()] + "/" + main_directory + "/" + tar_file)
-        shutil.move(tar_file, ops_archive[socket.gethostname()] + "/" + main_directory)
+        shutil.copyfile(tar_file, nas_archive_path + "/" + main_directory + "/" + tar_file)
+        shutil.move(tar_file, ops_archive_path + "/" + main_directory)
     print("Finished")
 
 
