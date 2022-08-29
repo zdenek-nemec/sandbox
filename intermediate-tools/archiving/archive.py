@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import shutil
 import socket
 import sys
 import tarfile
@@ -65,7 +66,7 @@ def main():
 
     mediation_archive_path = os.path.normpath(mediation_archive[socket.gethostname()])
     logging.info("Scanning Mediation archive {0}".format(mediation_archive_path))
-    logging.debug("os.getcwd({1}) = {0}".format(os.listdir(mediation_archive_path), mediation_archive_path))
+    logging.debug("os.listdir({1}) = {0}".format(os.listdir(mediation_archive_path), mediation_archive_path))
     content = [os.path.normpath(mediation_archive_path + "/" + item) for item in os.listdir(mediation_archive_path)]
     logging.debug("content first item = {0}".format(content[0]))
     logging.debug("content length = {0}".format(len(content)))
@@ -132,6 +133,21 @@ def main():
             for filename in files_to_archive[stream_key][hour_key]:
                 path_to_file = os.path.normpath(stream_key + "/" + filename)
                 os.remove(path_to_file)
+
+    logging.info("Distributing TAR files")
+    os.chdir(tar_archive[socket.gethostname()])
+    logging.debug("os.getcwd() = {0}".format(os.getcwd()))
+    logging.debug("os.listdir() first 10 = {0}".format(os.listdir()[0:10]))
+    tar_directory_content = os.listdir()
+    nas_directories = list(filter(lambda item: os.path.isdir(nas_archive[socket.gethostname()] + "/" + item),
+                                  [item for item in os.listdir(nas_archive[socket.gethostname()])]))
+    for tar_file in tar_directory_content:
+        main_directory = tar_file.split("-")[0]
+        if main_directory not in nas_directories:
+            os.mkdir(nas_archive[socket.gethostname()] + "/" + main_directory)
+            nas_directories.append(main_directory)
+        shutil.copyfile(tar_file, nas_archive[socket.gethostname()] + "/" + main_directory + "/" + tar_file)
+    print("Finished")
 
 
 if __name__ == "__main__":
