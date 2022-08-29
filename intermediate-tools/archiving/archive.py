@@ -4,8 +4,8 @@ import sys
 import tarfile
 from datetime import datetime
 
-archive_path = os.path.normpath("c:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests")
-archive_output_path = os.path.normpath("c:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/output")
+archive_path = os.path.normpath("C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation")
+archive_output_path = os.path.normpath("C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar")
 
 
 def main():
@@ -51,12 +51,15 @@ def main():
 
     for stream_key in to_archive.keys():
         # print(stream_key, to_archive[stream_key])
-        stream = stream_key[len(archive_path) + 1:].replace("\\", "_").replace("/", "_")
+        stream = stream_key[len(archive_path) + 1:].replace("\\", "-").replace("/", "-")
         for hour_key in to_archive[stream_key]:
-            tar_file_path = os.path.normpath(archive_output_path + "/" + stream + "_" + hour_key + ".tar")
-            tar = tarfile.open(tar_file_path, "w")  # Or w:gz if we want extra compression
+            tar_file_path = os.path.normpath(archive_output_path + "/" + stream + "-" + hour_key + ".tar")
+            tar = tarfile.open(tar_file_path, "w")
+            # Or w:gz if we want extra compression - Don't
+            # TODO: Check if file already exists and handle exception
+            os.chdir(stream_key)  # TODO: Or keep absolute path or keep path from main directory? - be flat
             for filename in to_archive[stream_key][hour_key]:
-                path_to_file = os.path.normpath(stream_key + "/" + filename)
+                path_to_file = os.path.normpath(filename)
                 tar.add(path_to_file)
             tar.close()  # TODO: Check exceptions!
 
@@ -66,8 +69,9 @@ def main():
                 os.remove(path_to_file)
 
 
-# TODO: When all TAR files are created move them to a structure: month/stream or stream/month (31 x 24 = 744)
-# TODO: When all TAR files are moved, rsync the structure to NAS
+# TODO: When all TAR files are created move them to a structure: month/stream (subdirs x 31 x 24)
+# TODO: Check if target file already exists and handle
+# TODO: When all TAR files are moved, rsync the structure to NAS - Don't rsync, write app
 
 if __name__ == "__main__":
     main()
