@@ -2,11 +2,15 @@ import logging
 import os
 import random
 import shutil
+import socket
 import string
 import sys
 from datetime import datetime
 
-WORKING_DIRECTORY = "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
+WORKING_DIRECTORIES = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
+}
 MAIN_DIRECTORY_STRUCTURE = [
     "tests",
     "tests/target1_mediation",
@@ -73,9 +77,13 @@ def main():
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
+    logging.info("Checking the host")
+    logging.debug("socket.gethostname() = {0}".format(socket.gethostname()))
+    assert socket.gethostname() in WORKING_DIRECTORIES.keys()
+
     logging.info("Checking working directory")
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
-    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORY)
+    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORIES[socket.gethostname()])
 
     logging.info("Cleaning up \"{0}\" directory".format(MAIN_DIRECTORY_STRUCTURE[0]))
     logging.debug("os.listdir() = {0}".format(os.listdir()))

@@ -1,12 +1,35 @@
+import argparse
 import logging
 import os
+import socket
 import sys
 import tarfile
 from datetime import datetime
 
-MEDIATION_ARCHIVE = "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
-TAR_ARCHIVE = "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
-NAS_ARCHIVE = "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
+MEDIATION_ARCHIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
+}
+TAR_ARCHIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target2_tar",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
+}
+NAS_ARCHIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target3_nas",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
+}
+MEDIATION_ARCHIVE_LIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/mediation_archive",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
+}
+TAR_ARCHIVE_LIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tar_archive",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
+}
+NAS_ARCHIVE_LIVE = {
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871/nas_archive",
+    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
+}
 
 
 def main():
@@ -16,10 +39,28 @@ def main():
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    mediation_archive = os.path.normpath(MEDIATION_ARCHIVE)
-    logging.info("Scanning Mediation archive {0}".format(mediation_archive))
-    logging.debug("os.getcwd({1}) = {0}".format(os.listdir(mediation_archive), mediation_archive))
-    content = [os.path.normpath(mediation_archive + "/" + item) for item in os.listdir(mediation_archive)]
+    logging.info("Checking the options")
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument("--live", action='store_true')
+    if argument_parser.parse_args().live:
+        logging.info("Running live")
+        mediation_archive = MEDIATION_ARCHIVE_LIVE
+        tar_archive = TAR_ARCHIVE_LIVE
+        nas_archive = NAS_ARCHIVE_LIVE
+    else:
+        logging.info("Running test")
+        mediation_archive = MEDIATION_ARCHIVE
+        tar_archive = TAR_ARCHIVE
+        nas_archive = NAS_ARCHIVE
+
+    logging.info("Checking the host")
+    logging.debug("socket.gethostname() = {0}".format(socket.gethostname()))
+    assert socket.gethostname() in mediation_archive.keys()
+
+    mediation_archive_path = os.path.normpath(mediation_archive[socket.gethostname()])
+    logging.info("Scanning Mediation archive {0}".format(mediation_archive_path))
+    logging.debug("os.getcwd({1}) = {0}".format(os.listdir(mediation_archive_path), mediation_archive_path))
+    content = [os.path.normpath(mediation_archive_path + "/" + item) for item in os.listdir(mediation_archive_path)]
     logging.debug("content first item = {0}".format(content[0]))
     logging.debug("content length = {0}".format(len(content)))
     logging.debug("content basenames = {0}".format([os.path.basename(item) for item in content]))
@@ -69,10 +110,10 @@ def main():
 
     logging.info("Creating TAR files")
     for stream_key in files_to_archive.keys():
-        stream = stream_key[len(mediation_archive) + 1:].replace("\\", "-").replace("/", "-")
+        stream = stream_key[len(mediation_archive_path) + 1:].replace("\\", "-").replace("/", "-")
         logging.debug(stream)
         for hour_key in files_to_archive[stream_key]:
-            tar_file_path = os.path.normpath(TAR_ARCHIVE + "/" + stream + "-" + hour_key + ".tar")
+            tar_file_path = os.path.normpath(tar_archive[socket.gethostname()] + "/" + stream + "-" + hour_key + ".tar")
             logging.debug(tar_file_path)
             tar = tarfile.open(tar_file_path, "w")
             os.chdir(stream_key)
