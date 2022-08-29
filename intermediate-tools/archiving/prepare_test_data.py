@@ -9,6 +9,7 @@ from datetime import datetime
 
 WORKING_DIRECTORIES = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
 }
 MAIN_DIRECTORY_STRUCTURE = [

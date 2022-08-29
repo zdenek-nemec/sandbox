@@ -8,26 +8,32 @@ from datetime import datetime
 
 MEDIATION_ARCHIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
 }
 TAR_ARCHIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target2_tar",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
 }
 NAS_ARCHIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target3_nas",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
 }
 MEDIATION_ARCHIVE_LIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/mediation_archive",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"
 }
 TAR_ARCHIVE_LIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/tar_archive",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"
 }
 NAS_ARCHIVE_LIVE = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871/nas_archive",
+    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"
 }
 
