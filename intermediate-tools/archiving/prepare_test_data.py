@@ -2,6 +2,7 @@ import logging
 import os
 import shutil
 import sys
+from datetime import datetime
 
 directory_structure = [
     "BlackMed",
@@ -57,12 +58,13 @@ def main():
     logging.info("Creating test data")
     write_file(current_path + "/tests/" + get_random_filename())
     for prefix in [
-        "20220826_015959",
-        "20220826_025958",
-        "20220826_025959",
-        "20220826_035959",
-        "20220826_115959",
-        "20220826_145959"]:
+        "20220801_005959",
+        "20220801_015959",
+        "20220801_025957",
+        "20220801_025958",
+        "20220801_025959",
+        "20220801_035959",
+        datetime.now().strftime("%Y%m%d_%H%M%S")]:
         for path in directory_structure:
             write_file(current_path + "/tests/" + path + "/" + prefix + "___" + get_random_filename())
 

@@ -1,15 +1,17 @@
 import logging
 import os
 import sys
+import tarfile
 from datetime import datetime
 
 archive_path = os.path.normpath("c:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests")
+archive_output_path = os.path.normpath("c:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/output")
 
 
 def main():
     print("Hello")
 
-    log_level = "DEBUG"
+    log_level = "INFO"
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
@@ -37,7 +39,7 @@ def main():
                 or filename[8] != "_"
                 or filename[15:18] != "___"
                 or filename[0:11] == current_hour):
-            print("Skipping", item)
+            logging.debug("Skipping", item)
             continue
         if directory not in to_archive:
             to_archive[directory] = {filename[0:11]: [filename]}
@@ -47,10 +49,25 @@ def main():
             else:
                 to_archive[directory][filename[0:11]].append(filename)
 
-    for key in to_archive.keys():
-        print(key, to_archive[key])
+    for stream_key in to_archive.keys():
+        # print(stream_key, to_archive[stream_key])
+        stream = stream_key[len(archive_path) + 1:].replace("\\", "_").replace("/", "_")
+        for hour_key in to_archive[stream_key]:
+            tar_file_path = os.path.normpath(archive_output_path + "/" + stream + "_" + hour_key + ".tar")
+            tar = tarfile.open(tar_file_path, "w")  # Or w:gz if we want extra compression
+            for filename in to_archive[stream_key][hour_key]:
+                path_to_file = os.path.normpath(stream_key + "/" + filename)
+                tar.add(path_to_file)
+            tar.close()  # TODO: Check exceptions!
+
+            # Delete archived files
+            for filename in to_archive[stream_key][hour_key]:
+                path_to_file = os.path.normpath(stream_key + "/" + filename)
+                os.remove(path_to_file)
 
 
+# TODO: When all TAR files are created move them to a structure: month/stream or stream/month (31 x 24 = 744)
+# TODO: When all TAR files are moved, rsync the structure to NAS
 
 if __name__ == "__main__":
     main()
