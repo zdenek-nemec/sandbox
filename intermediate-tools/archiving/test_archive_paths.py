@@ -71,10 +71,6 @@ class TestGetPath(unittest.TestCase):
          "/appl/dcs/data01/tmp/OC-12871/nas_archive"],
         [True, "N007510", ArchiveTarget.NAS,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"],
-        [True, "avl4658t", ArchiveTarget.OPS,
-         "/appl/dcs/data01/tmp/OC-12871/ops_archive"],
-        [True, "N007510", ArchiveTarget.OPS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"],
         [False, "avl4658t", ArchiveTarget.MED,
          "/appl/dcs/data01/tmp/OC-12871/tests/med_archive"],
         [False, "N007510", ArchiveTarget.MED,
@@ -86,11 +82,7 @@ class TestGetPath(unittest.TestCase):
         [False, "avl4658t", ArchiveTarget.NAS,
          "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive"],
         [False, "N007510", ArchiveTarget.NAS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"],
-        [False, "avl4658t", ArchiveTarget.OPS,
-         "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive"],
-        [False, "N007510", ArchiveTarget.OPS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"]
+         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"]
     ])
     def test_existing_path(self, live, host, target, expected_path):
         archive_paths = ArchivePaths(is_live=live)

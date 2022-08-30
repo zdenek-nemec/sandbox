@@ -34,7 +34,6 @@ def main():
     med_archive_path = archive_paths.get_path(ArchiveTarget.MED)
     tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR)
     nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS)
-    ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS)
 
     logging.info("Scanning Mediation archive {0}".format(med_archive_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(med_archive_path), med_archive_path))
@@ -113,20 +112,12 @@ def main():
         lambda item: os.path.isdir(nas_archive_path + "/" + item),
         [item for item in os.listdir(nas_archive_path)]
     ))
-    ops_directories = list(filter(
-        lambda item: os.path.isdir(ops_archive_path + "/" + item),
-        [item for item in os.listdir(ops_archive_path)]
-    ))
     for tar_file in tar_directory_content:
         main_directory = tar_file.split("-")[0]
         if main_directory not in nas_directories:
             os.mkdir(nas_archive_path + "/" + main_directory)
             nas_directories.append(main_directory)
-        if main_directory not in ops_directories:
-            os.mkdir(ops_archive_path + "/" + main_directory)
-            ops_directories.append(main_directory)
-        shutil.copyfile(tar_file, nas_archive_path + "/" + main_directory + "/" + tar_file)
-        shutil.move(tar_file, ops_archive_path + "/" + main_directory)
+        shutil.move(tar_file, nas_archive_path + "/" + main_directory)
     print("Finished")
 
 
