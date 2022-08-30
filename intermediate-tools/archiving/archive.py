@@ -19,7 +19,7 @@ def main():
 
     logging.info("Parsing the arguments")
     argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument("--live", action='store_true')
+    argument_parser.add_argument("--live", action="store_true")
 
     archive_paths = ArchivePaths(argument_parser.parse_args().live)
     logging.debug("archive_paths.is_live() = {0}".format(archive_paths.is_live()))
