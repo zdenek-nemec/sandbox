@@ -2,7 +2,6 @@ import logging
 import os
 import random
 import shutil
-import socket
 import string
 import sys
 from datetime import datetime
@@ -16,10 +15,10 @@ WORKING_DIRECTORIES = {
 }
 MAIN_DIRECTORY_STRUCTURE = [
     "tests",
-    "tests/target1_mediation",
-    "tests/target2_tar",
-    "tests/target3_nas",
-    "tests/target4_ops"
+    "tests/med_archive",
+    "tests/tar_archive",
+    "tests/nas_archive",
+    "tests/ops_archive"
 ]
 DATA_DIRECTORY_STRUCTURE = [
     "BlackMed",
@@ -65,8 +64,8 @@ ARCHIVE_PREFIXES = {
 
 
 def get_random_filename():
-    return "Filename_" + "".join(
-        random.choice(string.ascii_lowercase + string.digits + "_-") for i in range(FILENAME_LENGTH)) + ".txt"
+    random_string = "".join(random.choice(string.ascii_lowercase + string.digits) for _ in range(FILENAME_LENGTH))
+    return "Filename_" + random_string + ".txt"
 
 
 def write_file(path):
@@ -82,16 +81,15 @@ def main():
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
     logging.info("Validating the host")
-
     archive_paths = ArchivePaths()
     if archive_paths.is_host_valid():
         logging.info("Host {0} is valid".format(archive_paths.get_host()))
     else:
         raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
 
-    logging.info("Checking working directory")
+    logging.info("Checking the working directory")
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
-    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORIES[socket.gethostname()])
+    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORIES[archive_paths.get_host()])
 
     logging.info("Cleaning up \"{0}\" directory".format(MAIN_DIRECTORY_STRUCTURE[0]))
     logging.debug("os.listdir() = {0}".format(os.listdir()))
@@ -104,13 +102,15 @@ def main():
     for directory in MAIN_DIRECTORY_STRUCTURE:
         os.mkdir(current_path + "/" + directory)
     logging.debug("os.listdir() = {0}".format(os.listdir()))
-    logging.debug("os.listdir(\"{1}\") = {0}".format(
-        os.listdir(MAIN_DIRECTORY_STRUCTURE[0]),
-        MAIN_DIRECTORY_STRUCTURE[0]))
+    logging.debug("os.listdir(\"{0}\") = {1}".format(
+        MAIN_DIRECTORY_STRUCTURE[0],
+        os.listdir(MAIN_DIRECTORY_STRUCTURE[0])
+    ))
 
     logging.info("Creating \"{0}\" data directory structure in {1}".format(
         MAIN_DIRECTORY_STRUCTURE[0],
-        MAIN_DIRECTORY_STRUCTURE[1]))
+        MAIN_DIRECTORY_STRUCTURE[1]
+    ))
     os.chdir(MAIN_DIRECTORY_STRUCTURE[1])
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
     logging.debug("os.listdir() = {0}".format(os.listdir()))
@@ -120,15 +120,15 @@ def main():
 
     logging.info("Creating \"{0}\" data in {1}".format(
         MAIN_DIRECTORY_STRUCTURE[0],
-        MAIN_DIRECTORY_STRUCTURE[1]))
+        MAIN_DIRECTORY_STRUCTURE[1]
+    ))
     current_path = os.getcwd()
     write_file(current_path + "/" + get_random_filename())
     archive_prefixes = {**ARCHIVE_PREFIXES, **{datetime.now().strftime("%Y%m%d_%H%M%S"): 1}}
     for prefix in archive_prefixes.keys():
         for path in DATA_DIRECTORY_STRUCTURE:
             for i in range(archive_prefixes[prefix]):
-                write_file(
-                    current_path + "/" + path + "/" + prefix + "___" + get_random_filename())  # TODO: Make sure the filenames are unique
+                write_file(current_path + "/" + path + "/" + prefix + "___" + get_random_filename())
     print("Finished")
 
 

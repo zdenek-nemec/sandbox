@@ -31,14 +31,14 @@ def main():
     else:
         raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
 
-    mediation_archive_path = archive_paths.get_path(ArchiveTarget.MEDIATION)
+    med_archive_path = archive_paths.get_path(ArchiveTarget.MED)
     tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR)
     nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS)
     ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS)
 
-    logging.info("Scanning Mediation archive {0}".format(mediation_archive_path))
-    logging.debug("os.listdir({1}) = {0}".format(os.listdir(mediation_archive_path), mediation_archive_path))
-    content = [os.path.normpath(mediation_archive_path + "/" + item) for item in os.listdir(mediation_archive_path)]
+    logging.info("Scanning Mediation archive {0}".format(med_archive_path))
+    logging.debug("os.listdir({1}) = {0}".format(os.listdir(med_archive_path), med_archive_path))
+    content = [os.path.normpath(med_archive_path + "/" + item) for item in os.listdir(med_archive_path)]
     logging.debug("content first item = {0}".format(content[0]))
     logging.debug("content length = {0}".format(len(content)))
     logging.debug("content basenames = {0}".format([os.path.basename(item) for item in content]))
@@ -68,9 +68,9 @@ def main():
         directory_path = os.path.dirname(item)
         filename = os.path.basename(item)
         file_hour = filename[0:11]
-        # Check filename
         if (len(filename) <= 18  # YYYYmmdd_HHMMSS___
-                or filename[8] != "_" or filename[15:18] != "___"):
+                or filename[8] != "_"
+                or filename[15:18] != "___"):
             logging.debug("Skipping invalid filename {0}".format(item))
             continue
         if file_hour == current_hour:
@@ -87,10 +87,10 @@ def main():
 
     logging.info("Creating TAR files")
     for stream_key in files_to_archive.keys():
-        stream = stream_key[len(mediation_archive_path) + 1:].replace("\\", "-").replace("/", "-")
+        stream = stream_key[len(med_archive_path) + 1:].replace("\\", "-").replace("/", "-")
         logging.debug(stream)
         for hour_key in files_to_archive[stream_key]:
-            tar_file_path = os.path.normpath(tar_archive_path + "/" + stream + "-" + hour_key + ".tar")
+            tar_file_path = os.path.normpath(tar_archive_path + "/" + stream + "-" + str(hour_key) + ".tar")
             logging.debug(tar_file_path)
             tar = tarfile.open(tar_file_path, "w")
             os.chdir(stream_key)
@@ -109,10 +109,14 @@ def main():
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
     logging.debug("os.listdir() first 10 = {0}".format(os.listdir()[0:10]))
     tar_directory_content = os.listdir()
-    nas_directories = list(filter(lambda item: os.path.isdir(nas_archive_path + "/" + item),
-                                  [item for item in os.listdir(nas_archive_path)]))
-    ops_directories = list(filter(lambda item: os.path.isdir(ops_archive_path + "/" + item),
-                                  [item for item in os.listdir(ops_archive_path)]))
+    nas_directories = list(filter(
+        lambda item: os.path.isdir(nas_archive_path + "/" + item),
+        [item for item in os.listdir(nas_archive_path)]
+    ))
+    ops_directories = list(filter(
+        lambda item: os.path.isdir(ops_archive_path + "/" + item),
+        [item for item in os.listdir(ops_archive_path)]
+    ))
     for tar_file in tar_directory_content:
         main_directory = tar_file.split("-")[0]
         if main_directory not in nas_directories:
