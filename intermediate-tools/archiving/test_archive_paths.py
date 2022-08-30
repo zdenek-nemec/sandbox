@@ -4,8 +4,8 @@ import unittest
 
 from parameterized import parameterized
 
-from archive import ArchivePaths
-from archive import ArchiveTarget
+from archive_paths import ArchivePaths
+from archive_target import ArchiveTarget
 
 
 class TestInit(unittest.TestCase):
@@ -39,50 +39,34 @@ class TestGetPath(unittest.TestCase):
     @parameterized.expand([
         [True, "avl4658t", ArchiveTarget.MEDIATION,
          "/appl/dcs/data01/tmp/OC-12871/mediation_archive"],
-        [True, "JISKRA", ArchiveTarget.MEDIATION,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"],
         [True, "N007510", ArchiveTarget.MEDIATION,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"],
         [True, "avl4658t", ArchiveTarget.TAR,
          "/appl/dcs/data01/tmp/OC-12871/tar_archive"],
-        [True, "JISKRA", ArchiveTarget.TAR,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"],
         [True, "N007510", ArchiveTarget.TAR,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"],
         [True, "avl4658t", ArchiveTarget.NAS,
          "/appl/dcs/data01/tmp/OC-12871/nas_archive"],
-        [True, "JISKRA", ArchiveTarget.NAS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"],
         [True, "N007510", ArchiveTarget.NAS,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"],
         [True, "avl4658t", ArchiveTarget.OPS,
          "/appl/dcs/data01/tmp/OC-12871/ops_archive"],
-        [True, "JISKRA", ArchiveTarget.OPS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"],
         [True, "N007510", ArchiveTarget.OPS,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"],
         [False, "avl4658t", ArchiveTarget.MEDIATION,
          "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation"],
-        [False, "JISKRA", ArchiveTarget.MEDIATION,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"],
         [False, "N007510", ArchiveTarget.MEDIATION,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"],
         [False, "avl4658t", ArchiveTarget.TAR,
          "/appl/dcs/data01/tmp/OC-12871/tests/target2_tar"],
-        [False, "JISKRA", ArchiveTarget.TAR,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"],
         [False, "N007510", ArchiveTarget.TAR,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"],
         [False, "avl4658t", ArchiveTarget.NAS,
          "/appl/dcs/data01/tmp/OC-12871/tests/target3_nas"],
-        [False, "JISKRA", ArchiveTarget.NAS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"],
         [False, "N007510", ArchiveTarget.NAS,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"],
         [False, "avl4658t", ArchiveTarget.OPS,
          "/appl/dcs/data01/tmp/OC-12871/tests/target4_ops"],
-        [False, "JISKRA", ArchiveTarget.OPS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"],
         [False, "N007510", ArchiveTarget.OPS,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"]
     ])
