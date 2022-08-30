@@ -10,29 +10,29 @@ from archive_target import ArchiveTarget
 
 class TestInit(unittest.TestCase):
     def test_default(self):
-        archive = ArchivePaths()
-        self.assertEqual(False, archive._is_live)
-        self.assertEqual(socket.gethostname(), archive._host)
+        archive_paths = ArchivePaths()
+        self.assertEqual(False, archive_paths._is_live)
+        self.assertEqual(socket.gethostname(), archive_paths._host)
 
     def test_is_live_true(self):
-        archive = ArchivePaths(True)
-        self.assertEqual(True, archive._is_live)
+        archive_paths = ArchivePaths(True)
+        self.assertEqual(True, archive_paths._is_live)
 
     def test_is_live_false(self):
-        archive = ArchivePaths(False)
-        self.assertEqual(False, archive._is_live)
+        archive_paths = ArchivePaths(False)
+        self.assertEqual(False, archive_paths._is_live)
 
 
 class TestIsLive(unittest.TestCase):
     def test_true(self):
-        archive = ArchivePaths()
-        archive._is_live = True
-        self.assertEqual(True, archive.is_live())
+        archive_paths = ArchivePaths()
+        archive_paths._is_live = True
+        self.assertEqual(True, archive_paths.is_live())
 
     def test_false(self):
-        archive = ArchivePaths()
-        archive._is_live = False
-        self.assertEqual(False, archive.is_live())
+        archive_paths = ArchivePaths()
+        archive_paths._is_live = False
+        self.assertEqual(False, archive_paths.is_live())
 
 
 class TestGetPath(unittest.TestCase):
@@ -70,10 +70,15 @@ class TestGetPath(unittest.TestCase):
         [False, "N007510", ArchiveTarget.OPS,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"]
     ])
-    def test_live_mediation(self, live, host, target, expected_path):
-        archive = ArchivePaths(is_live=live)
-        archive._host = host
-        self.assertEqual(os.path.normpath(expected_path), archive.get_path(target))
+    def test_existing_path(self, live, host, target, expected_path):
+        archive_paths = ArchivePaths(is_live=live)
+        archive_paths._host = host
+        self.assertEqual(os.path.normpath(expected_path), archive_paths.get_path(target))
+
+    def test_unknown_host(self):
+        archive_paths = ArchivePaths()
+        archive_paths._host = "potato"
+        self.assertRaises(KeyError, archive_paths.get_path, ArchiveTarget.MEDIATION)
 
 
 if __name__ == "__main__":
