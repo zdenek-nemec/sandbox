@@ -69,3 +69,7 @@ class ArchivePaths(object):
                 )
             )
             raise
+
+
+if __name__ == "__main__":
+    pass
