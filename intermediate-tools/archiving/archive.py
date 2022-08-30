@@ -10,40 +10,63 @@ from enum import Enum
 
 VALID_HOSTS = ["avl4658t", "JISKRA", "N007510"]
 
-MEDIATION_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"}
-TAR_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target2_tar",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"}
-NAS_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target3_nas",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"}
-OPS_ARCHIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tests/target4_ops",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"}
-MEDIATION_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/mediation_archive",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation"}
-TAR_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/tar_archive",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar"}
-NAS_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/nas_archive",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas"}
-OPS_ARCHIVE_LIVE = {"avl4658t": "/appl/dcs/data01/tmp/OC-12871/ops_archive",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"}
-
 
 class ArchiveTarget(Enum):
+    LIVE = 1
+    TEST = 2
     MEDIATION = 1
     TAR = 2
     NAS = 3
     OPS = 4
 
 
-class Archive(object):
+ARCHIVE_PATHS = {
+    "avl4658t": {
+        ArchiveTarget.LIVE: {
+            ArchiveTarget.MEDIATION: "/appl/dcs/data01/tmp/OC-12871/mediation_archive",
+            ArchiveTarget.TAR: "/appl/dcs/data01/tmp/OC-12871/tar_archive",
+            ArchiveTarget.NAS: "/appl/dcs/data01/tmp/OC-12871/nas_archive",
+            ArchiveTarget.OPS: "/appl/dcs/data01/tmp/OC-12871/ops_archive"
+        },
+        ArchiveTarget.TEST: {
+            ArchiveTarget.MEDIATION: "/appl/dcs/data01/tmp/OC-12871/tests/target1_mediation",
+            ArchiveTarget.TAR: "/appl/dcs/data01/tmp/OC-12871/tests/target2_tar",
+            ArchiveTarget.NAS: "/appl/dcs/data01/tmp/OC-12871/tests/target3_nas",
+            ArchiveTarget.OPS: "/appl/dcs/data01/tmp/OC-12871/tests/target4_ops"
+        }
+    },
+    "JISKRA": {
+        ArchiveTarget.LIVE: {
+            ArchiveTarget.MEDIATION: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
+            ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
+            ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
+        },
+        ArchiveTarget.TEST: {
+            ArchiveTarget.MEDIATION: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
+            ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
+            ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
+        }
+    },
+    "N007510": {
+        ArchiveTarget.LIVE: {
+            ArchiveTarget.MEDIATION: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
+            ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
+            ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
+        },
+        ArchiveTarget.TEST: {
+            ArchiveTarget.MEDIATION: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target1_mediation",
+            ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target2_tar",
+            ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target3_nas",
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/target4_ops"
+        }
+    }
+}
+
+
+class ArchivePaths(object):
     def __init__(self, is_live: bool = False):
         self._is_live = is_live
         self._host = socket.gethostname()
@@ -52,28 +75,16 @@ class Archive(object):
         return self._is_live
 
     def get_path(self, target: ArchiveTarget):
-        if self._is_live:
-            if target == ArchiveTarget.MEDIATION:
-                return os.path.normpath(MEDIATION_ARCHIVE_LIVE[self._host])
-            elif target == ArchiveTarget.TAR:
-                return os.path.normpath(TAR_ARCHIVE_LIVE[self._host])
-            elif target == ArchiveTarget.NAS:
-                return os.path.normpath(NAS_ARCHIVE_LIVE[self._host])
-            elif target == ArchiveTarget.OPS:
-                return os.path.normpath(OPS_ARCHIVE_LIVE[self._host])
-            else:
-                raise ValueError("Unexpected target path {0} requested".format(target))
-        else:
-            if target == ArchiveTarget.MEDIATION:
-                return os.path.normpath(MEDIATION_ARCHIVE[self._host])
-            elif target == ArchiveTarget.TAR:
-                return os.path.normpath(TAR_ARCHIVE[self._host])
-            elif target == ArchiveTarget.NAS:
-                return os.path.normpath(NAS_ARCHIVE[self._host])
-            elif target == ArchiveTarget.OPS:
-                return os.path.normpath(OPS_ARCHIVE[self._host])
-            else:
-                raise ValueError("Unexpected target path {0} requested".format(target))
+        environment = ArchiveTarget.LIVE if self._is_live else ArchiveTarget.TEST
+        try:
+            return os.path.normpath(ARCHIVE_PATHS[self._host][environment][target])
+        except KeyError:
+            logging.error(
+                "Unexpected target path requested: host {0}, environment {1}, target {2}".format(
+                    self._host, environment, target
+                )
+            )
+            raise
 
 
 def is_valid_host():
@@ -81,7 +92,7 @@ def is_valid_host():
 
 
 def main():
-    print("Intermediate Tools - Archiving")
+    print("Intermediate Tools - Archiving: Archive")
 
     log_level = "DEBUG"
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
@@ -91,23 +102,22 @@ def main():
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument("--live", action='store_true')
 
-    archive = Archive(argument_parser.parse_args().live)
-    logging.debug("archive.is_live() = {0}".format(archive.is_live()))
-    if archive.is_live():
-        logging.info("Live run")
-    else:
-        logging.info("Test run")
+    archive_paths = ArchivePaths(argument_parser.parse_args().live)
+    logging.debug("archive_paths.is_live() = {0}".format(archive_paths.is_live()))
+    logging.info("{0} run".format("Live" if archive_paths.is_live() else "Test"))
 
     logging.info("Validating the host")
+    logging.debug("Host = {0}".format(socket.gethostname()))
+    logging.debug("Valid hosts = {0}".format(VALID_HOSTS))
     if is_valid_host():
         logging.info("Host {0} is valid".format(socket.gethostname()))
     else:
         raise ValueError("Unknown host {0}".format(socket.gethostname()))
 
-    mediation_archive_path = archive.get_path(ArchiveTarget.MEDIATION)
-    tar_archive_path = archive.get_path(ArchiveTarget.TAR)
-    nas_archive_path = archive.get_path(ArchiveTarget.NAS)
-    ops_archive_path = archive.get_path(ArchiveTarget.OPS)
+    mediation_archive_path = archive_paths.get_path(ArchiveTarget.MEDIATION)
+    tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR)
+    nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS)
+    ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS)
 
     logging.info("Scanning Mediation archive {0}".format(mediation_archive_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(mediation_archive_path), mediation_archive_path))
@@ -146,7 +156,7 @@ def main():
                 or filename[8] != "_" or filename[15:18] != "___"):
             logging.debug("Skipping invalid filename {0}".format(item))
             continue
-        if (file_hour == current_hour):
+        if file_hour == current_hour:
             logging.debug("Skipping current hour {0}".format(item))
             continue
         if directory_path not in files_to_archive:
