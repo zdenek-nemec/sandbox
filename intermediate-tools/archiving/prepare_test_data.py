@@ -7,6 +7,8 @@ import string
 import sys
 from datetime import datetime
 
+from archive_paths import ArchivePaths
+
 WORKING_DIRECTORIES = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
@@ -79,9 +81,13 @@ def main():
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    logging.info("Checking the host")
-    logging.debug("socket.gethostname() = {0}".format(socket.gethostname()))
-    assert socket.gethostname() in WORKING_DIRECTORIES.keys()
+    logging.info("Validating the host")
+
+    archive_paths = ArchivePaths()
+    if archive_paths.is_host_valid():
+        logging.info("Host {0} is valid".format(archive_paths.get_host()))
+    else:
+        raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
 
     logging.info("Checking working directory")
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))

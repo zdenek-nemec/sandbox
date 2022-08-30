@@ -54,9 +54,16 @@ class ArchivePaths(object):
     def __init__(self, is_live: bool = False):
         self._is_live = is_live
         self._host = socket.gethostname()
+        self._valid_hosts = list(ARCHIVE_PATHS.keys())
 
     def is_live(self):
         return self._is_live
+
+    def is_host_valid(self):
+        return self._host in self._valid_hosts
+
+    def get_host(self):
+        return self._host
 
     def get_path(self, target: ArchiveTarget):
         environment = ArchiveTarget.LIVE if self._is_live else ArchiveTarget.TEST

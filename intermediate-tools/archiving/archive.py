@@ -2,19 +2,12 @@ import argparse
 import logging
 import os
 import shutil
-import socket
 import sys
 import tarfile
 from datetime import datetime
 
 from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
-
-VALID_HOSTS = ["avl4658t", "JISKRA", "N007510"]
-
-
-def is_valid_host():
-    return socket.gethostname() in VALID_HOSTS
 
 
 def main():
@@ -33,12 +26,10 @@ def main():
     logging.info("{0} run".format("Live" if archive_paths.is_live() else "Test"))
 
     logging.info("Validating the host")
-    logging.debug("Host = {0}".format(socket.gethostname()))
-    logging.debug("Valid hosts = {0}".format(VALID_HOSTS))
-    if is_valid_host():
-        logging.info("Host {0} is valid".format(socket.gethostname()))
+    if archive_paths.is_host_valid():
+        logging.info("Host {0} is valid".format(archive_paths.get_host()))
     else:
-        raise ValueError("Unknown host {0}".format(socket.gethostname()))
+        raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
 
     mediation_archive_path = archive_paths.get_path(ArchiveTarget.MEDIATION)
     tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR)

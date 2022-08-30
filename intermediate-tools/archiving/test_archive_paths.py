@@ -13,6 +13,8 @@ class TestInit(unittest.TestCase):
         archive_paths = ArchivePaths()
         self.assertEqual(False, archive_paths._is_live)
         self.assertEqual(socket.gethostname(), archive_paths._host)
+        self.assertEqual(list, type(archive_paths._valid_hosts))
+        self.assertEqual(True, "avl4658t" in archive_paths._valid_hosts)
 
     def test_is_live_true(self):
         archive_paths = ArchivePaths(True)
@@ -33,6 +35,26 @@ class TestIsLive(unittest.TestCase):
         archive_paths = ArchivePaths()
         archive_paths._is_live = False
         self.assertEqual(False, archive_paths.is_live())
+
+
+class TestIsHostValid(unittest.TestCase):
+    def test_true(self):
+        archive_paths = ArchivePaths()
+        archive_paths._host = "potato"
+        archive_paths._valid_hosts = ["potato"]
+        self.assertEqual(True, archive_paths.is_host_valid())
+
+    def test_false(self):
+        archive_paths = ArchivePaths()
+        archive_paths._host = "potato"
+        archive_paths._valid_hosts = []
+        self.assertEqual(False, archive_paths.is_host_valid())
+
+
+class TestGetHost(unittest.TestCase):
+    def test_get_host(self):
+        archive_paths = ArchivePaths()
+        self.assertEqual(socket.gethostname(), archive_paths.get_host())
 
 
 class TestGetPath(unittest.TestCase):
