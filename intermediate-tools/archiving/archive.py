@@ -5,6 +5,7 @@ import shutil
 import sys
 import tarfile
 from datetime import datetime
+from pathlib import Path
 
 from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
@@ -34,6 +35,7 @@ def main():
     med_archive_path = archive_paths.get_path(ArchiveTarget.MED)
     tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR)
     nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS)
+    ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS)
 
     logging.info("Scanning Mediation archive {0}".format(med_archive_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(med_archive_path), med_archive_path))
@@ -98,10 +100,14 @@ def main():
                 tar.add(path_to_file)
             tar.close()
 
-            logging.debug("Deleting archived files")
+            logging.debug("Moving originals")
+            ops_stream_archive_path = os.path.normpath(ops_archive_path + "/" + stream_key[len(med_archive_path) + 1:])
+            logging.debug("OPS archive = {0}".format(ops_stream_archive_path))
+            if not os.path.isdir(ops_stream_archive_path):
+                Path(ops_stream_archive_path).mkdir(parents=True, exist_ok=True)
             for filename in files_to_archive[stream_key][hour_key]:
                 path_to_file = os.path.normpath(stream_key + "/" + filename)
-                os.remove(path_to_file)
+                shutil.move(path_to_file, ops_stream_archive_path)
 
     logging.info("Distributing TAR files")
     os.chdir(tar_archive_path)
