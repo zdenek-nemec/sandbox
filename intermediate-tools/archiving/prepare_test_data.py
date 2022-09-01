@@ -18,7 +18,8 @@ MAIN_DIRECTORY_STRUCTURE = [
     "tests/med_archive",
     "tests/tar_archive",
     "tests/nas_archive",
-    "tests/ops_archive"
+    "tests/ops_archive",
+    "tests/log_archive"
 ]
 DATA_DIRECTORY_STRUCTURE = [
     "BlackMed",

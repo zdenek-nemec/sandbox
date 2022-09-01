@@ -36,6 +36,7 @@ def main():
     tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR)
     nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS)
     ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS)
+    log_archive_path = archive_paths.get_path(ArchiveTarget.LOG)
 
     logging.info("Scanning Mediation archive {0}".format(med_archive_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(med_archive_path), med_archive_path))
@@ -95,19 +96,31 @@ def main():
             logging.debug(tar_file_path)
             tar = tarfile.open(tar_file_path, "w")
             os.chdir(stream_key)
+            tar_files = []
             for filename in files_to_archive[stream_key][hour_key]:
                 path_to_file = os.path.normpath(filename)
                 tar.add(path_to_file)
+                tar_files.append(filename)
             tar.close()
 
-            logging.debug("Moving originals")
+            logging.debug("Moving originals and creating the log")
             ops_stream_archive_path = os.path.normpath(ops_archive_path + "/" + stream_key[len(med_archive_path) + 1:])
+            log_stream_archive_path = os.path.normpath(log_archive_path + "/" + stream_key[len(med_archive_path) + 1:])
             logging.debug("OPS archive = {0}".format(ops_stream_archive_path))
+            logging.debug("LOG archive = {0}".format(log_stream_archive_path))
             if not os.path.isdir(ops_stream_archive_path):
                 Path(ops_stream_archive_path).mkdir(parents=True, exist_ok=True)
             for filename in files_to_archive[stream_key][hour_key]:
                 path_to_file = os.path.normpath(stream_key + "/" + filename)
                 shutil.move(path_to_file, ops_stream_archive_path)
+            if not os.path.isdir(log_stream_archive_path):
+                Path(log_stream_archive_path).mkdir(parents=True, exist_ok=True)
+            log_file_path = os.path.normpath(
+                str(log_stream_archive_path) + "/" + (os.path.basename(tar_file_path)).replace(".tar", ".log")
+            )
+            with open(log_file_path, "w") as text_file:
+                for filename in tar_files:
+                    text_file.write(filename + "\n")
 
     logging.info("Distributing TAR files")
     os.chdir(tar_archive_path)

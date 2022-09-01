@@ -8,6 +8,7 @@ class ArchiveTarget(Enum):
     TAR = 2
     NAS = 3
     OPS = 4
+    LOG = 5
 
 
 if __name__ == "__main__":

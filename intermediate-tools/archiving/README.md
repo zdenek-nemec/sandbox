@@ -28,5 +28,6 @@ Structure
 * `archive.py` - Main module
 * `archive_paths.py`
 * `archive_target.py`
+* `gimme_files.py`
 * `prepare_test_data.py`
 * `test_archive_paths.py`

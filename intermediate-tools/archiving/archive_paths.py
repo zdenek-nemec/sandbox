@@ -10,13 +10,15 @@ ARCHIVE_PATHS = {
             ArchiveTarget.MED: "/appl/dcs/data01/tmp/OC-12871/med_archive",
             ArchiveTarget.TAR: "/appl/dcs/data01/tmp/OC-12871/tar_archive",
             ArchiveTarget.NAS: "/appl/dcs/data01/tmp/OC-12871/nas_archive",
-            ArchiveTarget.OPS: "/appl/dcs/data01/tmp/OC-12871/ops_archive"
+            ArchiveTarget.OPS: "/appl/dcs/data01/tmp/OC-12871/ops_archive",
+            ArchiveTarget.LOG: "/appl/dcs/data01/tmp/OC-12871/log_archive"
         },
         ArchiveTarget.TEST: {
             ArchiveTarget.MED: "/appl/dcs/data01/tmp/OC-12871/tests/med_archive",
             ArchiveTarget.TAR: "/appl/dcs/data01/tmp/OC-12871/tests/tar_archive",
             ArchiveTarget.NAS: "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive",
-            ArchiveTarget.OPS: "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive"
+            ArchiveTarget.OPS: "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive",
+            ArchiveTarget.LOG: "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"
         }
     },
     "JISKRA": {
@@ -24,13 +26,15 @@ ARCHIVE_PATHS = {
             ArchiveTarget.MED: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
             ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
             ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
+            ArchiveTarget.LOG: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
         },
         ArchiveTarget.TEST: {
             ArchiveTarget.MED: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
             ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
             ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
+            ArchiveTarget.LOG: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
         }
     },
     "N007510": {
@@ -38,13 +42,15 @@ ARCHIVE_PATHS = {
             ArchiveTarget.MED: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
             ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
             ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
+            ArchiveTarget.LOG: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
         },
         ArchiveTarget.TEST: {
             ArchiveTarget.MED: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
             ArchiveTarget.TAR: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
             ArchiveTarget.NAS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"
+            ArchiveTarget.OPS: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
+            ArchiveTarget.LOG: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
         }
     }
 }

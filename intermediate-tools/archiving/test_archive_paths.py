@@ -1,3 +1,4 @@
+import logging
 import os.path
 import socket
 import unittest
@@ -71,6 +72,14 @@ class TestGetPath(unittest.TestCase):
          "/appl/dcs/data01/tmp/OC-12871/nas_archive"],
         [True, "N007510", ArchiveTarget.NAS,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"],
+        [True, "avl4658t", ArchiveTarget.OPS,
+         "/appl/dcs/data01/tmp/OC-12871/ops_archive"],
+        [True, "N007510", ArchiveTarget.OPS,
+         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"],
+        [True, "avl4658t", ArchiveTarget.LOG,
+         "/appl/dcs/data01/tmp/OC-12871/log_archive"],
+        [True, "N007510", ArchiveTarget.LOG,
+         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"],
         [False, "avl4658t", ArchiveTarget.MED,
          "/appl/dcs/data01/tmp/OC-12871/tests/med_archive"],
         [False, "N007510", ArchiveTarget.MED,
@@ -82,7 +91,15 @@ class TestGetPath(unittest.TestCase):
         [False, "avl4658t", ArchiveTarget.NAS,
          "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive"],
         [False, "N007510", ArchiveTarget.NAS,
-         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"]
+         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"],
+        [False, "avl4658t", ArchiveTarget.OPS,
+         "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive"],
+        [False, "N007510", ArchiveTarget.OPS,
+         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"],
+        [False, "avl4658t", ArchiveTarget.LOG,
+         "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"],
+        [False, "N007510", ArchiveTarget.LOG,
+         "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"]
     ])
     def test_existing_path(self, live, host, target, expected_path):
         archive_paths = ArchivePaths(is_live=live)
@@ -90,6 +107,7 @@ class TestGetPath(unittest.TestCase):
         self.assertEqual(os.path.normpath(expected_path), archive_paths.get_path(target))
 
     def test_unknown_host(self):
+        logging.disable()
         archive_paths = ArchivePaths()
         archive_paths._host = "potato"
         self.assertRaises(KeyError, archive_paths.get_path, ArchiveTarget.MED)
