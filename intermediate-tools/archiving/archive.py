@@ -32,11 +32,11 @@ def main():
     else:
         raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
 
-    med_archive_path = archive_paths.get_path(ArchiveTarget.MED)
-    tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR)
-    nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS)
-    ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS)
-    log_archive_path = archive_paths.get_path(ArchiveTarget.LOG)
+    med_archive_path = archive_paths.get_path(ArchiveTarget.MED_PATH)
+    tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR_PATH)
+    nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS_PATH)
+    ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS_PATH)
+    log_archive_path = archive_paths.get_path(ArchiveTarget.LOG_PATH)
 
     logging.info("Scanning Mediation archive {0}".format(med_archive_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(med_archive_path), med_archive_path))

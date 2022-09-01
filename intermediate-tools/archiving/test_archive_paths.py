@@ -60,45 +60,45 @@ class TestGetHost(unittest.TestCase):
 
 class TestGetPath(unittest.TestCase):
     @parameterized.expand([
-        [True, "avl4658t", ArchiveTarget.MED,
+        [True, "avl4658t", ArchiveTarget.MED_PATH,
          "/appl/dcs/data01/tmp/OC-12871/med_archive"],
-        [True, "N007510", ArchiveTarget.MED,
+        [True, "N007510", ArchiveTarget.MED_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive"],
-        [True, "avl4658t", ArchiveTarget.TAR,
+        [True, "avl4658t", ArchiveTarget.TAR_PATH,
          "/appl/dcs/data01/tmp/OC-12871/tar_archive"],
-        [True, "N007510", ArchiveTarget.TAR,
+        [True, "N007510", ArchiveTarget.TAR_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive"],
-        [True, "avl4658t", ArchiveTarget.NAS,
+        [True, "avl4658t", ArchiveTarget.NAS_PATH,
          "/appl/dcs/data01/tmp/OC-12871/nas_archive"],
-        [True, "N007510", ArchiveTarget.NAS,
+        [True, "N007510", ArchiveTarget.NAS_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"],
-        [True, "avl4658t", ArchiveTarget.OPS,
+        [True, "avl4658t", ArchiveTarget.OPS_PATH,
          "/appl/dcs/data01/tmp/OC-12871/ops_archive"],
-        [True, "N007510", ArchiveTarget.OPS,
+        [True, "N007510", ArchiveTarget.OPS_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"],
-        [True, "avl4658t", ArchiveTarget.LOG,
+        [True, "avl4658t", ArchiveTarget.LOG_PATH,
          "/appl/dcs/data01/tmp/OC-12871/log_archive"],
-        [True, "N007510", ArchiveTarget.LOG,
+        [True, "N007510", ArchiveTarget.LOG_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"],
-        [False, "avl4658t", ArchiveTarget.MED,
+        [False, "avl4658t", ArchiveTarget.MED_PATH,
          "/appl/dcs/data01/tmp/OC-12871/tests/med_archive"],
-        [False, "N007510", ArchiveTarget.MED,
+        [False, "N007510", ArchiveTarget.MED_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive"],
-        [False, "avl4658t", ArchiveTarget.TAR,
+        [False, "avl4658t", ArchiveTarget.TAR_PATH,
          "/appl/dcs/data01/tmp/OC-12871/tests/tar_archive"],
-        [False, "N007510", ArchiveTarget.TAR,
+        [False, "N007510", ArchiveTarget.TAR_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive"],
-        [False, "avl4658t", ArchiveTarget.NAS,
+        [False, "avl4658t", ArchiveTarget.NAS_PATH,
          "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive"],
-        [False, "N007510", ArchiveTarget.NAS,
+        [False, "N007510", ArchiveTarget.NAS_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive"],
-        [False, "avl4658t", ArchiveTarget.OPS,
+        [False, "avl4658t", ArchiveTarget.OPS_PATH,
          "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive"],
-        [False, "N007510", ArchiveTarget.OPS,
+        [False, "N007510", ArchiveTarget.OPS_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive"],
-        [False, "avl4658t", ArchiveTarget.LOG,
+        [False, "avl4658t", ArchiveTarget.LOG_PATH,
          "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"],
-        [False, "N007510", ArchiveTarget.LOG,
+        [False, "N007510", ArchiveTarget.LOG_PATH,
          "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"]
     ])
     def test_existing_path(self, live, host, target, expected_path):
@@ -110,7 +110,7 @@ class TestGetPath(unittest.TestCase):
         logging.disable()
         archive_paths = ArchivePaths()
         archive_paths._host = "potato"
-        self.assertRaises(KeyError, archive_paths.get_path, ArchiveTarget.MED)
+        self.assertRaises(KeyError, archive_paths.get_path, ArchiveTarget.MED_PATH)
 
 
 if __name__ == "__main__":

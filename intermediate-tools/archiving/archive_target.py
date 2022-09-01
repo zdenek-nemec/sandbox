@@ -2,13 +2,13 @@ from enum import Enum
 
 
 class ArchiveTarget(Enum):
-    LIVE = 1
-    TEST = 2
-    MED = 1
-    TAR = 2
-    NAS = 3
-    OPS = 4
-    LOG = 5
+    LIVE_ENV = 1
+    TEST_ENV = 2
+    MED_PATH = 1
+    TAR_PATH = 2
+    NAS_PATH = 3
+    OPS_PATH = 4
+    LOG_PATH = 5
 
 
 if __name__ == "__main__":
