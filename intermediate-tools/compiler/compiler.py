@@ -29,9 +29,30 @@ def main():
         elif pathlib.Path(file_path).suffix != ".scr":
             logging.debug("Skipping {0}, not Intermediate script".format(file_path))
             continue
-        scripts.append(file_path)
-
+        scripts.append(item)
     [logging.debug("Relevant script {0}".format(item)) for item in scripts]
+
+    dependencies = {}
+    for item in scripts:
+        dependencies[item] = []
+        with open(scripts_path + "/" + item, "r") as text_file:
+            for line in text_file:
+                if line[0:6] == "import":
+                    dependency = line[:-1].split("\"")[1]
+                    dependencies[item].append(dependency + ".scr")
+    [print(key, dependencies[key]) for key in dependencies.keys()]
+
+    libraries = {None: []}
+    for key in dependencies.keys():
+        if len(dependencies[key]) == 0:
+            libraries[None].append(key)
+        else:
+            for library in dependencies[key]:
+                if library not in libraries:
+                    libraries[library] = [key]
+                else:
+                    libraries[library].append(key)
+    [print(key, libraries[key]) for key in libraries.keys()]
 
     print("Finished")
 
