@@ -101,27 +101,18 @@ def main():
     # [print(key, to_review[key]) for key in to_review.keys()]
 
     ordered = []
-    # print("Ordered 0, len(ordered) = {0}, len(to_review) = {1}".format(len(ordered), len(to_review)))
-    for key in list(to_review.keys()):
-        if not to_review[key]:
-            ordered.append(key)
-            to_review.pop(key)
-    # print("Ordered 1, len(ordered) = {0}, len(to_review) = {1}".format(len(ordered), len(to_review)))
-    # [print(item) for item in ordered]
-
-    for key in list(to_review.keys()):
-        if not to_review[key]:
-            ordered.append(key)
-            to_review.pop(key)
-        else:
-            # print(key)
-            for dependency in to_review[key]:
-                if dependency not in ordered:
-                    break
-            else:
+    while len(to_review) > 0:
+        for key in list(to_review.keys()):
+            if not to_review[key]:
                 ordered.append(key)
                 to_review.pop(key)
-    # print("Ordered 2, len(ordered) = {0}, len(to_review) = {1}".format(len(ordered), len(to_review)))
+            else:
+                for dependency in to_review[key]:
+                    if dependency not in ordered:
+                        break
+                else:
+                    ordered.append(key)
+                    to_review.pop(key)
     [print(item) for item in ordered]
 
     print("Finished")
