@@ -1,4 +1,4 @@
-import "library_a"
+#include <library_a.pro>
 
 procedure init() {
     pass;

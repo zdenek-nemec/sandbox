@@ -42,3 +42,5 @@ Testing Structure (Dependencies)
 To Do
 
 * Check for cyclic dependencies
+* Handle h3a_common.h
+* 
