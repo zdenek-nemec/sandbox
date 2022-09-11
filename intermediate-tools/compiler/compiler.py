@@ -4,6 +4,8 @@ import pathlib
 import sys
 
 SCRIPTS_PATH = "./tests"
+TARGET = ["library_a.scr", "library_b.scr"]
+# TARGET = []
 
 
 def get_unique_list(item_list):
@@ -80,8 +82,31 @@ def main():
     print("Expanded")
     [print(key, expanded_dependencies[key]) for key in expanded_dependencies.keys()]
 
+    print("Full or target")
+    if TARGET == []:
+        to_review = expanded_dependencies.copy()
+    else:
+        to_review = {}
+        for item in TARGET:
+            to_review[item] = []
+            for key in expanded_dependencies.keys():
+                if item in expanded_dependencies[key]:
+                    # print("key {0} depends on {1}".format(key, item))
+                    to_review[key] = expanded_dependencies[key]
+
+    print("Removing unaltered")
+    for key in to_review.keys():
+        # print("* checking key", key)
+        for item in to_review[key]:
+            # print("  * checking item", item)
+            if item not in to_review.keys():
+                # print("    * not")
+                to_review[key].remove(item)
+
+    print("To review")
+    [print(key, to_review[key]) for key in to_review.keys()]
+
     ordered = []
-    to_review = expanded_dependencies.copy()
     print("Ordered 0, len(ordered) = {0}, len(to_review) = {1}".format(len(ordered), len(to_review)))
     for key in list(to_review.keys()):
         if to_review[key] == []:
