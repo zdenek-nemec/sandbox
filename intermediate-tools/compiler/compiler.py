@@ -80,6 +80,31 @@ def main():
     print("Expanded")
     [print(key, expanded_dependencies[key]) for key in expanded_dependencies.keys()]
 
+    ordered = []
+    to_review = expanded_dependencies.copy()
+    print("Ordered 0, len(ordered) = {0}, len(to_review) = {1}".format(len(ordered), len(to_review)))
+    for key in list(to_review.keys()):
+        if to_review[key] == []:
+            ordered.append(key)
+            to_review.pop(key)
+    print("Ordered 1, len(ordered) = {0}, len(to_review) = {1}".format(len(ordered), len(to_review)))
+    [print(item) for item in ordered]
+
+    for key in list(to_review.keys()):
+        if to_review[key] == []:
+            ordered.append(key)
+            to_review.pop(key)
+        else:
+            print(key)
+            for dependency in to_review[key]:
+                if dependency not in ordered:
+                    break
+            else:
+                ordered.append(key)
+                to_review.pop(key)
+    print("Ordered 2, len(ordered) = {0}, len(to_review) = {1}".format(len(ordered), len(to_review)))
+    [print(item) for item in ordered]
+
     print("Finished")
 
 
