@@ -38,3 +38,7 @@ Testing Structure (Dependencies)
 * `readme.txt` - Ignore
 * `script_a`
   * `library_a`
+
+To Do
+
+* Check for cyclic dependencies

@@ -1,0 +1,10 @@
+import "library_a"
+import "library_ac"
+
+procedure init() {
+    pass;
+}
+
+procedure main() {
+    function_a@library_a();
+}

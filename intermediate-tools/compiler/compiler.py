@@ -6,6 +6,22 @@ import sys
 SCRIPTS_PATH = "./tests"
 
 
+def get_unique_list(item_list):
+    unique_list = []
+    for item in item_list:
+        if item not in unique_list:
+            unique_list.append(item)
+    return unique_list
+
+
+def get_expanded_dependencies(dependencies, key):
+    expanded = []
+    for dependency in dependencies[key]:
+        expanded.append(dependency)
+        expanded += get_expanded_dependencies(dependencies, dependency)
+    return expanded
+
+
 def main():
     print("Intermediate Tools - Compiler")
 
@@ -40,6 +56,7 @@ def main():
                 if line[0:6] == "import":
                     dependency = line[:-1].split("\"")[1]
                     dependencies[item].append(dependency + ".scr")
+    print("Dependencies")
     [print(key, dependencies[key]) for key in dependencies.keys()]
 
     libraries = {None: []}
@@ -52,7 +69,16 @@ def main():
                     libraries[library] = [key]
                 else:
                     libraries[library].append(key)
-    [print(key, libraries[key]) for key in libraries.keys()]
+    # [print(key, libraries[key]) for key in libraries.keys()]
+
+    expanded_dependencies = {}
+    for key in dependencies.keys():
+        if dependencies[key] == []:
+            expanded_dependencies[key] = []
+        else:
+            expanded_dependencies[key] = get_unique_list(get_expanded_dependencies(dependencies, key))
+    print("Expanded")
+    [print(key, expanded_dependencies[key]) for key in expanded_dependencies.keys()]
 
     print("Finished")
 
