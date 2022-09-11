@@ -26,9 +26,9 @@ def get_expanded_dependencies(dependencies, key):
 
 
 def main():
-    print("Intermediate Tools - Compiler")
+    # print("Intermediate Tools - Compiler")
 
-    log_level = "DEBUG"
+    log_level = "ERROR"
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
@@ -113,9 +113,9 @@ def main():
                 else:
                     ordered.append(key)
                     to_review.pop(key)
-    [print(item) for item in ordered]
-
-    print("Finished")
+    # [print(item) for item in ordered]
+    print(ordered)
+    # print("Finished")
 
 
 # Import
