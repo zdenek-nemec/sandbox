@@ -1,12 +1,14 @@
+import argparse
 import logging
 import os.path
 import pathlib
 import sys
 
-SCRIPTS_PATH = "./tests"
-# SCRIPTS_PATH = "C:/Zdenek/_tmp/IntermediateScripts"
+# SCRIPTS_PATH = "./tests"
+SCRIPTS_PATH = "C:/Zdenek/_tmp/IntermediateScripts"
+# SCRIPTS_PATH = "/dcs/appl01/var_dcs_9.0_db/cgdc/src"
 # TARGET = ["library_a.scr", "library_b.scr"]
-TARGET = []
+# TARGET = []
 
 
 def get_unique_list(item_list):
@@ -27,6 +29,11 @@ def get_expanded_dependencies(dependencies, key):
 
 def main():
     # print("Intermediate Tools - Compiler")
+
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument("--target", default="")
+    # TARGET = [argument_parser.parse_args().target]
+    TARGET = []
 
     log_level = "ERROR"
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
@@ -49,7 +56,7 @@ def main():
             logging.debug("Skipping {0}, not Intermediate script".format(file_path))
             continue
         scripts.append(item)
-    [logging.debug("Relevant script {0}".format(item)) for item in scripts]
+    # [logging.debug("Relevant script {0}".format(item)) for item in scripts]
 
     dependencies = get_dependencies(scripts, scripts_path)
     # print("Dependencies")
@@ -113,8 +120,8 @@ def main():
                 else:
                     ordered.append(key)
                     to_review.pop(key)
-    # [print(item) for item in ordered]
-    print(ordered)
+    [print(item) for item in ordered]
+    # print(ordered)
     # print("Finished")
 
 
