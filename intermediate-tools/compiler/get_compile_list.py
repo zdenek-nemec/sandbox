@@ -25,11 +25,11 @@ def get_dependencies(scripts, scripts_path):
     dependencies = {}
     for item in scripts:
         dependencies[item] = []
-        with open(scripts_path + "/" + item, "r") as text_file:
+        with open(scripts_path + "/" + item + ".scr", "r") as text_file:
             for line in text_file:
                 if line[0:8] == "#include" and line.find(".pro>") != -1:
                     dependency = line[:-1].split("<")[1].split(".")[0]
-                    dependencies[item].append(dependency + ".scr")
+                    dependencies[item].append(dependency)
     return dependencies
 
 
@@ -79,7 +79,7 @@ def main():
         elif pathlib.Path(file_path).suffix != ".scr":
             logging.debug("Skipping {0}, not Intermediate script".format(file_path))
             continue
-        relevant.append(item)
+        relevant.append(item[0:-4])
     logging.debug("Identified {0} relevant scripts: {1}".format(len(relevant), relevant))
 
     logging.info("Identifying dependencies")
