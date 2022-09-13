@@ -16,21 +16,18 @@
 #         Show this help message and exit
 #
 
-function print_usage {
-    echo "Usage: $(basename $BASH_SOURCE) [-h]"
-    echo "Try \`$(basename $BASH_SOURCE) --help' for more information."
-}
+source ./functions.sh
 
-function print_help {
-    head -$(grep -n -m 1 -v "^#" "$BASH_SOURCE" | cut -d ":" -f 1) "$BASH_SOURCE"
-}
+check_help $# $1 $BASH_SOURCE
 
-if [[ "$#" == "1" && ("$1" == "-h" || "$1" == "-help" || "$1" == "--help") ]]; then
-    print_help
-    exit 0
+if [[ "$#" == "0" ]]; then
+    :
+else
+    print_usage $BASH_SOURCE
+    exit -1
 fi
 
-. ./set_environment.sh
+set_environment
 
 alias ime_compile=$IME_COMPILER
 list4ime_compile=$(find $SCRIPTS_PATH -maxdepth 1 -type f | sed $SCRIPTS_PATH_REMOVE | sed "s/\.scr//"); complete -W "$list4ime_compile" ime_compile

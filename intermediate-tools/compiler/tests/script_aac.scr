@@ -2,9 +2,9 @@
 #include <library_ac.pro>
 
 procedure init() {
-    pass;
 }
 
 procedure main() {
     function_a@library_a();
+    function_ac@library_ac();
 }
