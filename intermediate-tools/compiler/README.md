@@ -3,8 +3,8 @@
 Main
 
 * `compile.sh`
-* `get_compile_list.py`
 * `set_aliases.sh`
+* `get_compile_list.py`
 * `README.md`
 
 Secondary
@@ -53,9 +53,10 @@ Testing Structure (Dependencies)
 
 To Do
 
-* [ ] Allow targeting
+* [x] Allow targeting
 * [ ] Check for cyclic dependencies
 * [ ] Handle h3a_common.h
 * [ ] Handle records
 * [ ] Prompt before compiling
 * [ ] Print list
+* [ ] Warn about unknown scripts

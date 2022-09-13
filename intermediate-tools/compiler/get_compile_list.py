@@ -26,10 +26,16 @@ def get_dependencies(scripts, scripts_path):
     for item in scripts:
         dependencies[item] = []
         with open(scripts_path + "/" + item + ".scr", "r") as text_file:
-            for line in text_file:
+            while True:
+                try:
+                    line = text_file.readline()
+                except UnicodeDecodeError:
+                    logging.debug("Encountered invalid characters in {0}".format(item))
                 if line[0:8] == "#include" and line.find(".pro>") != -1:
                     dependency = line[:-1].split("<")[1].split(".")[0]
                     dependencies[item].append(dependency)
+                elif not line or line[0:14] == "procedure init":
+                    break
     return dependencies
 
 
@@ -57,9 +63,10 @@ def main():
     altered = argument_parser.parse_args().scripts
     if altered == "":
         altered = []
-        # altered = ["library_b.scr"]
+    else:
+        altered = altered.split(" ")
 
-    log_level = "DEBUG"
+    log_level = "ERROR"
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
@@ -139,6 +146,7 @@ def main():
                     ordered.append(key)
                     refined.pop(key)
     # [print(item) for item in ordered]
+    logging.debug("Compilation list has {0} items".format(len(ordered)))
     print(ordered)
 
     # print("Finished")

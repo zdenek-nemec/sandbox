@@ -41,7 +41,7 @@ cd $(dirname $IME_COMPILER)
 if [[ "$#" == "0" ]]; then
     compile_list=($(python get_compile_list.py | tr -d '[],' | sed "s/'//g"))
 else
-    compile_list=($(python get_compile_list.py --scripts $script | tr -d '[],' | sed "s/'//g"))
+    compile_list=($(python get_compile_list.py --scripts "$scripts" | tr -d '[],' | sed "s/'//g"))
 fi
 
 for item in ${compile_list[@]}; do
