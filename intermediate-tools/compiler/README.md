@@ -53,7 +53,9 @@ Testing Structure (Dependencies)
 
 To Do
 
+* [ ] Allow targeting
 * [ ] Check for cyclic dependencies
 * [ ] Handle h3a_common.h
 * [ ] Handle records
 * [ ] Prompt before compiling
+* [ ] Print list
