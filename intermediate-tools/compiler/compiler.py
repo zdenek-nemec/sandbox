@@ -4,11 +4,11 @@ import os.path
 import pathlib
 import sys
 
-# SCRIPTS_PATH = "./tests"
-SCRIPTS_PATH = "C:/Zdenek/_tmp/IntermediateScripts"
+SCRIPTS_PATH = "./tests"
+# SCRIPTS_PATH = "C:/Zdenek/_tmp/IntermediateScripts"
 # SCRIPTS_PATH = "/dcs/appl01/var_dcs_9.0_db/cgdc/src"
 # TARGET = ["library_a.scr", "library_b.scr"]
-# TARGET = []
+TARGET = []
 
 
 def get_unique_list(item_list):
@@ -120,8 +120,8 @@ def main():
                 else:
                     ordered.append(key)
                     to_review.pop(key)
-    [print(item) for item in ordered]
-    # print(ordered)
+    # [print(item) for item in ordered]
+    print(ordered)
     # print("Finished")
 
 
