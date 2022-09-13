@@ -1,0 +1,4 @@
+#include <library_a.pro>
+#include <library_c.pro>
+
+prototype function_ac();

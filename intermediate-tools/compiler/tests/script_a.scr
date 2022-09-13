@@ -1,0 +1,9 @@
+#include <library_a.pro>
+
+procedure init() {
+    pass;
+}
+
+procedure main() {
+    function_a@library_a();
+}

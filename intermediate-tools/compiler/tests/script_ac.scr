@@ -1,4 +1,5 @@
-import "library_a"
+#include <library_a.pro>
+#include <library_ac.pro>
 
 procedure init() {
     pass;

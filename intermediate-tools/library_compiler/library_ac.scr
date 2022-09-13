@@ -1,4 +1,0 @@
-import "library_a"
-import "library_c"
-
-prototype function_ac();
