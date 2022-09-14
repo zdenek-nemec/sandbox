@@ -16,6 +16,21 @@
 #         Show this help message and exit
 #
 
+set_environment () {
+    is_intermediate
+    if [[ $IS_INTERMEDIATE ]]; then
+        echo "Intermediate Environment $HOSTNAME"
+        SCRIPTS_PATH="/dcs/appl01/var_dcs_9.0_db/cgdc/src"
+        SCRIPTS_PATH_REMOVE="s/\/dcs\/appl01\/var_dcs_9\.0_db\/cgdc\/src\///"
+        INTERMEDIATE_COMPILER="/dcs/data01/SOFTWARE/Tools/IntermediateCompiler/compile.sh"
+    else
+        echo "Unknown Environment $HOSTNAME"
+        SCRIPTS_PATH="./tests"
+        SCRIPTS_PATH_REMOVE="s/\.\/tests\///g"
+        INTERMEDIATE_COMPILER="./compile.sh"
+    fi
+}
+
 cd $(dirname $BASH_SOURCE)
 source ./functions.sh
 
