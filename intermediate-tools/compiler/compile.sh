@@ -40,6 +40,7 @@ print_help () {
     head -$(grep -n -m 1 -v "^#" "$BASH_SOURCE" | cut -d ":" -f 1) "$BASH_SOURCE"
 }
 
+cd $(dirname $BASH_SOURCE)
 unset compile_all
 unset continue_on_error
 unset scripts
