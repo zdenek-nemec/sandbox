@@ -21,6 +21,7 @@
 #         on them
 #
 
+cd $(dirname $BASH_SOURCE)
 source ./functions.sh
 
 check_help $# $1 $BASH_SOURCE
@@ -36,12 +37,31 @@ fi
 
 set_environment
 
-cd $(dirname $IME_COMPILER)
+if [[ $IS_INTERMEDIATE ]]; then
+    original_python_home=$PYTHONHOME
+    original_python_path=$PYTHONPATH
+    original_path=$PATH
+    PYTHONHOME=/dcs/data01/SOFTWARE/Python/Python-3.7.8
+    export PYTHONHOME
+    PYTHONPATH=/dcs/data01/SOFTWARE/Python/Python-3.7.8/lib
+    export PYTHONPATH
+    PATH=/dcs/data01/SOFTWARE/Python/Python-3.7.8/bin:$PATH
+    export PATH
+fi
 
 if [[ "$#" == "0" ]]; then
     compile_list=($(python get_compile_list.py | tr -d '[],' | sed "s/'//g"))
 else
     compile_list=($(python get_compile_list.py --scripts "$scripts" | tr -d '[],' | sed "s/'//g"))
+fi
+
+if [[ $IS_INTERMEDIATE ]]; then
+    PYTHONHOME=$original_python_home
+    export PYTHONHOME
+    PYTHONPATH=$original_python_path
+    export PYTHONPATH
+    PATH=$original_path
+    export PATH
 fi
 
 for item in ${compile_list[@]}; do
@@ -59,5 +79,5 @@ for item in ${compile_list[@]}; do
 done
 
 if [[ "$compilation_result" == "0" ]]; then
-    echo -e "\033[1;32mSuccess\033[0m"
+    echo -e "\033[1;32mSuccess, scripts compiled: ${#compile_list[@]}\033[0m"
 fi

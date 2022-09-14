@@ -16,6 +16,7 @@
 #         Show this help message and exit
 #
 
+cd $(dirname $BASH_SOURCE)
 source ./functions.sh
 
 check_help $# $1 $BASH_SOURCE
@@ -30,4 +31,4 @@ fi
 set_environment
 
 alias ime_compile=$IME_COMPILER
-list4ime_compile=$(find $SCRIPTS_PATH -maxdepth 1 -type f | sed $SCRIPTS_PATH_REMOVE | sed "s/\.scr//"); complete -W "$list4ime_compile" ime_compile
+list4ime_compile=$(find $SCRIPTS_PATH -maxdepth 1 -type f | sed $SCRIPTS_PATH_REMOVE | grep .scr$ | sed "s/\.scr//"); complete -W "$list4ime_compile" ime_compile

@@ -54,9 +54,11 @@ Testing Structure (Dependencies)
 To Do
 
 * [x] Allow targeting
+* [ ] Parameter --all, help without
+* [ ] Warn about unknown scripts
+
+* [ ] Skip failed ones
 * [ ] Check for cyclic dependencies
 * [ ] Handle h3a_common.h
 * [ ] Handle records
-* [ ] Prompt before compiling
-* [ ] Print list
-* [ ] Warn about unknown scripts
+* [ ] Print dependency list
