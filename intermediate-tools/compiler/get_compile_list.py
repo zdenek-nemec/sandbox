@@ -9,7 +9,6 @@ INTERMEDIATE = ["avl4658t", "avl4688t", "avl4713p", "avl4715p"]
 SCRIPTS_PATH = {
     "Intermediate": "/dcs/appl01/var_dcs_9.0_db/cgdc/src",
     "Unknown": "./tests"
-    # "Unknown": "C:/Zdenek/_tmp/IntermediateScripts"
 }
 
 
@@ -113,6 +112,9 @@ def main():
     else:
         review = {}
         for item in altered:
+            if item not in expanded.keys():
+                print(-1)
+                raise ValueError("Unknown script {0}".format(item))
             logging.debug("Checking dependencies on {0}".format(item))
             review[item] = expanded[item]
             for key in expanded.keys():

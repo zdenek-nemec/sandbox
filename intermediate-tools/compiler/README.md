@@ -2,15 +2,15 @@
 
 Main
 
-* `compile.sh`
-* `set_aliases.sh`
-* `get_compile_list.py`
-* `README.md`
+* [x] `compile.sh`
+* [x] `get_compile_list.py`
+* [x] `README.md`
 
 Secondary
 
-* `functions.sh`
-* `tests`
+* [ ] `functions.sh` - Currently not needed
+* [ ] `set_aliases.sh` - Under construction
+* [x] `tests`
 
 Implemented in Bash and Python 3.8
 
@@ -54,10 +54,10 @@ Testing Structure (Dependencies)
 To Do
 
 * [x] Allow targeting
-* [ ] Parameter --all, help without
-* [ ] Warn about unknown scripts
-
-* [ ] Skip failed ones
+* [x] Parameter `--all`
+* [x] Continue on error
+* [x] Handle unknown scripts
+* [ ] Autocomplete
 * [ ] Check for cyclic dependencies
 * [ ] Handle h3a_common.h
 * [ ] Handle records
