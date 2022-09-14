@@ -62,3 +62,4 @@ To Do
 * [ ] Handle h3a_common.h
 * [ ] Handle records
 * [ ] Print dependency list
+* [ ] Better handling of unknown scripts
