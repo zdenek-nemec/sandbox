@@ -5,68 +5,68 @@ import socket
 from archive_target import ArchiveTarget
 
 ARCHIVE_PATHS = {
-    "avl4658t": {  # Intermediate 9 Test
-        ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/med_archive",
-            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tar_archive",
-            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/nas_archive",
-            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/ops_archive",
-            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/log_archive"
-        },
-        ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"
-        }
-    },
     "avl4688t": {  # Intermediate 9 Development
         ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "/dcs/data01/ARCHIVE",
-            ArchiveTarget.TAR_PATH: "/dcs/data01/ARCHIVE/tmp",
-            ArchiveTarget.NAS_PATH: "/dcs/data01/ARCHIVE/tar",
-            ArchiveTarget.OPS_PATH: "/dcs/data01/ARCHIVE/originals",
-            ArchiveTarget.LOG_PATH: "/dcs/data01/ARCHIVE/logs"
+            ArchiveTarget.MED_PATH: "/appl/dcs/data01/ARCHIVE",
+            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/temp",
+            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/logs",
+            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/originals",
+            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar"
         },
         ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/log_archive"
+            ArchiveTarget.MED_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/mediation",
+            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/temp",
+            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/logs",
+            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/originals",
+            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/tar"
+        }
+    },
+    "avl4658t": {  # Intermediate 9 Test
+        ArchiveTarget.LIVE_ENV: {
+            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/mediation",
+            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/temp",
+            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/logs",
+            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/originals",
+            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tar"
+        },
+        ArchiveTarget.TEST_ENV: {
+            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/mediation",
+            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/temp",
+            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/logs",
+            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/originals",
+            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/tar"
         }
     },
     "JISKRA": {  # Zdenek
         ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
+            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/mediation",
+            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/temp",
+            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/logs",
+            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/originals",
+            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar"
         },
         ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
+            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/mediation",
+            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/temp",
+            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/logs",
+            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/originals",
+            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar"
         }
     },
     "N007510": {  # Zdenek
         ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
+            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/mediation",
+            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/temp",
+            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/logs",
+            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/originals",
+            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar"
         },
         ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
+            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/mediation",
+            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/temp",
+            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/logs",
+            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/originals",
+            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar"
         }
     }
 }

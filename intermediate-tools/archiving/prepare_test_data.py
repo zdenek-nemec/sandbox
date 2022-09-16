@@ -9,18 +9,18 @@ from datetime import datetime
 from archive_paths import ArchivePaths
 
 WORKING_DIRECTORIES = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
     "avl4688t": "/appl/dcs/data01/SOFTWARE/Tools/Archiving",
+    "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
 }
 MAIN_DIRECTORY_STRUCTURE = [
     "tests",
-    "tests/med_archive",
-    "tests/tar_archive",
-    "tests/nas_archive",
-    "tests/ops_archive",
-    "tests/log_archive"
+    "tests/mediation",
+    "tests/temp",
+    "tests/logs",
+    "tests/originals",
+    "tests/tar",
 ]
 DATA_DIRECTORY_STRUCTURE = [
     "BlackMed",
