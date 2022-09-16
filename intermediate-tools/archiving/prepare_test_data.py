@@ -10,6 +10,7 @@ from archive_paths import ArchivePaths
 
 WORKING_DIRECTORIES = {
     "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
+    "avl4688t": "/appl/dcs/data01/SOFTWARE/Tools/Archiving",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
 }

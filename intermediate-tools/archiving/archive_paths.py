@@ -30,11 +30,11 @@ ARCHIVE_PATHS = {
             ArchiveTarget.LOG_PATH: "/dcs/data01/ARCHIVE/logs"
         },
         ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"
+            ArchiveTarget.MED_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/med_archive",
+            ArchiveTarget.TAR_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/tar_archive",
+            ArchiveTarget.NAS_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/nas_archive",
+            ArchiveTarget.OPS_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/ops_archive",
+            ArchiveTarget.LOG_PATH: "/dcs/data01/SOFTWARE/Tools/Archiving/tests/log_archive"
         }
     },
     "JISKRA": {  # Zdenek
