@@ -23,18 +23,18 @@ ARCHIVE_PATHS = {
     },
     "avl4658t": {  # Intermediate 9 Test
         ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/mediation",
-            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/temp",
-            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/logs",
-            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/originals",
-            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tar"
+            ArchiveTarget.MED_PATH: "/appl/dcs/data01/ARCHIVE",
+            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/temp",
+            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/logs",
+            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/originals",
+            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar"
         },
         ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/mediation",
-            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/temp",
-            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/logs",
-            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/originals",
-            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/tar"
+            ArchiveTarget.MED_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/mediation",
+            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/temp",
+            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/logs",
+            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/originals",
+            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/SOFTWARE/Tools/Archiving/tests/tar"
         }
     },
     "JISKRA": {  # Zdenek

@@ -38,16 +38,17 @@ To Do
 * [ ] Refactor `archive_paths.py` - Better naming
 * [x] Monthly directories in TAR target
 * [x] Monthly directories in `logs`
+* [ ] Logs directory structure will mirror TAR
 * [ ] Create `tar.tmp` first and then change to `.tar`
 * [ ] Provide statistics script for OPS
   * [ ] How many files were collected by `ICS|*_SSS` between 02:00 and 03:00
 * [ ] Option to preserve or delete originals
 * [ ] Select date (and time) for TAR creation
-* [ ] Check paths: `logs`, `originals`, `tar` and `temp`
+* [ ] Check paths: archive `logs`, `originals`, `tar`, `temp` and application logs
 
 Installation
 
 ```text
 # TAR Archiving
-  15           */2     *        *       *        /appl/dcs/data01/SOFTWARE/Tools/Archiving/archive.sh
+  15           *     *        *       *        /appl/dcs/data01/SOFTWARE/Tools/Archiving/archive.sh
 ```

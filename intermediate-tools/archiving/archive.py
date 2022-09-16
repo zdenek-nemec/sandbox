@@ -10,7 +10,8 @@ from pathlib import Path
 from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
 
-EXCLUDE = ["ARCHIVE_STORAGE", "Ignored", "lost+found", "202111", "202203", "202204", "202207"]
+EXCLUDE = ["ARCHIVE_STORAGE", "Ignored", "lost+found", "202111", "202203", "202204", "202205", "202206", "202207",
+           "202208", "202209"]
 
 
 def main():
@@ -109,7 +110,8 @@ def main():
 
             logging.debug("Moving originals and creating the log")
             ops_stream_archive_path = os.path.normpath(ops_archive_path + "/" + stream_key[len(med_archive_path) + 1:])
-            log_stream_archive_path = os.path.normpath(log_archive_path + "/" + hour_key[0:6] + "/" + stream_key[len(med_archive_path) + 1:])
+            log_stream_archive_path = os.path.normpath(
+                log_archive_path + "/" + hour_key[0:6] + "/" + stream_key[len(med_archive_path) + 1:])
             logging.debug("OPS archive = {0}".format(ops_stream_archive_path))
             logging.debug("LOG archive = {0}".format(log_stream_archive_path))
             if not os.path.isdir(ops_stream_archive_path):
