@@ -10,6 +10,7 @@ from pathlib import Path
 from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
 
+EXCLUDE = ["ARCHIVE_STORAGE", "Ignored", "lost+found", "202111", "202203", "202204", "202207"]
 
 def main():
     print("Intermediate Tools - Archiving: Archive")
@@ -40,7 +41,10 @@ def main():
 
     logging.info("Scanning Mediation archive {0}".format(med_archive_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(med_archive_path), med_archive_path))
-    content = [os.path.normpath(med_archive_path + "/" + item) for item in os.listdir(med_archive_path)]
+    content = [os.path.normpath(med_archive_path + "/" + item) for item in filter(
+        lambda x: x not in EXCLUDE, os.listdir(med_archive_path)
+    )]
+
     logging.debug("content first item = {0}".format(content[0]))
     logging.debug("content length = {0}".format(len(content)))
     logging.debug("content basenames = {0}".format([os.path.basename(item) for item in content]))

@@ -30,6 +30,8 @@ DATA_DIRECTORY_STRUCTURE = [
     "BlackMed/TechSplit",
     "BlackMed_old_Nokia_invoices",
     "BlackMed_old_Nokia_Reports",
+    "Ignored",
+    "Ignored/Subdirectory",
     "I_ICS",
     "I_ICS/CG01_ECSCF",
     "I_ICS/CG01_IPSM",

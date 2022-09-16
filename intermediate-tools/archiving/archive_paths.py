@@ -5,7 +5,7 @@ import socket
 from archive_target import ArchiveTarget
 
 ARCHIVE_PATHS = {
-    "avl4658t": {
+    "avl4658t": {  # Intermediate 9 Test
         ArchiveTarget.LIVE_ENV: {
             ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/med_archive",
             ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tar_archive",
@@ -21,7 +21,23 @@ ARCHIVE_PATHS = {
             ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"
         }
     },
-    "JISKRA": {
+    "avl4688t": {  # Intermediate 9 Development
+        ArchiveTarget.LIVE_ENV: {
+            ArchiveTarget.MED_PATH: "/dcs/data01/ARCHIVE",
+            ArchiveTarget.TAR_PATH: "/dcs/data01/ARCHIVE/tmp",
+            ArchiveTarget.NAS_PATH: "/dcs/data01/ARCHIVE/tar",
+            ArchiveTarget.OPS_PATH: "/dcs/data01/ARCHIVE/originals",
+            ArchiveTarget.LOG_PATH: "/dcs/data01/ARCHIVE/logs"
+        },
+        ArchiveTarget.TEST_ENV: {
+            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/med_archive",
+            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/tar_archive",
+            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive",
+            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive",
+            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"
+        }
+    },
+    "JISKRA": {  # Zdenek
         ArchiveTarget.LIVE_ENV: {
             ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
             ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
@@ -37,7 +53,7 @@ ARCHIVE_PATHS = {
             ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
         }
     },
-    "N007510": {
+    "N007510": {  # Zdenek
         ArchiveTarget.LIVE_ENV: {
             ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
             ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",

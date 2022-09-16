@@ -31,3 +31,9 @@ Structure
 * `gimme_files.py`
 * `prepare_test_data.py`
 * `test_archive_paths.py`
+
+To Do
+
+* [x] Ignore
+* [ ] Refactor `archive_paths.py` - Better naming
+* [ ] Monthly directories in TAR target
