@@ -45,6 +45,8 @@ To Do
 * [ ] Option to preserve or delete originals
 * [ ] Select date (and time) for TAR creation
 * [ ] Check paths: archive `logs`, `originals`, `tar`, `temp` and application logs
+* [ ] What if there is valid file in arch01?
+* [ ] Weird filenames (with spaces)
 
 Installation
 

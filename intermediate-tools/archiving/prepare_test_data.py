@@ -2,15 +2,15 @@ import logging
 import os
 import random
 import shutil
+import socket
 import string
 import sys
 from datetime import datetime
 
-from archive_paths import ArchivePaths
-
 WORKING_DIRECTORIES = {
     "avl4688t": "/appl/dcs/data01/SOFTWARE/Tools/Archiving",
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
+    "avl4658t": "/appl/dcs/data01/SOFTWARE/Tools/Archiving",
+    "ANTB1801": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
     "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
     "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
 }
@@ -63,7 +63,12 @@ ARCHIVE_PREFIXES = {
     "20220801_005959": 1,
     "20220801_015900": 1,
     "20220801_021500": 15,
-    "20220801_030300": 3
+    "20220801_030300": 3,
+    "20220901_040300": 5,
+    "20220901_050300": 5,
+    "20220901_050301": 5,
+    "20220901_050302": 5,
+    "20220901_060300": 5
 }
 
 
@@ -84,16 +89,9 @@ def main():
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    logging.info("Validating the host")
-    archive_paths = ArchivePaths()
-    if archive_paths.is_host_valid():
-        logging.info("Host {0} is valid".format(archive_paths.get_host()))
-    else:
-        raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
-
     logging.info("Checking the working directory")
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
-    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORIES[archive_paths.get_host()])
+    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORIES[socket.gethostname()])
 
     logging.info("Cleaning up \"{0}\" directory".format(MAIN_DIRECTORY_STRUCTURE[0]))
     logging.debug("os.listdir() = {0}".format(os.listdir()))
@@ -128,6 +126,7 @@ def main():
     ))
     current_path = os.getcwd()
     write_file(current_path + "/" + get_random_filename())
+    write_file(current_path + "/" + list(ARCHIVE_PREFIXES.keys())[0] + "___" + get_random_filename())
     archive_prefixes = {**ARCHIVE_PREFIXES, **{datetime.now().strftime("%Y%m%d_%H%M%S"): 1}}
     for prefix in archive_prefixes.keys():
         for path in DATA_DIRECTORY_STRUCTURE:
