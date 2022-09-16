@@ -12,6 +12,7 @@ from archive_target import ArchiveTarget
 
 EXCLUDE = ["ARCHIVE_STORAGE", "Ignored", "lost+found", "202111", "202203", "202204", "202207"]
 
+
 def main():
     print("Intermediate Tools - Archiving: Archive")
 
@@ -131,16 +132,13 @@ def main():
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
     logging.debug("os.listdir() first 10 = {0}".format(os.listdir()[0:10]))
     tar_directory_content = os.listdir()
-    nas_directories = list(filter(
-        lambda item: os.path.isdir(nas_archive_path + "/" + item),
-        [item for item in os.listdir(nas_archive_path)]
-    ))
     for tar_file in tar_directory_content:
-        main_directory = tar_file.split("-")[0]
-        if main_directory not in nas_directories:
-            os.mkdir(nas_archive_path + "/" + main_directory)
-            nas_directories.append(main_directory)
-        shutil.move(tar_file, nas_archive_path + "/" + main_directory)
+        stream_directory = tar_file.split("-")[0]
+        month_directory = tar_file.split("-")[-1][0:6]
+        tar_file_directory_path = nas_archive_path + "/" + month_directory + "/" + stream_directory
+        if not os.path.isdir(tar_file_directory_path):
+            Path(tar_file_directory_path).mkdir(parents=True, exist_ok=True)
+        shutil.move(tar_file, tar_file_directory_path)
     print("Finished")
 
 

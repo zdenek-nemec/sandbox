@@ -34,6 +34,12 @@ Structure
 
 To Do
 
-* [x] Ignore
+* [x] Exclusions
 * [ ] Refactor `archive_paths.py` - Better naming
-* [ ] Monthly directories in TAR target
+* [x] Monthly directories in TAR target
+* [ ] Monthly directories in `logs`
+* [ ] Create `tar.tmp` first and then change to `.tar`
+* [ ] Provide statistics script for OPS
+  * [ ] how many files were collected by `ICS|*_SSS` between 02:00 and 03:00
+* [ ] Option to preserve or delete originals
+* [ ] Select date (and time) for TAR creation
