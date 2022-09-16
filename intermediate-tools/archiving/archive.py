@@ -62,9 +62,8 @@ def main():
     logging.debug("directories first item = {0}".format(directories[0]))
     logging.debug("directories length = {0}".format(len(directories)))
     logging.debug("directories basenames = {0}".format([os.path.basename(item) for item in directories]))
-    logging.debug("files first item = {0}".format(files[0]))
-    logging.debug("files second item = {0}".format(files[1]))
     logging.debug("files length = {0}".format(len(files)))
+    logging.debug("files first items = {0}".format(files[0:2]))
     logging.debug("files first 10 basenames = {0}".format([os.path.basename(item) for item in files[0:10]]))
 
     logging.info("Getting the list of files to archive")

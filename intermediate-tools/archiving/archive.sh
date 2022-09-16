@@ -16,6 +16,7 @@
 #
 
 INTERMEDIATE=("avl4658t" "avl4688t" "avl4713p" "avl4715p")
+INTERMEDIATE_LOGS_PATH=/appl/dcs/data01/LOGS/Archiving
 REQUIRED_PYTHONHOME=/dcs/data01/SOFTWARE/Python/Python-3.7.8
 REQUIRED_PYTHONPATH=/dcs/data01/SOFTWARE/Python/Python-3.7.8/lib
 REQUIRED_PATH=/dcs/data01/SOFTWARE/Python/Python-3.7.8/bin
@@ -39,8 +40,10 @@ elif [[ $# != 0 ]]; then
     exit -1
 fi
 
+logs_path=.
 for item in ${INTERMEDIATE[@]}; do
     if [[ "$item" == "$HOSTNAME" ]]; then
+        logs_path=$INTERMEDIATE_LOGS_PATH
         PYTHONHOME=$REQUIRED_PYTHONHOME
         export PYTHONHOME
         PYTHONPATH=$REQUIRED_PYTHONPATH
@@ -51,4 +54,9 @@ for item in ${INTERMEDIATE[@]}; do
     fi
 done
 
-python archive.py
+output_log=$logs_path/archiving_`date '+%Y-%m-%d'`.log
+error_log=$logs_path/archiving_errors_`date '+%Y-%m-%d'`.log
+echo `date '+%Y-%m-%d %H:%M:%S'` >>$output_log
+echo `date '+%Y-%m-%d %H:%M:%S'` >>$error_log
+
+python archive.py --live 1>>$output_log 2>>$error_log

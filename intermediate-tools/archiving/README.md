@@ -43,3 +43,11 @@ To Do
   * [ ] How many files were collected by `ICS|*_SSS` between 02:00 and 03:00
 * [ ] Option to preserve or delete originals
 * [ ] Select date (and time) for TAR creation
+* [ ] Check paths: `logs`, `originals`, `tar` and `temp`
+
+Installation
+
+```text
+# TAR Archiving
+  15           */2     *        *       *        /appl/dcs/data01/SOFTWARE/Tools/Archiving/archive.sh
+```
