@@ -60,6 +60,8 @@ Installation on Intermediate 9 server
 * [x] Handle valid files in arch01 - TAR filename starts with dash `-`
 * [x] Handle weird filenames (with spaces)
 * [x] Make sure the application cannot run more than once at a time
+* [ ] Common functions (e.g. `validate_path`)
+* [ ] Go directory after directory instead of creating complete list at the start
 
 ### Extra
 

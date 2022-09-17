@@ -17,6 +17,22 @@ EXCLUDE = [
     "202111", "202203", "202204", "202205", "202206", "202207", "202208", "202209"
 ]
 
+
+def get_directories(path, exclusions):
+    if not os.path.isdir(path):
+        raise OSError("Path {0} does not exist".format(path))
+
+    directories = [path]
+    content = [os.path.normpath(path + "/" + item) for item in filter(
+        lambda x: x not in exclusions, os.listdir(path)
+    )]
+    for current_path in content:
+        if os.path.isdir(current_path):
+            directories.append(current_path)
+            content += [os.path.normpath(current_path + "/" + item) for item in os.listdir(current_path)]
+    return directories
+
+
 def main():
     print("Intermediate Tools - Archiving: Archive")
 
@@ -52,6 +68,9 @@ def main():
     tar_path = archive_paths.get_path(ArchiveTarget.PATH_TAR)
     for path in [mediation_path, temporary_path, logs_path, originals_path, tar_path]:
         archive_paths.validate(path)
+
+    logging.info("Scanning Mediation archive {0} for directories".format(mediation_path))
+    mediation_directories = get_directories(mediation_path, EXCLUDE)
 
     logging.info("Scanning Mediation archive {0}".format(mediation_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(mediation_path), mediation_path))
