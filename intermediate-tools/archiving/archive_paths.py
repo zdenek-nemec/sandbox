@@ -41,11 +41,7 @@ class ArchivePaths(object):
         self._host = socket.gethostname()
         self._test = test or self._host not in INTERMEDIATE.keys()
 
-    def is_test(self):
-        return self._test
-
-    def get_path(self, target: ArchiveTarget):
-        environment = ArchiveTarget.ENVIRONMENT_LOCAL if self._test else INTERMEDIATE[self._host]
+    def _get_path_value(self, environment, target):
         try:
             return os.path.abspath(ARCHIVE_PATHS[environment][target])
         except KeyError:
@@ -55,6 +51,17 @@ class ArchivePaths(object):
                 )
             )
             raise
+
+    def is_test(self):
+        return self._test
+
+    def get_path(self, target: ArchiveTarget):
+        environment = ArchiveTarget.ENVIRONMENT_LOCAL if self._test else INTERMEDIATE[self._host]
+        return self._get_path_value(environment, target)
+
+    def validate(self, path):
+        if not os.path.isdir(path):
+            raise OSError("Path {0} does not exist".format(path))
 
 
 if __name__ == "__main__":

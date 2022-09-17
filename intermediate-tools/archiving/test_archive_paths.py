@@ -87,5 +87,17 @@ class TestGetPath(unittest.TestCase):
             archive_paths.get_path(ArchiveTarget.PATH_MEDIATION)
 
 
+class TestValidate(unittest.TestCase):
+    def test_valid(self):
+        archive_paths = ArchivePaths()
+        archive_paths.validate(".")
+        self.assertTrue(True)
+
+    def test_invalid(self):
+        archive_paths = ArchivePaths()
+        with self.assertRaises(OSError):
+            archive_paths.validate("/xxx/potato/xxx")
+
+
 if __name__ == "__main__":
     unittest.main()

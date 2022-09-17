@@ -17,7 +17,6 @@ EXCLUDE = [
     "202111", "202203", "202204", "202205", "202206", "202207", "202208", "202209"
 ]
 
-
 def main():
     print("Intermediate Tools - Archiving: Archive")
 
@@ -45,11 +44,14 @@ def main():
     logging.debug("archive_paths.is_test() = {0}".format(archive_paths.is_test()))
     logging.info("{0} run".format("Live" if not archive_paths.is_test() else "Test"))
 
+    logging.info("Validating paths")
     mediation_path = archive_paths.get_path(ArchiveTarget.PATH_MEDIATION)
     temporary_path = archive_paths.get_path(ArchiveTarget.PATH_TEMPORARY)
     logs_path = archive_paths.get_path(ArchiveTarget.PATH_LOGS)
     originals_path = archive_paths.get_path(ArchiveTarget.PATH_ORIGINALS)
     tar_path = archive_paths.get_path(ArchiveTarget.PATH_TAR)
+    for path in [mediation_path, temporary_path, logs_path, originals_path, tar_path]:
+        archive_paths.validate(path)
 
     logging.info("Scanning Mediation archive {0}".format(mediation_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(mediation_path), mediation_path))
