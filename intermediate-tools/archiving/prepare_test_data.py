@@ -73,7 +73,7 @@ ARCHIVE_PREFIXES = {
 
 
 def get_random_filename():
-    random_string = "".join(random.choice(string.ascii_lowercase + string.digits) for _ in range(FILENAME_LENGTH))
+    random_string = "".join(random.choice(string.ascii_lowercase + string.digits + " ") for _ in range(FILENAME_LENGTH))
     return "Filename_" + random_string + ".txt"
 
 

@@ -59,5 +59,5 @@ To Do
 * [ ] Select date (and time) for TAR creation
 * [ ] Check paths: archive `logs`, `originals`, `tar`, `temp` and application logs
 * [ ] Handle valid files in arch01
-* [ ] Handle weird filenames (with spaces)
+* [x] Handle weird filenames (with spaces)
 * [x] Make sure the application cannot run more than once at a time
