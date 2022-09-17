@@ -2,40 +2,44 @@ import argparse
 import logging
 import os
 import shutil
-import socket
 import sys
 import tarfile
 from datetime import datetime
 from pathlib import Path
 
+from application_lock import ApplicationLock
 from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
 
-EXCLUDE = ["ARCHIVE_STORAGE", "Ignored", "lost+found", "202111", "202203", "202204", "202205", "202206", "202207",
-           "202208", "202209"]
 APPLICATION_PORT = 12345
+EXCLUDE = [
+    "ARCHIVE_STORAGE", "lost+found",
+    "202111", "202203", "202204", "202205", "202206", "202207", "202208", "202209"
+]
 
 
 def main():
     print("Intermediate Tools - Archiving: Archive")
 
-    log_level = "DEBUG"
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument(
+        "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    )
+    argument_parser.add_argument("--live", action="store_true")
+
+    log_level = argument_parser.parse_args().log_level
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    logging.info("Checking the instances")
-    application_socket = socket.socket()
-    try:
-        application_socket.bind((socket.gethostname(), APPLICATION_PORT))
-    except OSError:
-        logging.error("The application is already running, cannot start another one")
-        exit(-1)
-    else:
-        logging.debug("This is the only instance, continuing")
+    logging.info("Application started")
 
-    logging.info("Parsing the arguments")
-    argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument("--live", action="store_true")
+    logging.debug("Arguments: log_level = {0}, live = {1}".format(
+        argument_parser.parse_args().log_level,
+        argument_parser.parse_args().live
+    ))
+
+    logging.info("Locking to a single instance")
+    application_lock = ApplicationLock(APPLICATION_PORT)
 
     archive_paths = ArchivePaths(argument_parser.parse_args().live)
     logging.debug("archive_paths.is_test() = {0}".format(archive_paths.is_test()))
@@ -145,6 +149,8 @@ def main():
         if not os.path.isdir(tar_file_directory_path):
             Path(tar_file_directory_path).mkdir(parents=True, exist_ok=True)
         shutil.move(tar_file, tar_file_directory_path)
+
+    application_lock.disable()
     print("Finished")
 
 

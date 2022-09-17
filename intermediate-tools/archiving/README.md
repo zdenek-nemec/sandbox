@@ -9,10 +9,12 @@ Main
 Secondary
 
 * `.gitignore`
+* `application_lock.py`
 * `archive_paths.py`
 * `archive_target.py`
 * `gimme_files.py`
 * `prepare_test_data.py`
+* `test_application_lock.py`
 * `test_archive_paths.py`
 
 Implemented in Bash and Python 3.8

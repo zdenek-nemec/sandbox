@@ -83,7 +83,8 @@ class TestGetPath(unittest.TestCase):
         archive_paths = ArchivePaths()
         archive_paths._test = False
         archive_paths._host = "potato"
-        self.assertRaises(KeyError, archive_paths.get_path, ArchiveTarget.PATH_MEDIATION)
+        with self.assertRaises(KeyError):
+            archive_paths.get_path(ArchiveTarget.PATH_MEDIATION)
 
 
 if __name__ == "__main__":
