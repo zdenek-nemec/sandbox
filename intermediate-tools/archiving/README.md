@@ -1,8 +1,21 @@
 # Intermediate Tools: Archiving
 
-Main module: `archive.py`
+Main
 
-Implemented in Python 3.8
+* `archive.sh`
+* `archive.py`
+* `README.md`
+
+Secondary
+
+* `.gitignore`
+* `archive_paths.py`
+* `archive_target.py`
+* `gimme_files.py`
+* `prepare_test_data.py`
+* `test_archive_paths.py`
+
+Implemented in Bash and Python 3.8
 
 Dependencies
 
@@ -11,31 +24,31 @@ Dependencies
 Synopsis
 
 ```text
+archive.sh
+
 archive.py [--live]
 ```
 
 Examples
 
 ```text
+archive.sh
+
 archive.py
 archive.py --live
 ```
 
-Structure
+Installation on Intermediate 9 server
 
-* `.gitignore` - Git configuration file (ignored files)
-* `README.md`
-* `archive.py` - Main module
-* `archive_paths.py`
-* `archive_target.py`
-* `gimme_files.py`
-* `prepare_test_data.py`
-* `test_archive_paths.py`
+```text
+# TAR Archiving
+15 * * * * /appl/dcs/data01/SOFTWARE/Tools/Archiving/archive.sh
+```
 
 To Do
 
 * [x] Exclusions
-* [ ] Refactor `archive_paths.py` - Better naming
+* [x] Refactor `archive_paths.py`
 * [x] Monthly directories in TAR target
 * [x] Monthly directories in `logs`
 * [ ] Logs directory structure will mirror TAR
@@ -45,12 +58,6 @@ To Do
 * [ ] Option to preserve or delete originals
 * [ ] Select date (and time) for TAR creation
 * [ ] Check paths: archive `logs`, `originals`, `tar`, `temp` and application logs
-* [ ] What if there is valid file in arch01?
-* [ ] Weird filenames (with spaces)
-
-Installation
-
-```text
-# TAR Archiving
-  15           *     *        *       *        /appl/dcs/data01/SOFTWARE/Tools/Archiving/archive.sh
-```
+* [ ] Handle valid files in arch01
+* [ ] Handle weird filenames (with spaces)
+* [x] Make sure the application cannot run more than once at a time

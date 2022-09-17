@@ -36,14 +36,14 @@ class TestGetPath(unittest.TestCase):
     @parameterized.expand([
         [True, "potato", ArchiveTarget.PATH_MEDIATION, "./tests/mediation"],
         [True, "potato", ArchiveTarget.PATH_TEMPORARY, "./tests/temp"],
-        [True, "potato", ArchiveTarget.PATH_LOGS, "./tests/logs"],
+        [True, "potato", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
         [True, "potato", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
-        [True, "potato", ArchiveTarget.PATH_TAR, "./tests/tar"],
+        [True, "potato", ArchiveTarget.PATH_TAR, "./tests/tar_archives"],
         [False, "potato", ArchiveTarget.PATH_MEDIATION, "./tests/mediation"],
         [False, "potato", ArchiveTarget.PATH_TEMPORARY, "./tests/temp"],
-        [False, "potato", ArchiveTarget.PATH_LOGS, "./tests/logs"],
+        [False, "potato", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
         [False, "potato", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
-        [False, "potato", ArchiveTarget.PATH_TAR, "./tests/tar"]
+        [False, "potato", ArchiveTarget.PATH_TAR, "./tests/tar_archives"]
     ])
     def test_local(self, test, host, target, expected_path):
         archive_paths = ArchivePaths(test)
@@ -53,24 +53,24 @@ class TestGetPath(unittest.TestCase):
     @parameterized.expand([
         [True, "avl4688t", ArchiveTarget.PATH_MEDIATION, "./tests/mediation"],
         [True, "avl4688t", ArchiveTarget.PATH_TEMPORARY, "./tests/temp"],
-        [True, "avl4688t", ArchiveTarget.PATH_LOGS, "./tests/logs"],
+        [True, "avl4688t", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
         [True, "avl4688t", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
-        [True, "avl4688t", ArchiveTarget.PATH_TAR, "./tests/tar"],
+        [True, "avl4688t", ArchiveTarget.PATH_TAR, "./tests/tar_archives"],
         [False, "avl4688t", ArchiveTarget.PATH_MEDIATION, "/appl/dcs/data01/ARCHIVE"],
         [False, "avl4688t", ArchiveTarget.PATH_TEMPORARY, "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/temp"],
-        [False, "avl4688t", ArchiveTarget.PATH_LOGS, "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/logs"],
+        [False, "avl4688t", ArchiveTarget.PATH_LOGS, "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/archive_logs"],
         [False, "avl4688t", ArchiveTarget.PATH_ORIGINALS, "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/originals"],
-        [False, "avl4688t", ArchiveTarget.PATH_TAR, "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar"],
+        [False, "avl4688t", ArchiveTarget.PATH_TAR, "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar_archives"],
         [True, "avl4713p", ArchiveTarget.PATH_MEDIATION, "./tests/mediation"],
         [True, "avl4713p", ArchiveTarget.PATH_TEMPORARY, "./tests/temp"],
-        [True, "avl4713p", ArchiveTarget.PATH_LOGS, "./tests/logs"],
+        [True, "avl4713p", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
         [True, "avl4713p", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
-        [True, "avl4713p", ArchiveTarget.PATH_TAR, "./tests/tar"],
+        [True, "avl4713p", ArchiveTarget.PATH_TAR, "./tests/tar_archives"],
         [False, "avl4713p", ArchiveTarget.PATH_MEDIATION, "/appl/dcs/arch01"],
         [False, "avl4713p", ArchiveTarget.PATH_TEMPORARY, "/appl/dcs/arch01/ARCHIVE_STORAGE/temp"],
-        [False, "avl4713p", ArchiveTarget.PATH_LOGS, "/appl/dcs/arch01/ARCHIVE_STORAGE/logs"],
+        [False, "avl4713p", ArchiveTarget.PATH_LOGS, "/appl/dcs/arch01/ARCHIVE_STORAGE/archive_logs"],
         [False, "avl4713p", ArchiveTarget.PATH_ORIGINALS, "/appl/dcs/arch01/ARCHIVE_STORAGE/originals"],
-        [False, "avl4713p", ArchiveTarget.PATH_TAR, "/appl/dcs/arch01/ARCHIVE_STORAGE/tar"]
+        [False, "avl4713p", ArchiveTarget.PATH_TAR, "/appl/dcs/arch01/ARCHIVE_STORAGE/tar_archives"]
     ])
     def test_intermediate(self, test, host, target, expected_path):
         archive_paths = ArchivePaths()

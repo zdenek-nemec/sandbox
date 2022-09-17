@@ -15,23 +15,23 @@ ARCHIVE_PATHS = {
     ArchiveTarget.ENVIRONMENT_LOCAL: {
         ArchiveTarget.PATH_MEDIATION: "./tests/mediation",
         ArchiveTarget.PATH_TEMPORARY: "./tests/temp",
-        ArchiveTarget.PATH_LOGS: "./tests/logs",
+        ArchiveTarget.PATH_LOGS: "./tests/archive_logs",
         ArchiveTarget.PATH_ORIGINALS: "./tests/originals",
-        ArchiveTarget.PATH_TAR: "./tests/tar"
+        ArchiveTarget.PATH_TAR: "./tests/tar_archives"
     },
     ArchiveTarget.ENVIRONMENT_TEST: {
         ArchiveTarget.PATH_MEDIATION: "/appl/dcs/data01/ARCHIVE",
         ArchiveTarget.PATH_TEMPORARY: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/temp",
-        ArchiveTarget.PATH_LOGS: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/logs",
+        ArchiveTarget.PATH_LOGS: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/archive_logs",
         ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/originals",
-        ArchiveTarget.PATH_TAR: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar"
+        ArchiveTarget.PATH_TAR: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar_archives"
     },
     ArchiveTarget.ENVIRONMENT_PRODUCTION: {
         ArchiveTarget.PATH_MEDIATION: "/appl/dcs/arch01",
         ArchiveTarget.PATH_TEMPORARY: "/appl/dcs/arch01/ARCHIVE_STORAGE/temp",
-        ArchiveTarget.PATH_LOGS: "/appl/dcs/arch01/ARCHIVE_STORAGE/logs",
+        ArchiveTarget.PATH_LOGS: "/appl/dcs/arch01/ARCHIVE_STORAGE/archive_logs",
         ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/arch01/ARCHIVE_STORAGE/originals",
-        ArchiveTarget.PATH_TAR: "/appl/dcs/arch01/ARCHIVE_STORAGE/tar"
+        ArchiveTarget.PATH_TAR: "/appl/dcs/arch01/ARCHIVE_STORAGE/tar_archives"
     }
 }
 

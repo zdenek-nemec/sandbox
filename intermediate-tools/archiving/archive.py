@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import shutil
+import socket
 import sys
 import tarfile
 from datetime import datetime
@@ -12,6 +13,7 @@ from archive_target import ArchiveTarget
 
 EXCLUDE = ["ARCHIVE_STORAGE", "Ignored", "lost+found", "202111", "202203", "202204", "202205", "202206", "202207",
            "202208", "202209"]
+APPLICATION_PORT = 12345
 
 
 def main():
@@ -20,6 +22,16 @@ def main():
     log_level = "DEBUG"
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
+
+    logging.info("Checking the instances")
+    application_socket = socket.socket()
+    try:
+        application_socket.bind((socket.gethostname(), APPLICATION_PORT))
+    except OSError:
+        logging.error("The application is already running, cannot start another one")
+        exit(-1)
+    else:
+        logging.debug("This is the only instance, continuing")
 
     logging.info("Parsing the arguments")
     argument_parser = argparse.ArgumentParser()

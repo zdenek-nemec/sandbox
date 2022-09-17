@@ -40,7 +40,7 @@ elif [[ $# != 0 ]]; then
     exit -1
 fi
 
-logs_path=.
+logs_path=./logs
 for item in ${INTERMEDIATE[@]}; do
     if [[ "$item" == "$HOSTNAME" ]]; then
         logs_path=$INTERMEDIATE_LOGS_PATH
