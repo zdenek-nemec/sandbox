@@ -48,7 +48,7 @@ class TestGetPath(unittest.TestCase):
     def test_local(self, test, host, target, expected_path):
         archive_paths = ArchivePaths(test)
         archive_paths._host = host
-        self.assertEqual(os.path.normpath(expected_path), archive_paths.get_path(target))
+        self.assertEqual(os.path.abspath(expected_path), archive_paths.get_path(target))
 
     @parameterized.expand([
         [True, "avl4688t", ArchiveTarget.PATH_MEDIATION, "./tests/mediation"],
@@ -76,7 +76,7 @@ class TestGetPath(unittest.TestCase):
         archive_paths = ArchivePaths()
         archive_paths._host = host
         archive_paths._test = test
-        self.assertEqual(os.path.normpath(expected_path), archive_paths.get_path(target))
+        self.assertEqual(os.path.abspath(expected_path), archive_paths.get_path(target))
 
     def test_unknown_host_exception(self):
         logging.disable()

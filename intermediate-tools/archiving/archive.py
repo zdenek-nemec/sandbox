@@ -45,11 +45,11 @@ def main():
     logging.debug("archive_paths.is_test() = {0}".format(archive_paths.is_test()))
     logging.info("{0} run".format("Live" if not archive_paths.is_test() else "Test"))
 
-    mediation_path = os.path.abspath(archive_paths.get_path(ArchiveTarget.PATH_MEDIATION))
-    temporary_path = os.path.abspath(archive_paths.get_path(ArchiveTarget.PATH_TEMPORARY))
-    logs_path = os.path.abspath(archive_paths.get_path(ArchiveTarget.PATH_LOGS))
-    originals_path = os.path.abspath(archive_paths.get_path(ArchiveTarget.PATH_ORIGINALS))
-    tar_path = os.path.abspath(archive_paths.get_path(ArchiveTarget.PATH_TAR))
+    mediation_path = archive_paths.get_path(ArchiveTarget.PATH_MEDIATION)
+    temporary_path = archive_paths.get_path(ArchiveTarget.PATH_TEMPORARY)
+    logs_path = archive_paths.get_path(ArchiveTarget.PATH_LOGS)
+    originals_path = archive_paths.get_path(ArchiveTarget.PATH_ORIGINALS)
+    tar_path = archive_paths.get_path(ArchiveTarget.PATH_TAR)
 
     logging.info("Scanning Mediation archive {0}".format(mediation_path))
     logging.debug("os.listdir({1}) = {0}".format(os.listdir(mediation_path), mediation_path))

@@ -47,7 +47,7 @@ class ArchivePaths(object):
     def get_path(self, target: ArchiveTarget):
         environment = ArchiveTarget.ENVIRONMENT_LOCAL if self._test else INTERMEDIATE[self._host]
         try:
-            return os.path.normpath(ARCHIVE_PATHS[environment][target])
+            return os.path.abspath(ARCHIVE_PATHS[environment][target])
         except KeyError:
             logging.error(
                 "Unexpected archive target requested: host {0}, environment {1}, target {2}".format(
