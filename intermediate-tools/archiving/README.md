@@ -53,7 +53,7 @@ Installation on Intermediate 9 server
 * [x] Refactor `archive_paths.py`
 * [x] Monthly directories in TAR target
 * [x] Monthly directories in `logs`
-* [ ] Create `tar.tmp` first and then change to `.tar`
+* [x] Create `tar.tmp` first and then change to `.tar`
 * [x] Check paths: archive `temp`, `archive_logs`, `originals`, `tar_archives` and application logs
 * [ ] Option to preserve or delete originals
 * [ ] Select date (and time) for TAR creation

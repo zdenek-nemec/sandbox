@@ -111,7 +111,7 @@ def main():
         for hour_key in files_to_archive:
             tar_file_path = os.path.normpath(temporary_path + "/" + stream + "-" + str(hour_key) + ".tar")
             logging.debug(tar_file_path)
-            tar = tarfile.open(tar_file_path, "w")
+            tar = tarfile.open(tar_file_path + ".tmp", "w")
             os.chdir(directory)
             tar_files = []
             for filename in files_to_archive[hour_key]:
@@ -119,6 +119,7 @@ def main():
                 tar.add(path_to_file)
                 tar_files.append(filename)
             tar.close()
+            shutil.move(tar_file_path + ".tmp", tar_file_path)
 
             logging.debug("Moving originals and creating the log")
             ops_stream_archive_path = os.path.normpath(originals_path + "/" + directory[len(mediation_path) + 1:])
