@@ -128,35 +128,66 @@ def main():
         for hour_key in files_to_archive:
             tar_file_path = os.path.normpath(temporary_path + "/" + stream + "-" + str(hour_key) + ".tar")
             logging.debug(tar_file_path)
-            tar = tarfile.open(tar_file_path + ".tmp", "w")
-            os.chdir(directory)
-            tar_files = []
-            for filename in files_to_archive[hour_key]:
-                path_to_file = os.path.normpath(directory + "/" + filename)
-                tar.add(path_to_file)
-                tar_files.append(filename)
-            tar.close()
-            shutil.move(tar_file_path + ".tmp", tar_file_path)
-
-            logging.debug("Moving originals and creating the log")
-            ops_stream_archive_path = os.path.normpath(originals_path + "/" + directory[len(mediation_path) + 1:])
-            log_stream_archive_path = os.path.normpath(
-                logs_path + "/" + str(hour_key[0:6]) + "/" + directory[len(mediation_path) + 1:])
-            logging.debug("OPS archive = {0}".format(ops_stream_archive_path))
-            logging.debug("LOG archive = {0}".format(log_stream_archive_path))
-            if not os.path.isdir(ops_stream_archive_path):
-                Path(ops_stream_archive_path).mkdir(parents=True, exist_ok=True)
-            for filename in files_to_archive[hour_key]:
-                path_to_file = os.path.normpath(directory + "/" + filename)
-                shutil.move(path_to_file, ops_stream_archive_path)
-            if not os.path.isdir(log_stream_archive_path):
-                Path(log_stream_archive_path).mkdir(parents=True, exist_ok=True)
-            log_file_path = os.path.normpath(
-                str(log_stream_archive_path) + "/" + (os.path.basename(tar_file_path)).replace(".tar", ".log")
-            )
-            with open(log_file_path, "w") as text_file:
-                for filename in tar_files:
-                    text_file.write(filename + "\n")
+            try:
+                tar = tarfile.open(tar_file_path + ".tmp", "w")
+                os.chdir(directory)
+                tar_files = []
+                for filename in files_to_archive[hour_key]:
+                    path_to_file = os.path.normpath(directory + "/" + filename)
+                    tar.add(path_to_file)
+                    tar_files.append(filename)
+                tar.close()
+            except OSError:
+                logging.error("Cannot create TAR archive {0}, continuing with next".format(tar_file_path))
+                continue
+            else:
+                try:
+                    shutil.move(tar_file_path + ".tmp", tar_file_path)
+                except OSError:
+                    logging.error("Cannot remove .tmp extension from {0}, continuing with next".format(tar_file_path))
+                    continue
+                logging.debug("Moving originals and creating the log")
+                ops_stream_archive_path = os.path.normpath(originals_path + "/" + directory[len(mediation_path) + 1:])
+                log_stream_archive_path = os.path.normpath(
+                    logs_path + "/" + str(hour_key[0:6]) + "/" + directory[len(mediation_path) + 1:])
+                logging.debug("OPS archive = {0}".format(ops_stream_archive_path))
+                logging.debug("LOG archive = {0}".format(log_stream_archive_path))
+                if not os.path.isdir(ops_stream_archive_path):
+                    try:
+                        Path(ops_stream_archive_path).mkdir(parents=True, exist_ok=True)
+                    except OSError:
+                        logging.error("Cannot create path {0} for originals, continuing with next".format(
+                            ops_stream_archive_path
+                        ))
+                        continue
+                for filename in files_to_archive[hour_key]:
+                    path_to_file = os.path.normpath(directory + "/" + filename)
+                    try:
+                        shutil.move(path_to_file, ops_stream_archive_path)
+                    except OSError:
+                        logging.error("Cannot move {0} to {1}, continuing with next".format(
+                            path_to_file,
+                            ops_stream_archive_path
+                        ))
+                        continue
+                if not os.path.isdir(log_stream_archive_path):
+                    try:
+                        Path(log_stream_archive_path).mkdir(parents=True, exist_ok=True)
+                    except OSError:
+                        logging.error("Cannot create path {0} for logs, continuing with next".format(
+                            log_stream_archive_path
+                        ))
+                        continue
+                log_file_path = os.path.normpath(
+                    str(log_stream_archive_path) + "/" + (os.path.basename(tar_file_path)).replace(".tar", ".log")
+                )
+                try:
+                    with open(log_file_path, "w") as text_file:
+                        for filename in tar_files:
+                            text_file.write(filename + "\n")
+                except OSError:
+                    logging.error("Cannot write log {0}, continuing with next".format(log_file_path))
+                    continue
 
     logging.info("Distributing TAR files")
     os.chdir(temporary_path)
@@ -168,8 +199,16 @@ def main():
         month_directory = tar_file.split("-")[-1][0:6]
         tar_file_directory_path = tar_path + "/" + month_directory + "/" + stream_directory
         if not os.path.isdir(tar_file_directory_path):
-            Path(tar_file_directory_path).mkdir(parents=True, exist_ok=True)
-        shutil.move(tar_file, tar_file_directory_path)
+            try:
+                Path(tar_file_directory_path).mkdir(parents=True, exist_ok=True)
+            except OSError:
+                logging.error("Cannot create path {0} for TAR archives, aborting".format(tar_file_directory_path))
+                raise
+        try:
+            shutil.move(tar_file, tar_file_directory_path)
+        except OSError:
+            logging.error("Cannot move TAR archive {0} to {1}, aborting".format(tar_file, tar_file_directory_path))
+            raise
 
     application_lock.disable()
     print("Finished")
