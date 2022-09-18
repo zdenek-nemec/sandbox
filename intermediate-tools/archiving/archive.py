@@ -18,6 +18,15 @@ EXCLUDE = [
 ]
 
 
+def get_date(date):
+    if date == None:
+        return None
+    elif type(date) == str and len(date) == 8 and str(date).isdigit():
+        return date
+    else:
+        raise ValueError("Invalid date {0}".format(date))
+
+
 def get_directories(path, exclusions):
     if not os.path.isdir(path):
         raise OSError("Path {0} does not exist".format(path))
@@ -37,7 +46,7 @@ def get_files(path):
     return [item for item in filter(lambda x: os.path.isfile(path + "/" + x), os.listdir(path))]
 
 
-def get_files_to_archive(files):
+def get_files_to_archive(files, date):
     current_hour = datetime.now().strftime("%Y%m%d_%H")
     logging.debug("current_hour = {0}".format(current_hour))
     files_to_archive = {}
@@ -50,6 +59,8 @@ def get_files_to_archive(files):
             continue
         if file_hour == current_hour:
             logging.debug("Skipping current hour {0}".format(filename))
+            continue
+        if date != None and filename[0:8] != date:
             continue
         if file_hour not in files_to_archive:
             files_to_archive[file_hour] = [filename]
@@ -66,6 +77,7 @@ def main():
         "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
     )
     argument_parser.add_argument("--live", action="store_true")
+    argument_parser.add_argument("--date")
 
     log_level = argument_parser.parse_args().log_level
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
@@ -73,9 +85,10 @@ def main():
 
     logging.info("Application started")
 
-    logging.debug("Arguments: log_level = {0}, live = {1}".format(
+    logging.debug("Arguments: log_level = {0}, live = {1}, date = {2}".format(
         argument_parser.parse_args().log_level,
-        argument_parser.parse_args().live
+        argument_parser.parse_args().live,
+        argument_parser.parse_args().date
     ))
 
     logging.info("Locking to a single instance")
@@ -84,6 +97,10 @@ def main():
     archive_paths = ArchivePaths(argument_parser.parse_args().live)
     logging.debug("archive_paths.is_test() = {0}".format(archive_paths.is_test()))
     logging.info("{0} run".format("Live" if not archive_paths.is_test() else "Test"))
+
+    date = get_date(argument_parser.parse_args().date)
+    if date != None:
+        logging.info("Archive focused on date {0}".format(date))
 
     logging.info("Validating paths")
     mediation_path = archive_paths.get_path(ArchiveTarget.PATH_MEDIATION)
@@ -102,7 +119,7 @@ def main():
         files = get_files(directory)
         logging.debug("Directory {0} has total of {1} files".format(directory, len(files)))
 
-        files_to_archive = get_files_to_archive(files)
+        files_to_archive = get_files_to_archive(files, date)
         logging.debug("Total of {0} TAR files to be created".format(len(files_to_archive)))
 
         stream = directory[len(mediation_path) + 1:].replace("\\", "-").replace("/", "-")

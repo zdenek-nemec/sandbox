@@ -56,7 +56,7 @@ Installation on Intermediate 9 server
 * [x] Create `tar.tmp` first and then change to `.tar`
 * [x] Check paths: archive `temp`, `archive_logs`, `originals`, `tar_archives` and application logs
 * [ ] Option to preserve or delete originals
-* [ ] Select date (and time) for TAR creation
+* [x] Select date (and time) for TAR creation
 * [x] Handle valid files in arch01 - TAR filename starts with dash `-`
 * [x] Handle weird filenames (with spaces)
 * [x] Make sure the application cannot run more than once at a time
