@@ -11,7 +11,6 @@ from application_lock import ApplicationLock
 from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
 
-APPLICATION_PORT = 12345
 EXCLUDE = ["ARCHIVE_STORAGE", "lost+found"]
 
 
@@ -71,10 +70,11 @@ def main():
 
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument(
-        "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        "--log_level", default="DEBUG", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
     )
     argument_parser.add_argument("--live", action="store_true")
     argument_parser.add_argument("--date")
+    argument_parser.add_argument("--originals", default="MOVE", choices=["MOVE", "DELETE"])
 
     log_level = argument_parser.parse_args().log_level
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
@@ -82,14 +82,15 @@ def main():
 
     logging.info("Application started")
 
-    logging.debug("Arguments: log_level = {0}, live = {1}, date = {2}".format(
+    logging.debug("Arguments: log_level = {0}, live = {1}, date = {2}, originals = {3}".format(
         argument_parser.parse_args().log_level,
         argument_parser.parse_args().live,
-        argument_parser.parse_args().date
+        argument_parser.parse_args().date,
+        argument_parser.parse_args().originals
     ))
 
     logging.info("Locking to a single instance")
-    application_lock = ApplicationLock(APPLICATION_PORT)
+    application_lock = ApplicationLock()
 
     test_run = False if argument_parser.parse_args().live == True else True
     archive_paths = ArchivePaths(test_run)
@@ -209,7 +210,7 @@ def main():
             raise
 
     application_lock.disable()
-    print("Finished")
+    logging.info("Application finished")
 
 
 if __name__ == "__main__":

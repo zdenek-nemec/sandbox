@@ -1,9 +1,11 @@
 import logging
 import socket
 
+DEFAULT_LOCK_PORT = 12345
+
 
 class ApplicationLock(object):
-    def __init__(self, port):
+    def __init__(self, port=DEFAULT_LOCK_PORT):
         self._socket = socket.socket()
         self._port = port
         self._lock()
