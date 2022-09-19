@@ -70,7 +70,7 @@ archive.py [--help] [--log_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--live] [
   * [ ] Query: How many files were collected by `ICS|*_SSS` between 02:00 and 03:00
 * [ ] Logs directory structure mirrors TAR - If the operations team prefers it
 * [ ] Do not prefix TAR files in root with dash `-`
-* [ ] Universal `prepare_test_data.py`, currently limited to Zdenek and Mediation servers
+* [x] Universal `prepare_test_data.py`, currently limited to Zdenek and Mediation servers
 
 ### Clean Code
 

@@ -2,18 +2,11 @@ import logging
 import os
 import random
 import shutil
-import socket
 import string
 import sys
 from datetime import datetime
 
-WORKING_DIRECTORIES = {
-    "avl4688t": "/appl/dcs/data01/SOFTWARE/Tools/Archiving",
-    "avl4658t": "/appl/dcs/data01/SOFTWARE/Tools/Archiving",
-    "ANTB1801": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
-}
+VALID_WORKING_DIRECTORIES = ["archiving", "Archiving"]
 MAIN_DIRECTORY_STRUCTURE = [
     "tests",
     "tests/mediation",
@@ -92,9 +85,11 @@ def main():
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
+    logging.info("Application started")
+
     logging.info("Checking the working directory")
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
-    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORIES[socket.gethostname()])
+    assert os.path.basename(os.getcwd()) in VALID_WORKING_DIRECTORIES
 
     logging.info("Cleaning up \"{0}\" directory".format(MAIN_DIRECTORY_STRUCTURE[0]))
     logging.debug("os.listdir() = {0}".format(os.listdir()))
@@ -129,13 +124,15 @@ def main():
     ))
     current_path = os.getcwd()
     write_file(current_path + "/" + get_random_filename())
-    write_file(current_path + "/" + list(ARCHIVE_PREFIXES.keys())[0] + "___" + get_random_filename())
+    for _ in range(3):
+        write_file(current_path + "/" + random.choice(list(ARCHIVE_PREFIXES.keys())) + "___" + get_random_filename())
     archive_prefixes = {**ARCHIVE_PREFIXES, **{datetime.now().strftime("%Y%m%d_%H%M%S"): 1}}
     for prefix in archive_prefixes.keys():
         for path in DATA_DIRECTORY_STRUCTURE:
             for i in range(archive_prefixes[prefix]):
                 write_file(current_path + "/" + path + "/" + prefix + "___" + get_random_filename())
-    print("Finished")
+
+    logging.info("Application finished")
 
 
 if __name__ == "__main__":
