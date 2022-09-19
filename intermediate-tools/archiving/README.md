@@ -56,7 +56,7 @@ archive.py [--help] [--log_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--live] [
 * [x] Monthly directories in archive logs
 * [x] Create `tar.tmp` first and then change to `.tar`
 * [x] Check paths: Mediation archive `temp`, `archive_logs`, `originals`, `tar_archives` and application logs
-* [ ] Option to move or delete the originals
+* [x] Option to move or delete the originals
 * [x] Select date for TAR creation
 * [x] Handle valid files in arch01 - TAR filename starts with dash `-`
 * [x] Handle weird filenames (with spaces)
@@ -77,3 +77,8 @@ archive.py [--help] [--log_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--live] [
 * [x] Refactor `archive_paths.py`
 * [ ] Common static functions (e.g. `validate_path`)
 * [ ] Unit test IO operations (create, rename, move, delete file)
+* [ ] File handler
+  * [ ] Action with originals: move or delete
+  * [ ] Creating TAR
+  * [ ] Creating logs
+* [ ] TAR distributor

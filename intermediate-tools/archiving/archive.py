@@ -65,12 +65,21 @@ def get_files_to_archive(files, date):
     return files_to_archive
 
 
+def get_originals_action(action):
+    if action == "MOVE":
+        return True
+    elif action == "DELETE":
+        return False
+    else:
+        raise ValueError("Unknown originals action {0}".format(action))
+
+
 def main():
     print("Intermediate Tools - Archiving: Archive")
 
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument(
-        "--log_level", default="DEBUG", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
     )
     argument_parser.add_argument("--live", action="store_true")
     argument_parser.add_argument("--date")
@@ -100,6 +109,12 @@ def main():
     date = get_date(argument_parser.parse_args().date)
     if date != None:
         logging.info("Archive focused on date {0}".format(date))
+
+    move_originals = get_originals_action(argument_parser.parse_args().originals)
+    if move_originals:
+        logging.info("Original files will be moved")
+    else:
+        logging.info("Original files will be deleted")
 
     logging.info("Validating paths")
     mediation_path = archive_paths.get_path(ArchiveTarget.PATH_MEDIATION)
@@ -162,7 +177,10 @@ def main():
                 for filename in files_to_archive[hour_key]:
                     path_to_file = os.path.normpath(directory + "/" + filename)
                     try:
-                        shutil.move(path_to_file, ops_stream_archive_path)
+                        if move_originals:
+                            shutil.move(path_to_file, ops_stream_archive_path)
+                        else:
+                            os.remove(path_to_file)
                     except OSError:
                         logging.error("Cannot move {0} to {1}, continuing with next".format(
                             path_to_file,
