@@ -12,10 +12,7 @@ from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
 
 APPLICATION_PORT = 12345
-EXCLUDE = [
-    "ARCHIVE_STORAGE", "lost+found",
-    "202111", "202203", "202204", "202205", "202206", "202207", "202208", "202209"
-]
+EXCLUDE = ["ARCHIVE_STORAGE", "lost+found"]
 
 
 def get_date(date):
@@ -94,7 +91,8 @@ def main():
     logging.info("Locking to a single instance")
     application_lock = ApplicationLock(APPLICATION_PORT)
 
-    archive_paths = ArchivePaths(argument_parser.parse_args().live)
+    test_run = False if argument_parser.parse_args().live == True else True
+    archive_paths = ArchivePaths(test_run)
     logging.debug("archive_paths.is_test() = {0}".format(archive_paths.is_test()))
     logging.info("{0} run".format("Live" if not archive_paths.is_test() else "Test"))
 

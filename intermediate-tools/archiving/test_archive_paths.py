@@ -38,12 +38,7 @@ class TestGetPath(unittest.TestCase):
         [True, "potato", ArchiveTarget.PATH_TEMPORARY, "./tests/temp"],
         [True, "potato", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
         [True, "potato", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
-        [True, "potato", ArchiveTarget.PATH_TAR, "./tests/tar_archives"],
-        [False, "potato", ArchiveTarget.PATH_MEDIATION, "./tests/mediation"],
-        [False, "potato", ArchiveTarget.PATH_TEMPORARY, "./tests/temp"],
-        [False, "potato", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
-        [False, "potato", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
-        [False, "potato", ArchiveTarget.PATH_TAR, "./tests/tar_archives"]
+        [True, "potato", ArchiveTarget.PATH_TAR, "./tests/tar_archives"]
     ])
     def test_local(self, test, host, target, expected_path):
         archive_paths = ArchivePaths(test)

@@ -59,4 +59,4 @@ error_log=$logs_path/archiving_errors_`date '+%Y-%m-%d'`.log
 echo `date '+%Y-%m-%d %H:%M:%S'` >>$output_log
 echo `date '+%Y-%m-%d %H:%M:%S'` >>$error_log
 
-python archive.py --log_level WARNING --live 1>>$output_log 2>>$error_log
+python archive.py --log_level INFO --live 1>>$output_log 2>>$error_log

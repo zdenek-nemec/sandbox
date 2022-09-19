@@ -27,3 +27,7 @@ class TestApplicationLock(unittest.TestCase):
         with self.assertRaises(OSError):
             ApplicationLock(APPLICATION_PORT)
         first_application_lock.disable()
+
+
+if __name__ == "__main__":
+    unittest.main()
