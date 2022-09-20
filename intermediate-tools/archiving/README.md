@@ -62,9 +62,11 @@ archive.py [--help] [--log_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--live] [
 * [x] Handle weird filenames (with spaces)
 * [x] Make sure the application cannot run more than once at a time
 * [x] Process directory after directory instead of creating complete archive list at the start
+* [ ] Prevent duplicate TAR file
 
 ### Extra
 
+* [ ] Do not preserve original path in TAR files?
 * [ ] Provide restore application
 * [ ] Provide statistics script for OPS
   * [ ] Query: How many files were collected by `ICS|*_SSS` between 02:00 and 03:00
