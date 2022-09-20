@@ -15,7 +15,7 @@ EXCLUDE = ["ARCHIVE_STORAGE", "lost+found"]
 
 
 def get_date(date):
-    if date == None:
+    if date is None:
         return None
     elif type(date) == str and len(date) == 8 and str(date).isdigit():
         return date
@@ -56,7 +56,7 @@ def get_files_to_archive(files, date):
         if file_hour == current_hour:
             logging.debug("Skipping current hour {0}".format(filename))
             continue
-        if date != None and filename[0:8] != date:
+        if date is not None and filename[0:8] != date:
             continue
         if file_hour not in files_to_archive:
             files_to_archive[file_hour] = [filename]
@@ -101,13 +101,13 @@ def main():
     logging.info("Locking to a single instance")
     application_lock = ApplicationLock()
 
-    test_run = False if argument_parser.parse_args().live == True else True
+    test_run = False if argument_parser.parse_args().live is True else True
     archive_paths = ArchivePaths(test_run)
     logging.debug("archive_paths.is_test() = {0}".format(archive_paths.is_test()))
     logging.info("{0} run".format("Live" if not archive_paths.is_test() else "Test"))
 
     date = get_date(argument_parser.parse_args().date)
-    if date != None:
+    if date is not None:
         logging.info("Archive focused on date {0}".format(date))
 
     move_originals = get_originals_action(argument_parser.parse_args().originals)
@@ -141,6 +141,11 @@ def main():
 
         for hour_key in files_to_archive:
             tar_file_path = os.path.normpath(temporary_path + "/" + stream + "-" + str(hour_key) + ".tar")
+            if os.path.isfile(tar_file_path):
+                logging.error(
+                    "TAR file {0} exists already in temporary directory, continuing with next".format(tar_file_path)
+                )
+                continue
             logging.debug(tar_file_path)
             try:
                 tar = tarfile.open(tar_file_path + ".tmp", "w")
@@ -151,13 +156,13 @@ def main():
                     tar.add(path_to_file)
                     tar_files.append(filename)
                 tar.close()
-            except OSError:
+            except:
                 logging.error("Cannot create TAR archive {0}, continuing with next".format(tar_file_path))
                 continue
             else:
                 try:
                     shutil.move(tar_file_path + ".tmp", tar_file_path)
-                except OSError:
+                except:
                     logging.error("Cannot remove .tmp extension from {0}, continuing with next".format(tar_file_path))
                     continue
                 logging.debug("Moving originals and creating the log")
@@ -169,7 +174,7 @@ def main():
                 if not os.path.isdir(ops_stream_archive_path):
                     try:
                         Path(ops_stream_archive_path).mkdir(parents=True, exist_ok=True)
-                    except OSError:
+                    except:
                         logging.error("Cannot create path {0} for originals, continuing with next".format(
                             ops_stream_archive_path
                         ))
@@ -181,7 +186,7 @@ def main():
                             shutil.move(path_to_file, ops_stream_archive_path)
                         else:
                             os.remove(path_to_file)
-                    except OSError:
+                    except:
                         logging.error("Cannot move {0} to {1}, continuing with next".format(
                             path_to_file,
                             ops_stream_archive_path
@@ -190,7 +195,7 @@ def main():
                 if not os.path.isdir(log_stream_archive_path):
                     try:
                         Path(log_stream_archive_path).mkdir(parents=True, exist_ok=True)
-                    except OSError:
+                    except:
                         logging.error("Cannot create path {0} for logs, continuing with next".format(
                             log_stream_archive_path
                         ))
@@ -202,7 +207,7 @@ def main():
                     with open(log_file_path, "w") as text_file:
                         for filename in tar_files:
                             text_file.write(filename + "\n")
-                except OSError:
+                except:
                     logging.error("Cannot write log {0}, continuing with next".format(log_file_path))
                     continue
 
@@ -218,12 +223,20 @@ def main():
         if not os.path.isdir(tar_file_directory_path):
             try:
                 Path(tar_file_directory_path).mkdir(parents=True, exist_ok=True)
-            except OSError:
+            except:
                 logging.error("Cannot create path {0} for TAR archives, aborting".format(tar_file_directory_path))
                 raise
         try:
-            shutil.move(tar_file, tar_file_directory_path)
-        except OSError:
+            if os.path.isfile(tar_file_directory_path + "/" + tar_file):
+                logging.error(
+                    "TAR file {0} exists already in TAR directory {1}, continuing with next".format(
+                        tar_file, tar_file_directory_path
+                    )
+                )
+                continue
+            else:
+                shutil.move(tar_file, tar_file_directory_path)
+        except:
             logging.error("Cannot move TAR archive {0} to {1}, aborting".format(tar_file, tar_file_directory_path))
             raise
 

@@ -62,7 +62,9 @@ archive.py [--help] [--log_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--live] [
 * [x] Handle weird filenames (with spaces)
 * [x] Make sure the application cannot run more than once at a time
 * [x] Process directory after directory instead of creating complete archive list at the start
-* [ ] Prevent duplicate TAR file
+* [x] Prevent duplicate TAR file
+  * If the file exists in temp, it is not created
+  * If the file exists in TAR directory, it is created in temp but not transferred
 
 ### Extra
 
