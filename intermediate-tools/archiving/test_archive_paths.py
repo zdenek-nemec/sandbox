@@ -61,11 +61,21 @@ class TestGetPath(unittest.TestCase):
         [True, "avl4713p", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
         [True, "avl4713p", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
         [True, "avl4713p", ArchiveTarget.PATH_TAR, "./tests/tar_archives"],
-        [False, "avl4713p", ArchiveTarget.PATH_MEDIATION, "/appl/dcs/arch01"],
-        [False, "avl4713p", ArchiveTarget.PATH_TEMPORARY, "/appl/dcs/arch01/ARCHIVE_STORAGE/temp"],
-        [False, "avl4713p", ArchiveTarget.PATH_LOGS, "/appl/dcs/arch01/ARCHIVE_STORAGE/archive_logs"],
-        [False, "avl4713p", ArchiveTarget.PATH_ORIGINALS, "/appl/dcs/arch01/ARCHIVE_STORAGE/originals"],
-        [False, "avl4713p", ArchiveTarget.PATH_TAR, "/appl/dcs/arch01/ARCHIVE_STORAGE/tar_archives"]
+        [False, "avl4713p", ArchiveTarget.PATH_MEDIATION, "/appl/dcs/data01/tmp/OC-12871/arch01"],
+        [False, "avl4713p", ArchiveTarget.PATH_TEMPORARY, "/appl/dcs/data01/tmp/OC-12871/temp"],
+        [False, "avl4713p", ArchiveTarget.PATH_LOGS, "/appl/dcs/data01/tmp/OC-12871/archive_logs"],
+        [False, "avl4713p", ArchiveTarget.PATH_ORIGINALS, "/appl/dcs/data01/tmp/OC-12871/originals"],
+        [False, "avl4713p", ArchiveTarget.PATH_TAR, "/appl/dcs/data01/tmp/OC-12871/tar_archives"],
+        [True, "avl4715p", ArchiveTarget.PATH_MEDIATION, "./tests/mediation"],
+        [True, "avl4715p", ArchiveTarget.PATH_TEMPORARY, "./tests/temp"],
+        [True, "avl4715p", ArchiveTarget.PATH_LOGS, "./tests/archive_logs"],
+        [True, "avl4715p", ArchiveTarget.PATH_ORIGINALS, "./tests/originals"],
+        [True, "avl4715p", ArchiveTarget.PATH_TAR, "./tests/tar_archives"],
+        [False, "avl4715p", ArchiveTarget.PATH_MEDIATION, "/appl/dcs/arch01"],
+        [False, "avl4715p", ArchiveTarget.PATH_TEMPORARY, "/appl/dcs/arch01/ARCHIVE_STORAGE/temp"],
+        [False, "avl4715p", ArchiveTarget.PATH_LOGS, "/appl/dcs/arch01/ARCHIVE_STORAGE/archive_logs"],
+        [False, "avl4715p", ArchiveTarget.PATH_ORIGINALS, "/appl/dcs/data01/ARCHIVE/originals"],
+        [False, "avl4715p", ArchiveTarget.PATH_TAR, "/appl/mediation/med_backup"]
     ])
     def test_intermediate(self, test, host, target, expected_path):
         archive_paths = ArchivePaths()
