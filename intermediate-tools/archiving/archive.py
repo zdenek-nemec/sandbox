@@ -131,10 +131,10 @@ def main():
     logging.info("Starting archiving procedure")
     for directory in mediation_directories:
         files = get_files(directory)
-        logging.debug("Directory {0} has total of {1} files".format(directory, len(files)))
+        logging.info("Directory {0} has total of {1} files".format(directory, len(files)))
 
         files_to_archive = get_files_to_archive(files, date)
-        logging.debug("Total of {0} TAR files to be created".format(len(files_to_archive)))
+        logging.info("Total of {0} TAR files to be created".format(len(files_to_archive)))
 
         stream = directory[len(mediation_path) + 1:].replace("\\", "-").replace("/", "-")
         logging.debug(stream)

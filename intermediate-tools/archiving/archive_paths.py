@@ -7,7 +7,7 @@ from archive_target import ArchiveTarget
 INTERMEDIATE = {
     "avl4688t": ArchiveTarget.ENVIRONMENT_TEST,
     "avl4658t": ArchiveTarget.ENVIRONMENT_TEST,
-    "avl4713p": ArchiveTarget.ENVIRONMENT_PRODUCTION,
+    "avl4713p": ArchiveTarget.ENVIRONMENT_STANDBY,
     "avl4715p": ArchiveTarget.ENVIRONMENT_PRODUCTION
 }
 
@@ -26,12 +26,19 @@ ARCHIVE_PATHS = {
         ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/originals",
         ArchiveTarget.PATH_TAR: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar_archives"
     },
-    ArchiveTarget.ENVIRONMENT_PRODUCTION: {
+    ArchiveTarget.ENVIRONMENT_STANDBY: {
         ArchiveTarget.PATH_MEDIATION: "/appl/dcs/data01/tmp/OC-12871/arch01",
         ArchiveTarget.PATH_TEMPORARY: "/appl/dcs/data01/tmp/OC-12871/temp",
         ArchiveTarget.PATH_LOGS: "/appl/dcs/data01/tmp/OC-12871/archive_logs",
         ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/data01/tmp/OC-12871/originals",
         ArchiveTarget.PATH_TAR: "/appl/dcs/data01/tmp/OC-12871/tar_archives"
+    },
+    ArchiveTarget.ENVIRONMENT_PRODUCTION: {
+        ArchiveTarget.PATH_MEDIATION: "/appl/dcs/arch01",
+        ArchiveTarget.PATH_TEMPORARY: "/appl/dcs/arch01/ARCHIVE_STORAGE/temp",
+        ArchiveTarget.PATH_LOGS: "/appl/dcs/arch01/ARCHIVE_STORAGE/archive_logs",
+        ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/data01/ARCHIVE/originals",
+        ArchiveTarget.PATH_TAR: "/appl/mediation/med_backup"
     }
 }
 
