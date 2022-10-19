@@ -7,137 +7,241 @@ import tarfile
 from datetime import datetime
 from pathlib import Path
 
+from application_lock import ApplicationLock
 from archive_paths import ArchivePaths
 from archive_target import ArchiveTarget
+
+EXCLUDE = ["ARCHIVE_STORAGE", "lost+found"]
+
+
+def get_date(date):
+    if date is None:
+        return None
+    elif type(date) == str and len(date) == 8 and str(date).isdigit():
+        return date
+    else:
+        raise ValueError("Invalid date {0}".format(date))
+
+
+def get_directories(path, exclusions):
+    if not os.path.isdir(path):
+        raise OSError("Path {0} does not exist".format(path))
+
+    directories = [path]
+    content = [os.path.normpath(path + "/" + item) for item in filter(
+        lambda x: x not in exclusions, os.listdir(path)
+    )]
+    for current_path in content:
+        if os.path.isdir(current_path):
+            directories.append(current_path)
+            content += [os.path.normpath(current_path + "/" + item) for item in os.listdir(current_path)]
+    return directories
+
+
+def get_files(path):
+    return [item for item in filter(lambda x: os.path.isfile(path + "/" + x), os.listdir(path))]
+
+
+def get_files_to_archive(files, date):
+    current_hour = datetime.now().strftime("%Y%m%d_%H")
+    logging.debug("current_hour = {0}".format(current_hour))
+    files_to_archive = {}
+    for filename in files:
+        file_hour = filename[0:11]
+        if (len(filename) <= 18  # YYYYmmdd_HHMMSS___
+                or filename[8] != "_"
+                or filename[15:18] != "___"):
+            logging.debug("Skipping invalid filename {0}".format(filename))
+            continue
+        if file_hour == current_hour:
+            logging.debug("Skipping current hour {0}".format(filename))
+            continue
+        if date is not None and filename[0:8] != date:
+            continue
+        if file_hour not in files_to_archive:
+            files_to_archive[file_hour] = [filename]
+        else:
+            files_to_archive[file_hour].append(filename)
+    return files_to_archive
+
+
+def get_originals_action(action):
+    if action == "MOVE":
+        return True
+    elif action == "DELETE":
+        return False
+    else:
+        raise ValueError("Unknown originals action {0}".format(action))
 
 
 def main():
     print("Intermediate Tools - Archiving: Archive")
 
-    log_level = "DEBUG"
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument(
+        "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+    )
+    argument_parser.add_argument("--live", action="store_true")
+    argument_parser.add_argument("--date")
+    argument_parser.add_argument("--originals", default="MOVE", choices=["MOVE", "DELETE"])
+
+    log_level = argument_parser.parse_args().log_level
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    logging.info("Parsing the arguments")
-    argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument("--live", action="store_true")
+    logging.info("Application started")
 
-    archive_paths = ArchivePaths(argument_parser.parse_args().live)
-    logging.debug("archive_paths.is_live() = {0}".format(archive_paths.is_live()))
-    logging.info("{0} run".format("Live" if archive_paths.is_live() else "Test"))
+    logging.debug("Arguments: log_level = {0}, live = {1}, date = {2}, originals = {3}".format(
+        argument_parser.parse_args().log_level,
+        argument_parser.parse_args().live,
+        argument_parser.parse_args().date,
+        argument_parser.parse_args().originals
+    ))
 
-    logging.info("Validating the host")
-    if archive_paths.is_host_valid():
-        logging.info("Host {0} is valid".format(archive_paths.get_host()))
+    logging.info("Locking to a single instance")
+    application_lock = ApplicationLock()
+
+    test_run = False if argument_parser.parse_args().live is True else True
+    archive_paths = ArchivePaths(test_run)
+    logging.debug("archive_paths.is_test() = {0}".format(archive_paths.is_test()))
+    logging.info("{0} run".format("Live" if not archive_paths.is_test() else "Test"))
+
+    date = get_date(argument_parser.parse_args().date)
+    if date is not None:
+        logging.info("Archive focused on date {0}".format(date))
+
+    move_originals = get_originals_action(argument_parser.parse_args().originals)
+    if move_originals:
+        logging.info("Original files will be moved")
     else:
-        raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
+        logging.info("Original files will be deleted")
 
-    med_archive_path = archive_paths.get_path(ArchiveTarget.MED_PATH)
-    tar_archive_path = archive_paths.get_path(ArchiveTarget.TAR_PATH)
-    nas_archive_path = archive_paths.get_path(ArchiveTarget.NAS_PATH)
-    ops_archive_path = archive_paths.get_path(ArchiveTarget.OPS_PATH)
-    log_archive_path = archive_paths.get_path(ArchiveTarget.LOG_PATH)
+    logging.info("Validating paths")
+    mediation_path = archive_paths.get_path(ArchiveTarget.PATH_MEDIATION)
+    temporary_path = archive_paths.get_path(ArchiveTarget.PATH_TEMPORARY)
+    logs_path = archive_paths.get_path(ArchiveTarget.PATH_LOGS)
+    originals_path = archive_paths.get_path(ArchiveTarget.PATH_ORIGINALS)
+    tar_path = archive_paths.get_path(ArchiveTarget.PATH_TAR)
+    for path in [mediation_path, temporary_path, logs_path, originals_path, tar_path]:
+        archive_paths.validate(path)
 
-    logging.info("Scanning Mediation archive {0}".format(med_archive_path))
-    logging.debug("os.listdir({1}) = {0}".format(os.listdir(med_archive_path), med_archive_path))
-    content = [os.path.normpath(med_archive_path + "/" + item) for item in os.listdir(med_archive_path)]
-    logging.debug("content first item = {0}".format(content[0]))
-    logging.debug("content length = {0}".format(len(content)))
-    logging.debug("content basenames = {0}".format([os.path.basename(item) for item in content]))
-    directories = []
-    files = []
-    for current_path in content:
-        if os.path.isdir(current_path):
-            directories.append(current_path)
-            content += [os.path.normpath(current_path + "/" + item) for item in os.listdir(current_path)]
-        elif os.path.isfile(current_path):
-            files.append(current_path)
-        else:
-            logging.error("Item is neither a file nor directory")
-    logging.debug("directories first item = {0}".format(directories[0]))
-    logging.debug("directories length = {0}".format(len(directories)))
-    logging.debug("directories basenames = {0}".format([os.path.basename(item) for item in directories]))
-    logging.debug("files first item = {0}".format(files[0]))
-    logging.debug("files second item = {0}".format(files[1]))
-    logging.debug("files length = {0}".format(len(files)))
-    logging.debug("files first 10 basenames = {0}".format([os.path.basename(item) for item in files[0:10]]))
+    logging.info("Scanning Mediation archive {0} for directories".format(mediation_path))
+    mediation_directories = get_directories(mediation_path, EXCLUDE)
 
-    logging.info("Getting the list of files to archive")
-    current_hour = datetime.now().strftime("%Y%m%d_%H")
-    logging.debug("current_hour = {0}".format(current_hour))
-    files_to_archive = {}
-    for item in files:
-        directory_path = os.path.dirname(item)
-        filename = os.path.basename(item)
-        file_hour = filename[0:11]
-        if (len(filename) <= 18  # YYYYmmdd_HHMMSS___
-                or filename[8] != "_"
-                or filename[15:18] != "___"):
-            logging.debug("Skipping invalid filename {0}".format(item))
-            continue
-        if file_hour == current_hour:
-            logging.debug("Skipping current hour {0}".format(item))
-            continue
-        if directory_path not in files_to_archive:
-            files_to_archive[directory_path] = {file_hour: [filename]}
-        else:
-            if file_hour not in files_to_archive[directory_path]:
-                files_to_archive[directory_path][file_hour] = [filename]
-            else:
-                files_to_archive[directory_path][file_hour].append(filename)
-    logging.debug("files_to_archive length (streams/portals) = {0}".format(len(files_to_archive.keys())))
+    logging.info("Starting archiving procedure")
+    for directory in mediation_directories:
+        files = get_files(directory)
+        logging.info("Directory {0} has total of {1} files".format(directory, len(files)))
 
-    logging.info("Creating TAR files")
-    for stream_key in files_to_archive.keys():
-        stream = stream_key[len(med_archive_path) + 1:].replace("\\", "-").replace("/", "-")
+        files_to_archive = get_files_to_archive(files, date)
+        logging.info("Total of {0} TAR files to be created".format(len(files_to_archive)))
+
+        stream = directory[len(mediation_path) + 1:].replace("\\", "-").replace("/", "-")
         logging.debug(stream)
-        for hour_key in files_to_archive[stream_key]:
-            tar_file_path = os.path.normpath(tar_archive_path + "/" + stream + "-" + str(hour_key) + ".tar")
-            logging.debug(tar_file_path)
-            tar = tarfile.open(tar_file_path, "w")
-            os.chdir(stream_key)
-            tar_files = []
-            for filename in files_to_archive[stream_key][hour_key]:
-                path_to_file = os.path.normpath(filename)
-                tar.add(path_to_file)
-                tar_files.append(filename)
-            tar.close()
 
-            logging.debug("Moving originals and creating the log")
-            ops_stream_archive_path = os.path.normpath(ops_archive_path + "/" + stream_key[len(med_archive_path) + 1:])
-            log_stream_archive_path = os.path.normpath(log_archive_path + "/" + stream_key[len(med_archive_path) + 1:])
-            logging.debug("OPS archive = {0}".format(ops_stream_archive_path))
-            logging.debug("LOG archive = {0}".format(log_stream_archive_path))
-            if not os.path.isdir(ops_stream_archive_path):
-                Path(ops_stream_archive_path).mkdir(parents=True, exist_ok=True)
-            for filename in files_to_archive[stream_key][hour_key]:
-                path_to_file = os.path.normpath(stream_key + "/" + filename)
-                shutil.move(path_to_file, ops_stream_archive_path)
-            if not os.path.isdir(log_stream_archive_path):
-                Path(log_stream_archive_path).mkdir(parents=True, exist_ok=True)
-            log_file_path = os.path.normpath(
-                str(log_stream_archive_path) + "/" + (os.path.basename(tar_file_path)).replace(".tar", ".log")
-            )
-            with open(log_file_path, "w") as text_file:
-                for filename in tar_files:
-                    text_file.write(filename + "\n")
+        for hour_key in files_to_archive:
+            tar_file_path = os.path.normpath(temporary_path + "/" + stream + "-" + str(hour_key) + ".tar")
+            if os.path.isfile(tar_file_path):
+                logging.error(
+                    "TAR file {0} exists already in temporary directory, continuing with next".format(tar_file_path)
+                )
+                continue
+            logging.debug(tar_file_path)
+            try:
+                tar = tarfile.open(tar_file_path + ".tmp", "w")
+                os.chdir(directory)
+                tar_files = []
+                for filename in files_to_archive[hour_key]:
+                    path_to_file = os.path.normpath(directory + "/" + filename)
+                    tar.add(path_to_file)
+                    tar_files.append(filename)
+                tar.close()
+            except:
+                logging.error("Cannot create TAR archive {0}, continuing with next".format(tar_file_path))
+                continue
+            else:
+                try:
+                    shutil.move(tar_file_path + ".tmp", tar_file_path)
+                except:
+                    logging.error("Cannot remove .tmp extension from {0}, continuing with next".format(tar_file_path))
+                    continue
+                logging.debug("Moving originals and creating the log")
+                ops_stream_archive_path = os.path.normpath(originals_path + "/" + directory[len(mediation_path) + 1:])
+                log_stream_archive_path = os.path.normpath(
+                    logs_path + "/" + str(hour_key[0:6]) + "/" + directory[len(mediation_path) + 1:])
+                logging.debug("OPS archive = {0}".format(ops_stream_archive_path))
+                logging.debug("LOG archive = {0}".format(log_stream_archive_path))
+                if not os.path.isdir(ops_stream_archive_path):
+                    try:
+                        Path(ops_stream_archive_path).mkdir(parents=True, exist_ok=True)
+                    except:
+                        logging.error("Cannot create path {0} for originals, continuing with next".format(
+                            ops_stream_archive_path
+                        ))
+                        continue
+                for filename in files_to_archive[hour_key]:
+                    path_to_file = os.path.normpath(directory + "/" + filename)
+                    try:
+                        if move_originals:
+                            shutil.move(path_to_file, ops_stream_archive_path)
+                        else:
+                            os.remove(path_to_file)
+                    except:
+                        logging.error("Cannot move {0} to {1}, continuing with next".format(
+                            path_to_file,
+                            ops_stream_archive_path
+                        ))
+                        continue
+                if not os.path.isdir(log_stream_archive_path):
+                    try:
+                        Path(log_stream_archive_path).mkdir(parents=True, exist_ok=True)
+                    except:
+                        logging.error("Cannot create path {0} for logs, continuing with next".format(
+                            log_stream_archive_path
+                        ))
+                        continue
+                log_file_path = os.path.normpath(
+                    str(log_stream_archive_path) + "/" + (os.path.basename(tar_file_path)).replace(".tar", ".log")
+                )
+                try:
+                    with open(log_file_path, "w") as text_file:
+                        for filename in tar_files:
+                            text_file.write(filename + "\n")
+                except:
+                    logging.error("Cannot write log {0}, continuing with next".format(log_file_path))
+                    continue
 
     logging.info("Distributing TAR files")
-    os.chdir(tar_archive_path)
+    os.chdir(temporary_path)
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
     logging.debug("os.listdir() first 10 = {0}".format(os.listdir()[0:10]))
     tar_directory_content = os.listdir()
-    nas_directories = list(filter(
-        lambda item: os.path.isdir(nas_archive_path + "/" + item),
-        [item for item in os.listdir(nas_archive_path)]
-    ))
     for tar_file in tar_directory_content:
-        main_directory = tar_file.split("-")[0]
-        if main_directory not in nas_directories:
-            os.mkdir(nas_archive_path + "/" + main_directory)
-            nas_directories.append(main_directory)
-        shutil.move(tar_file, nas_archive_path + "/" + main_directory)
-    print("Finished")
+        stream_directory = tar_file.split("-")[0]
+        month_directory = tar_file.split("-")[-1][0:6]
+        tar_file_directory_path = tar_path + "/" + month_directory + "/" + stream_directory
+        if not os.path.isdir(tar_file_directory_path):
+            try:
+                Path(tar_file_directory_path).mkdir(parents=True, exist_ok=True)
+            except:
+                logging.error("Cannot create path {0} for TAR archives, aborting".format(tar_file_directory_path))
+                raise
+        try:
+            if os.path.isfile(tar_file_directory_path + "/" + tar_file):
+                logging.error(
+                    "TAR file {0} exists already in TAR directory {1}, continuing with next".format(
+                        tar_file, tar_file_directory_path
+                    )
+                )
+                continue
+            else:
+                shutil.move(tar_file, tar_file_directory_path)
+        except:
+            logging.error("Cannot move TAR archive {0} to {1}, aborting".format(tar_file, tar_file_directory_path))
+            raise
+
+    application_lock.disable()
+    logging.info("Application finished")
 
 
 if __name__ == "__main__":

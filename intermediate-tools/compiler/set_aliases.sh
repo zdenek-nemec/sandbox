@@ -9,23 +9,41 @@
 #     set_aliases.sh
 #
 # Description:
-#     Bla
+#     Set aliases for Intermediate compiler.
+#     Run for the parent shell with `. ./set_aliases.sh'.
 #
 #     -h, --help
 #         Show this help message and exit
 #
 
-if [[ "$HOSTNAME" == "N007510" ]]; then
-    # PATH_TO_SCRIPTS="./tests"
-    # ESCAPED_PATH_TO_SCRIPTS='s/\.\/tests\///g'
-    PATH_TO_SCRIPTS="/c/Zdenek/_tmp/IntermediateScripts"
-    ESCAPED_PATH_TO_SCRIPTS='s/\/c\/Zdenek\/_tmp\/IntermediateScripts\///g'
-    IME_COMPILER='./compile.sh'
+set_environment () {
+    is_intermediate
+    if [[ $IS_INTERMEDIATE ]]; then
+        echo "Intermediate Environment $HOSTNAME"
+        SCRIPTS_PATH="/dcs/appl01/var_dcs_9.0_db/cgdc/src"
+        SCRIPTS_PATH_REMOVE="s/\/dcs\/appl01\/var_dcs_9\.0_db\/cgdc\/src\///"
+        INTERMEDIATE_COMPILER="/dcs/data01/SOFTWARE/Tools/IntermediateCompiler/compile.sh"
+    else
+        echo "Unknown Environment $HOSTNAME"
+        SCRIPTS_PATH="./tests"
+        SCRIPTS_PATH_REMOVE="s/\.\/tests\///g"
+        INTERMEDIATE_COMPILER="./compile.sh"
+    fi
+}
+
+cd $(dirname $BASH_SOURCE)
+source ./functions.sh
+
+check_help $# $1 $BASH_SOURCE
+
+if [[ "$#" == "0" ]]; then
+    :
 else
-    PATH_TO_SCRIPTS="/dcs/appl01/var_dcs_9.0_db/cgdc/src"
-    ESCAPED_PATH_TO_SCRIPTS='s/\/dcs\/appl01\/var_dcs_9\.0_db\/cgdc\/src\///g'
-    IME_COMPILER='/dcs/data01/SOFTWARE/Tools/compile.sh'
+    print_usage $BASH_SOURCE
+    exit -1
 fi
 
+set_environment
+
 alias ime_compile=$IME_COMPILER
-list4ime_compile=$(find $PATH_TO_SCRIPTS -maxdepth 1 -type f | sed $ESCAPED_PATH_TO_SCRIPTS); complete -W "$list4ime_compile" ime_compile
+list4ime_compile=$(find $SCRIPTS_PATH -maxdepth 1 -type f | sed $SCRIPTS_PATH_REMOVE | grep .scr$ | sed "s/\.scr//"); complete -W "$list4ime_compile" ime_compile

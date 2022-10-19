@@ -1,8 +1,18 @@
 # Intermediate Tools: Compiler
 
-Main module: `compiler.py`
+Main
 
-Implemented in Python 3.8
+* [x] `compile.sh`
+* [x] `get_compile_list.py`
+* [x] `README.md`
+
+Secondary
+
+* [ ] `functions.sh` - Currently not needed
+* [ ] `set_aliases.sh` - Under construction
+* [x] `tests`
+
+Implemented in Bash and Python 3.8
 
 Dependencies
 
@@ -11,25 +21,24 @@ Dependencies
 Synopsis
 
 ```text
-compiler.py
+...
 ```
 
 Examples
 
 ```text
-compiler.py
+...
 ```
-
-Structure
-
-* `.gitignore` - Git configuration file (ignored files)
-* `README.md`
-* `compiler.py` - Main module
 
 Testing Structure (Dependencies)
 
 * `directory` - Ignore
 * `library_a`
+* `library_aac`
+  * `library_a`
+  * `library_ac`
+    * `library_a`
+    * `library_c`
 * `library_ac`
   * `library_a`
   * `library_c`
@@ -38,9 +47,19 @@ Testing Structure (Dependencies)
 * `readme.txt` - Ignore
 * `script_a`
   * `library_a`
+* `script_aac`
+  * `library_a`
+  * `library_ac`
 
 To Do
 
-* Check for cyclic dependencies
-* Handle h3a_common.h
-* 
+* [x] Allow targeting
+* [x] Parameter `--all`
+* [x] Continue on error
+* [x] Handle unknown scripts
+* [ ] Autocomplete
+* [ ] Check for cyclic dependencies
+* [ ] Handle h3a_common.h
+* [ ] Handle records
+* [ ] Print dependency list
+* [ ] Better handling of unknown scripts

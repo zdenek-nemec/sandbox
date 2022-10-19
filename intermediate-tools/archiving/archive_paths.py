@@ -4,77 +4,53 @@ import socket
 
 from archive_target import ArchiveTarget
 
+INTERMEDIATE = {
+    "avl4688t": ArchiveTarget.ENVIRONMENT_TEST,
+    "avl4658t": ArchiveTarget.ENVIRONMENT_TEST,
+    "avl4713p": ArchiveTarget.ENVIRONMENT_STANDBY,
+    "avl4715p": ArchiveTarget.ENVIRONMENT_PRODUCTION
+}
+
 ARCHIVE_PATHS = {
-    "avl4658t": {
-        ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/med_archive",
-            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tar_archive",
-            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/nas_archive",
-            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/ops_archive",
-            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/log_archive"
-        },
-        ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "/appl/dcs/data01/tmp/OC-12871/tests/log_archive"
-        }
+    ArchiveTarget.ENVIRONMENT_LOCAL: {
+        ArchiveTarget.PATH_MEDIATION: "./tests/mediation",
+        ArchiveTarget.PATH_TEMPORARY: "./tests/temp",
+        ArchiveTarget.PATH_LOGS: "./tests/archive_logs",
+        ArchiveTarget.PATH_ORIGINALS: "./tests/originals",
+        ArchiveTarget.PATH_TAR: "./tests/tar_archives"
     },
-    "JISKRA": {
-        ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
-        },
-        ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
-        }
+    ArchiveTarget.ENVIRONMENT_TEST: {
+        ArchiveTarget.PATH_MEDIATION: "/appl/dcs/data01/ARCHIVE",
+        ArchiveTarget.PATH_TEMPORARY: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/temp",
+        ArchiveTarget.PATH_LOGS: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/archive_logs",
+        ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/originals",
+        ArchiveTarget.PATH_TAR: "/appl/dcs/data01/ARCHIVE/ARCHIVE_STORAGE/tar_archives"
     },
-    "N007510": {
-        ArchiveTarget.LIVE_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
-        },
-        ArchiveTarget.TEST_ENV: {
-            ArchiveTarget.MED_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/med_archive",
-            ArchiveTarget.TAR_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/tar_archive",
-            ArchiveTarget.NAS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/nas_archive",
-            ArchiveTarget.OPS_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/ops_archive",
-            ArchiveTarget.LOG_PATH: "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving/tests/log_archive"
-        }
+    ArchiveTarget.ENVIRONMENT_STANDBY: {
+        ArchiveTarget.PATH_MEDIATION: "/appl/dcs/data01/tmp/OC-12871/arch01",
+        ArchiveTarget.PATH_TEMPORARY: "/appl/dcs/data01/tmp/OC-12871/temp",
+        ArchiveTarget.PATH_LOGS: "/appl/dcs/data01/tmp/OC-12871/archive_logs",
+        ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/data01/tmp/OC-12871/originals",
+        ArchiveTarget.PATH_TAR: "/appl/dcs/data01/tmp/OC-12871/tar_archives"
+    },
+    ArchiveTarget.ENVIRONMENT_PRODUCTION: {
+        ArchiveTarget.PATH_MEDIATION: "/appl/dcs/arch01",
+        ArchiveTarget.PATH_TEMPORARY: "/appl/dcs/arch01/ARCHIVE_STORAGE/temp",
+        ArchiveTarget.PATH_LOGS: "/appl/dcs/arch01/ARCHIVE_STORAGE/archive_logs",
+        ArchiveTarget.PATH_ORIGINALS: "/appl/dcs/data01/ARCHIVE/originals",
+        ArchiveTarget.PATH_TAR: "/appl/mediation/med_backup"
     }
 }
 
 
 class ArchivePaths(object):
-    def __init__(self, is_live: bool = False):
-        self._is_live = is_live
+    def __init__(self, test: bool = False):
         self._host = socket.gethostname()
-        self._valid_hosts = list(ARCHIVE_PATHS.keys())
+        self._test = test or self._host not in INTERMEDIATE.keys()
 
-    def is_live(self):
-        return self._is_live
-
-    def is_host_valid(self):
-        return self._host in self._valid_hosts
-
-    def get_host(self):
-        return self._host
-
-    def get_path(self, target: ArchiveTarget):
-        environment = ArchiveTarget.LIVE_ENV if self._is_live else ArchiveTarget.TEST_ENV
+    def _get_path_value(self, environment, target):
         try:
-            return os.path.normpath(ARCHIVE_PATHS[self._host][environment][target])
+            return os.path.abspath(ARCHIVE_PATHS[environment][target])
         except KeyError:
             logging.error(
                 "Unexpected archive target requested: host {0}, environment {1}, target {2}".format(
@@ -82,6 +58,17 @@ class ArchivePaths(object):
                 )
             )
             raise
+
+    def is_test(self):
+        return self._test
+
+    def get_path(self, target: ArchiveTarget):
+        environment = ArchiveTarget.ENVIRONMENT_LOCAL if self._test else INTERMEDIATE[self._host]
+        return self._get_path_value(environment, target)
+
+    def validate(self, path):
+        if not os.path.isdir(path):
+            raise OSError("Path {0} does not exist".format(path))
 
 
 if __name__ == "__main__":

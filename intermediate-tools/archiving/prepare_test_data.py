@@ -6,20 +6,14 @@ import string
 import sys
 from datetime import datetime
 
-from archive_paths import ArchivePaths
-
-WORKING_DIRECTORIES = {
-    "avl4658t": "/appl/dcs/data01/tmp/OC-12871",
-    "JISKRA": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving",
-    "N007510": "C:/Zdenek/Git/GitHub/sandbox/intermediate-tools/archiving"
-}
+VALID_WORKING_DIRECTORIES = ["archiving", "Archiving"]
 MAIN_DIRECTORY_STRUCTURE = [
     "tests",
-    "tests/med_archive",
-    "tests/tar_archive",
-    "tests/nas_archive",
-    "tests/ops_archive",
-    "tests/log_archive"
+    "tests/mediation",
+    "tests/temp",
+    "tests/archive_logs",
+    "tests/originals",
+    "tests/tar_archives",
 ]
 DATA_DIRECTORY_STRUCTURE = [
     "BlackMed",
@@ -30,6 +24,8 @@ DATA_DIRECTORY_STRUCTURE = [
     "BlackMed/TechSplit",
     "BlackMed_old_Nokia_invoices",
     "BlackMed_old_Nokia_Reports",
+    "lost+found",
+    "lost+found/Subdirectory",
     "I_ICS",
     "I_ICS/CG01_ECSCF",
     "I_ICS/CG01_IPSM",
@@ -60,12 +56,20 @@ ARCHIVE_PREFIXES = {
     "20220801_005959": 1,
     "20220801_015900": 1,
     "20220801_021500": 15,
-    "20220801_030300": 3
+    "20220801_030300": 3,
+    "20220802_000000": 2,
+    "20220802_005959": 2,
+    "20220802_015900": 2,
+    "20220901_040300": 5,
+    "20220901_050300": 5,
+    "20220901_050301": 5,
+    "20220901_050302": 5,
+    "20220901_060300": 5
 }
 
 
 def get_random_filename():
-    random_string = "".join(random.choice(string.ascii_lowercase + string.digits) for _ in range(FILENAME_LENGTH))
+    random_string = "".join(random.choice(string.ascii_lowercase + string.digits + " ") for _ in range(FILENAME_LENGTH))
     return "Filename_" + random_string + ".txt"
 
 
@@ -81,16 +85,11 @@ def main():
     log_format = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
-    logging.info("Validating the host")
-    archive_paths = ArchivePaths()
-    if archive_paths.is_host_valid():
-        logging.info("Host {0} is valid".format(archive_paths.get_host()))
-    else:
-        raise ValueError("Unknown host {0}".format(archive_paths.get_host()))
+    logging.info("Application started")
 
     logging.info("Checking the working directory")
     logging.debug("os.getcwd() = {0}".format(os.getcwd()))
-    assert os.path.normpath(os.getcwd()) == os.path.normpath(WORKING_DIRECTORIES[archive_paths.get_host()])
+    assert os.path.basename(os.getcwd()) in VALID_WORKING_DIRECTORIES
 
     logging.info("Cleaning up \"{0}\" directory".format(MAIN_DIRECTORY_STRUCTURE[0]))
     logging.debug("os.listdir() = {0}".format(os.listdir()))
@@ -125,12 +124,15 @@ def main():
     ))
     current_path = os.getcwd()
     write_file(current_path + "/" + get_random_filename())
+    for _ in range(3):
+        write_file(current_path + "/" + random.choice(list(ARCHIVE_PREFIXES.keys())) + "___" + get_random_filename())
     archive_prefixes = {**ARCHIVE_PREFIXES, **{datetime.now().strftime("%Y%m%d_%H%M%S"): 1}}
     for prefix in archive_prefixes.keys():
         for path in DATA_DIRECTORY_STRUCTURE:
             for i in range(archive_prefixes[prefix]):
                 write_file(current_path + "/" + path + "/" + prefix + "___" + get_random_filename())
-    print("Finished")
+
+    logging.info("Application finished")
 
 
 if __name__ == "__main__":

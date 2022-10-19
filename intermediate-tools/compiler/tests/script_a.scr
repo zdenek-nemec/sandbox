@@ -1,7 +1,6 @@
 #include <library_a.pro>
 
 procedure init() {
-    pass;
 }
 
 procedure main() {

@@ -29,3 +29,6 @@ printf "* \033[1;34m Light Blue   \033[0m Light Blue\n"
 printf "* \033[1;35m Light Purple \033[0m Light Purple\n"
 printf "* \033[1;36m Light Cyan   \033[0m Light Cyan\n"
 printf "* \033[1;37m White        \033[0m White\n"
+
+printf "Use \033[0;32mprintf\033[0m "
+echo -e "or \033[0;32mecho -e\033[0m"
