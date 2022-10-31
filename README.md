@@ -13,6 +13,7 @@ Every subproject has its own directory.
 * `binec` - Everything that is not sorted out yet
 * `energy-supplier-comparison` - Comparison of energy supplier offers
 * `file-explorer` - Tool for locating files and saving basic information about them
+* `films` - Tool for retrieving data file properties
 * `heroes3` - Ideas related to the turn based strategy game Heroes of Might and Magic 3
 * `intermediate-tools` - Experimental tools for CSG Intermediate
   * `archiving`
@@ -67,3 +68,4 @@ Every subproject has its own directory.
 * `#85` Udemy - The Python Mega Course
 * `#86` CSG Intermediate Tools: Archiving
 * `#87` CSG Intermediate Tools: Compiler
+* `#90` Films
