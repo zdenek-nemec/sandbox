@@ -111,11 +111,20 @@ def main():
     # Extract
     os.chdir(save_to)
     content = os.listdir()
+    sample_filename = None
     for item in content:
-        print(item)
         if item[-4:] == ".tar":
             with tarfile.open(item) as tar_file:
                 tar_file.extractall(".")
+                if sample_filename is None:
+                    sample_filename = tar_file.getnames()[0]
+
+    search_result = sample_filename.find(stream_directory)
+    if search_result > 0:
+        save_to_absolute_path = os.getcwd()
+        os.chdir(sample_filename[0:search_result])
+        shutil.move(stream_directory, save_to_absolute_path)
+        os.chdir(save_to_absolute_path)
 
     logging.info("Application finished")
 
