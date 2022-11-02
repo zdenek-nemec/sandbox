@@ -29,8 +29,10 @@ def get_datetime(timestamp):
     elif len(timestamp) == 15 and str(timestamp[0:8]).isdigit() and timestamp[8] == "_" and str(
             timestamp[9:15]).isdigit():
         return datetime.strptime(timestamp, "%Y%m%d_%H%M%S")
+    elif len(timestamp) == 19:
+        return datetime.strptime(timestamp, "%Y-%m-%d_%H:%M:%S")
     else:
-        return None
+        raise ValueError("Invalid timestamp {0}".format(timestamp))
 
 
 def get_path(path):
