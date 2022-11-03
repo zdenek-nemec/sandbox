@@ -2,6 +2,7 @@
 
 Python tutorials and demonstrations.
 
+* `application_lock` - Demonstration of an application lock (force single instance)
 * `argument_parser_demo` - Demonstration of argument parsser
 * `binec` - Everything that was not sorted yet
 * `config_parser_demo` - Demonstration of configuration parser
