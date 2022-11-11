@@ -43,9 +43,8 @@ def get_files(path):
 
 
 def get_files_to_archive(files, date, current_time):
-    current_hour = current_time.strftime("%Y%m%d_%H")
     previous_hour = (current_time - timedelta(hours=1)).strftime("%Y%m%d_%H")
-    logging.debug("current_hour = {0}".format(current_hour))
+    logging.debug("previous_hour = {0}".format(previous_hour))
     files_to_archive = {}
     for filename in files:
         file_hour = filename[0:11]
@@ -54,8 +53,8 @@ def get_files_to_archive(files, date, current_time):
                 or filename[15:18] != "___"):
             logging.debug("Skipping invalid filename {0}".format(filename))
             continue
-        if file_hour == current_hour or file_hour == previous_hour:
-            logging.debug("Skipping current and previous hour {0}".format(filename))
+        if file_hour >= previous_hour:
+            logging.debug("Skipping previous hour and newer {0}".format(filename))
             continue
         if date is not None and filename[0:8] != date:
             continue

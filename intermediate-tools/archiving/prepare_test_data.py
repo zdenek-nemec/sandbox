@@ -127,9 +127,10 @@ def main():
     for _ in range(3):
         write_file(current_path + "/" + random.choice(list(ARCHIVE_PREFIXES.keys())) + "___" + get_random_filename())
     archive_prefixes = {**ARCHIVE_PREFIXES, **{
-        datetime.now().strftime("%Y%m%d_%H%M%S"): 3,
+        (datetime.now() - timedelta(hours=2)).strftime("%Y%m%d_%H%M%S"): 3,
         (datetime.now() - timedelta(hours=1)).strftime("%Y%m%d_%H%M%S"): 3,
-        (datetime.now() - timedelta(hours=2)).strftime("%Y%m%d_%H%M%S"): 3
+        datetime.now().strftime("%Y%m%d_%H%M%S"): 3,
+        (datetime.now() + timedelta(hours=1)).strftime("%Y%m%d_%H%M%S"): 3
     }}
     for prefix in archive_prefixes.keys():
         for path in DATA_DIRECTORY_STRUCTURE:
