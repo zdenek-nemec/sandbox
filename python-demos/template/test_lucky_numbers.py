@@ -1,11 +1,9 @@
-#!/usr/bin/env python3
-
 import parameterized
 import unittest
 
 from lucky_numbers import LuckyNumbers
 
-DEFAULT_NUMBER_LIST = [-3, 0, 3, 3.14159, 4+2j, 7, "Seven", 13, 21, 42]
+DEFAULT_NUMBER_LIST = [-3, 0, 3, 3.14159, 4 + 2j, 7, "Seven", 13, 21, 42]
 
 
 class LuckyNumbersTest(unittest.TestCase):
@@ -14,12 +12,16 @@ class LuckyNumbersTest(unittest.TestCase):
         lucky_numbers = LuckyNumbers(number_list)
         self.assertEqual(number_list, lucky_numbers._number_list)
 
+    def test_no_list_exception(self):
+        with self.assertRaises(TypeError):
+            LuckyNumbers()
+
     @parameterized.parameterized.expand([
         (-3, TypeError),
         (0, TypeError),
         (3, TypeError),
         (3.14159, TypeError),
-        (4+2j, TypeError),
+        (4 + 2j, TypeError),
         (7, TypeError),
         ("Seven", TypeError),
         (13, TypeError),
@@ -27,7 +29,8 @@ class LuckyNumbersTest(unittest.TestCase):
         (42, TypeError),
         ([], ValueError)])
     def test_constructor_exceptions(self, number_list, exception):
-        self.assertRaises(exception, LuckyNumbers, number_list)
+        with self.assertRaises(exception):
+            LuckyNumbers(number_list)
 
     @parameterized.parameterized.expand([
         [[0], 0],
