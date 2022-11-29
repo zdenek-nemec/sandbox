@@ -86,3 +86,4 @@ archive.py [--help] [--log_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--live] [
   * [ ] Creating TAR
   * [ ] Creating logs
 * [ ] TAR distributor
+* [ ] Replace `test_run` flag with`live`

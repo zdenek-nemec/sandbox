@@ -4,7 +4,7 @@ import os
 import shutil
 import sys
 import tarfile
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from application_lock import ApplicationLock
@@ -42,9 +42,9 @@ def get_files(path):
     return [item for item in filter(lambda x: os.path.isfile(path + "/" + x), os.listdir(path))]
 
 
-def get_files_to_archive(files, date):
-    current_hour = datetime.now().strftime("%Y%m%d_%H")
-    logging.debug("current_hour = {0}".format(current_hour))
+def get_files_to_archive(files, date, current_time):
+    previous_hour = (current_time - timedelta(hours=1)).strftime("%Y%m%d_%H")
+    logging.debug("previous_hour = {0}".format(previous_hour))
     files_to_archive = {}
     for filename in files:
         file_hour = filename[0:11]
@@ -53,8 +53,8 @@ def get_files_to_archive(files, date):
                 or filename[15:18] != "___"):
             logging.debug("Skipping invalid filename {0}".format(filename))
             continue
-        if file_hour == current_hour:
-            logging.debug("Skipping current hour {0}".format(filename))
+        if file_hour >= previous_hour:
+            logging.debug("Skipping previous hour and newer {0}".format(filename))
             continue
         if date is not None and filename[0:8] != date:
             continue
@@ -125,6 +125,9 @@ def main():
     for path in [mediation_path, temporary_path, logs_path, originals_path, tar_path]:
         archive_paths.validate(path)
 
+    current_time = datetime.now()
+    logging.info("Current time is {0}".format(current_time))
+
     logging.info("Scanning Mediation archive {0} for directories".format(mediation_path))
     mediation_directories = get_directories(mediation_path, EXCLUDE)
 
@@ -133,7 +136,7 @@ def main():
         files = get_files(directory)
         logging.info("Directory {0} has total of {1} files".format(directory, len(files)))
 
-        files_to_archive = get_files_to_archive(files, date)
+        files_to_archive = get_files_to_archive(files, date, current_time)
         logging.info("Total of {0} TAR files to be created".format(len(files_to_archive)))
 
         stream = directory[len(mediation_path) + 1:].replace("\\", "-").replace("/", "-")
