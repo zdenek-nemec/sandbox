@@ -14,4 +14,8 @@ public class Square {
     public int getArea() {
         return this.side * this.side;
     }
+
+    public int getArea(int side) {
+        return side * side;
+    }
 }
