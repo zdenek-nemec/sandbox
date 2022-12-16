@@ -23,4 +23,14 @@ public class RockPaperScissorsGuide {
         }
         return points;
     }
+
+    public Integer getAllRightPointsUpdated() {
+        Iterator<String> iterator = this.lines.iterator();
+        Integer points = 0;
+        RockPaperScissorsUpdated rpsu = new RockPaperScissorsUpdated();
+        while (iterator.hasNext()) {
+            points += rpsu.getRightPoints(iterator.next());
+        }
+        return points;
+    }
 }

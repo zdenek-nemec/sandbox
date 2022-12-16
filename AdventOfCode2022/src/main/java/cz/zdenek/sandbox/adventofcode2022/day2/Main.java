@@ -16,5 +16,6 @@ public class Main {
 
         RockPaperScissorsGuide rpsGuide = new RockPaperScissorsGuide(lines);
         System.out.println("Right player will receive " + rpsGuide.getAllRightPoints() + " points");
+        System.out.println("After the update, the right player will receive " + rpsGuide.getAllRightPointsUpdated() + " points");
     }
 }

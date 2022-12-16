@@ -27,4 +27,9 @@ public class RockPaperScissorsGuideTest {
     public void testGetAllRightPoints() {
         Assert.assertEquals(Integer.valueOf(15), RPS_GUIDE.getAllRightPoints());
     }
+
+    @Test
+    public void testGetAllRightPointsUpdated() {
+        Assert.assertEquals(Integer.valueOf(12), RPS_GUIDE.getAllRightPointsUpdated());
+    }
 }
