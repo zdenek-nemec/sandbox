@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
     //    private static final String INPUT_FILE = "data/day1_example.txt";
-    private static final String INPUT_FILE = "data/input.txt";
+    private static final String INPUT_FILE = "data/day1_input.txt";
     private static final int TOP_ELVES = 3;
 
     public static void main(String[] args) throws IOException {
