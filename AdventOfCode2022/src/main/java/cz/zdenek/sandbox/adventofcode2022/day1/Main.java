@@ -6,8 +6,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Main {
-//    private static final String INPUT_FILE = "data/day1_example.txt";
+    //    private static final String INPUT_FILE = "data/day1_example.txt";
     private static final String INPUT_FILE = "data/input.txt";
+    private static final int TOP_ELVES = 3;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Day 1");
@@ -20,5 +21,6 @@ public class Main {
         System.out.println("Inventory length: " + inventory.getLength());
         System.out.println("Elves: " + inventory.getElves());
         System.out.println("Elf with the most calories has " + inventory.getMostCaloriesOnElf() + " calories");
+        System.out.println("Calories on top " + TOP_ELVES + " elves: " + inventory.getCaloriesOnTopXElves(TOP_ELVES));
     }
 }
