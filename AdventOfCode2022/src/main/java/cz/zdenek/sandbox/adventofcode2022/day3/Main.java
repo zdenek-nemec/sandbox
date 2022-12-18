@@ -16,5 +16,6 @@ public class Main {
 
         RucksackAnalyzer rucksackAnalyzer = new RucksackAnalyzer(lines);
         System.out.println("Total of priorities of all shared items is " + rucksackAnalyzer.getPrioritiesOfAllShared());
+        System.out.println("Total of priorities of all badges is " + rucksackAnalyzer.getPriorities(rucksackAnalyzer.getAllBadges()));
     }
 }

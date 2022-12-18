@@ -1,5 +1,8 @@
 package cz.zdenek.sandbox.adventofcode2022.day3;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class Rucksack {
     private final String content;
     private final String leftCompartment;
@@ -27,9 +30,7 @@ public class Rucksack {
         return this.rightCompartment;
     }
 
-    public String getSharedItems() throws Exception {
-        String left = getLeftCompartment();
-        String right = getRightCompartment();
+    public String getSharedItemsOfTwo(String left, String right) {
         StringBuilder shared = new StringBuilder();
         for (char item : left.toCharArray()) {
             if (right.indexOf(item) != -1) {
@@ -38,10 +39,16 @@ public class Rucksack {
                 }
             }
         }
-        if (shared.toString().length() != 1) {
-            throw new Exception("Unexpected number of shared items");
-        }
         return shared.toString();
+    }
+
+    public String getSharedItemsOfMore(List<String> contents) {
+        Iterator<String> iterator = contents.iterator();
+        String shared = iterator.next();
+        while (iterator.hasNext()) {
+            shared = getSharedItemsOfTwo(shared, iterator.next());
+        }
+        return shared;
     }
 
     public Integer getPriorityOfItem(Character item) {

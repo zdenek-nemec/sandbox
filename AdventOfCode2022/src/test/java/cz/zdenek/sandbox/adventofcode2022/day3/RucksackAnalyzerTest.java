@@ -29,17 +29,23 @@ public class RucksackAnalyzerTest {
     }
 
     @Test
-    public void getAllShared() throws Exception {
+    public void getAllShared() {
         Assert.assertEquals("pLPvts", rucksackAnalyzer.getAllShared());
     }
 
     @Test
-    public void getPriorities() throws Exception {
+    public void getPriorities() {
         Assert.assertEquals(Integer.valueOf(157), rucksackAnalyzer.getPriorities(rucksackAnalyzer.getAllShared()));
+        Assert.assertEquals(Integer.valueOf(70), rucksackAnalyzer.getPriorities(rucksackAnalyzer.getAllBadges()));
     }
 
     @Test
-    public void getPrioritiesOfAllShared() throws Exception {
+    public void getPrioritiesOfAllShared() {
         Assert.assertEquals(Integer.valueOf(157), rucksackAnalyzer.getPrioritiesOfAllShared());
+    }
+
+    @Test
+    public void getAllBadges() {
+        Assert.assertEquals("rZ", rucksackAnalyzer.getAllBadges());
     }
 }

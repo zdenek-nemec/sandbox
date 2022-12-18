@@ -45,9 +45,18 @@ public class RucksackTest {
     }
 
     @Test
-    public void testGetSharedItems() throws Exception {
+    public void testGetSharedItemsOfTwo() {
         Rucksack rucksack = new Rucksack("vJrwpWtwJgWrhcsFMMfFFhFp");
-        Assert.assertEquals("p", rucksack.getSharedItems());
+        Assert.assertEquals("p", rucksack.getSharedItemsOfTwo(rucksack.getLeftCompartment(), rucksack.getRightCompartment()));
+    }
+
+    @Test
+    public void testGetSharedItemsOfMore() {
+        Rucksack rucksack = new Rucksack("");
+        List<String> group1 = RUCKSACKS.subList(0, 3);
+        List<String> group2 = RUCKSACKS.subList(3, 6);
+        Assert.assertEquals("r", rucksack.getSharedItemsOfMore(group1));
+        Assert.assertEquals("Z", rucksack.getSharedItemsOfMore(group2));
     }
 
     @Test
