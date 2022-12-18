@@ -2,9 +2,13 @@ package cz.zdenek.sandbox.adventofcode2022.day3;
 
 public class Rucksack {
     private final String content;
+    private final String leftCompartment;
+    private final String rightCompartment;
 
     public Rucksack(String content) {
         this.content = content;
+        this.leftCompartment = content.substring(0, getCompartmentLength());
+        this.rightCompartment = content.substring(getCompartmentLength());
     }
 
     public Integer getRucksackLength() {
@@ -15,20 +19,20 @@ public class Rucksack {
         return this.content.length() / 2;
     }
 
-    public String getFirstCompartment() {
-        return this.content.substring(0, getCompartmentLength());
+    public String getLeftCompartment() {
+        return this.leftCompartment;
     }
 
-    public String getSecondCompartment() {
-        return this.content.substring(getCompartmentLength());
+    public String getRightCompartment() {
+        return this.rightCompartment;
     }
 
     public String getSharedItems() throws Exception {
-        String first = getFirstCompartment();
-        String second = getSecondCompartment();
+        String left = getLeftCompartment();
+        String right = getRightCompartment();
         StringBuilder shared = new StringBuilder();
-        for (char item : first.toCharArray()) {
-            if (second.indexOf(item) != -1) {
+        for (char item : left.toCharArray()) {
+            if (right.indexOf(item) != -1) {
                 if (shared.toString().indexOf(item) == -1) {
                     shared.append(item);
                 }

@@ -35,13 +35,13 @@ public class RucksackTest {
     @Test
     public void testGetFirstCompartment() {
         Rucksack rucksack = new Rucksack("vJrwpWtwJgWrhcsFMMfFFhFp");
-        Assert.assertEquals("vJrwpWtwJgWr", rucksack.getFirstCompartment());
+        Assert.assertEquals("vJrwpWtwJgWr", rucksack.getLeftCompartment());
     }
 
     @Test
     public void testGetSecondCompartment() {
         Rucksack rucksack = new Rucksack("vJrwpWtwJgWrhcsFMMfFFhFp");
-        Assert.assertEquals("hcsFMMfFFhFp", rucksack.getSecondCompartment());
+        Assert.assertEquals("hcsFMMfFFhFp", rucksack.getRightCompartment());
     }
 
     @Test
