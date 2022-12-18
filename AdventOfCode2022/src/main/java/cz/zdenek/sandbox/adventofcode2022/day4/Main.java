@@ -13,5 +13,8 @@ public class Main {
         List<String> lines = Files.readAllLines(Paths.get(INPUT_FILE));
         System.out.println("Input filename: " + INPUT_FILE);
         System.out.println("Input file lines: " + lines.size());
+
+        CleanupSectionAnalyzer cleanupSectionAnalyzer = new CleanupSectionAnalyzer(lines);
+        System.out.println("Fully overlapping: " + cleanupSectionAnalyzer.getFullyOverlapping());
     }
 }
