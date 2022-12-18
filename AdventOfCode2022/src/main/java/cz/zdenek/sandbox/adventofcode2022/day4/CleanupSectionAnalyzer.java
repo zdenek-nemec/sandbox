@@ -24,4 +24,16 @@ public class CleanupSectionAnalyzer {
         }
         return fullyOverlapping;
     }
+
+    public int getAllOverlapping() {
+        int overlapping = 0;
+        for (String cleanupPair : lines) {
+            String[] pair = cleanupPair.split(",");
+            CleanupSection cleanupSection = new CleanupSection(pair[0]);
+            if (cleanupSection.isOverlapping(pair[pair.length - 1])) {
+                overlapping++;
+            }
+        }
+        return overlapping;
+    }
 }

@@ -32,4 +32,14 @@ public class CleanupSection {
         Integer requestAssignmentEnd = parseAssignmentsEnd(section);
         return (assignmentsStart <= requestAssignmentStart && assignmentsEnd >= requestAssignmentEnd) || (assignmentsStart >= requestAssignmentStart && assignmentsEnd <= requestAssignmentEnd);
     }
+
+    public boolean isOverlapping(String section) {
+        Integer requestAssignmentStart = parseAssignmentsStart(section);
+        Integer requestAssignmentEnd = parseAssignmentsEnd(section);
+        return isOverlappingFully(section) ||
+                assignmentsStart <= requestAssignmentStart && requestAssignmentStart <= assignmentsEnd ||
+                assignmentsStart <= requestAssignmentEnd && requestAssignmentEnd <= assignmentsEnd ||
+                requestAssignmentStart <= assignmentsStart && assignmentsStart <= requestAssignmentEnd ||
+                requestAssignmentStart <= assignmentsEnd && assignmentsEnd <= requestAssignmentEnd;
+    }
 }

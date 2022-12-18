@@ -32,4 +32,9 @@ public class CleanupSectionAnalyzerTest {
     public void getFullyOverlapping() {
         Assert.assertEquals(2, cleanupSectionAnalyzer.getFullyOverlapping());
     }
+
+    @Test
+    public void getAllOverlapping() {
+        Assert.assertEquals(4, cleanupSectionAnalyzer.getAllOverlapping());
+    }
 }

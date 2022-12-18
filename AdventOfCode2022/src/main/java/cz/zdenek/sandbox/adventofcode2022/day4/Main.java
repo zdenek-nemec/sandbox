@@ -16,5 +16,6 @@ public class Main {
 
         CleanupSectionAnalyzer cleanupSectionAnalyzer = new CleanupSectionAnalyzer(lines);
         System.out.println("Fully overlapping: " + cleanupSectionAnalyzer.getFullyOverlapping());
+        System.out.println("All overlapping: " + cleanupSectionAnalyzer.getAllOverlapping());
     }
 }
