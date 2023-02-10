@@ -1,78 +1,17 @@
 import argparse
-import csv
 import logging
 import sys
 import timeit
 
 from application_lock import ApplicationLock
+from roaming_data import RoamingData
 
 DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
+DEFAULT_WORK_DATA_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work_out.dat"  # Only for development purposes
 DEFAULT_INPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/2023012600_01782806.dat"
 # DEFAULT_INPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/sample_500m.dat"
 DEFAULT_OUTPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/2023012600_01782806.csv"
-
-
-class RoamingData(object):
-    def __init__(self):
-        self._work_data = []
-        self._complete_data = []
-
-    def get_data(self, data_type: str, columns: str = "all"):
-        if data_type == "work":
-            data = self._work_data
-        elif data_type == "complete":
-            data = self._complete_data
-        else:
-            raise ValueError("Invalid data type")
-
-        if columns == "all":
-            return data
-        else:
-            return [x[0:5] + x[15:17] for x in data]
-
-    def load_data(self, path):
-        data = self._work_data
-        with open(path, "r") as csv_file:
-            reader = csv.reader(csv_file, delimiter="|")
-            for row in reader:
-                data.append(row)
-        logging.debug("Records {0}, columns {1}".format(len(data), len(data[0])))
-        logging.debug("Sample (first record): {0}".format(data[0]))
-        self._work_data = data
-
-    def validate(self):
-        logging.debug("Entries before validation: {0}".format(len(self._work_data)))
-        valid = []
-        for entry in self._work_data:
-            if len(entry) == 32:
-                valid.append(entry)
-            else:
-                logging.error("Removing invalid entry {0}".format(entry))
-        self._work_data = valid
-        logging.debug("Entries after validation: {0}".format(len(self._work_data)))
-
-    def merge_sessions(self):
-        logging.debug("Started merging, work data entries: {0}".format(len(self._work_data)))
-        sessions = {}
-        complete = {}
-        for entry in self._work_data:
-            key = entry[4]
-            if key not in sessions:
-                sessions[key] = entry
-            else:
-                complete[key] = sessions[key]
-        self._complete_data = list(complete.values())
-        self._work_data = [sessions[key] for key in sessions.keys() if key not in complete]
-        logging.debug("Finished merging, complete {0}, work {1}".format(len(self._complete_data), len(self._work_data)))
-
-    @staticmethod
-    def write_data(data, path):
-        logging.debug("Records to save {0}".format(len(data)))
-        with open(path, "w", newline="") as csv_file:
-            writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-            for row in data:
-                writer.writerow(row)
 
 
 def main():
@@ -105,17 +44,22 @@ def main():
     roaming_data = RoamingData()
     roaming_data.load_data(DEFAULT_WORK_DATA_PATH)
 
-    # Load input file
-    roaming_data.load_data(DEFAULT_INPUT_DATA_PATH)
-    roaming_data.validate()
+    # Iterate over eligible files
 
-    # Assemble data
-    roaming_data.merge_sessions()
+    while True:
+        # Load input file
+        roaming_data.load_data(DEFAULT_INPUT_DATA_PATH)
+        roaming_data.validate()
 
-    # Save complete data
-    roaming_data.write_data(roaming_data.get_data("complete", ""), DEFAULT_OUTPUT_DATA_PATH)
+        # Assemble data
+        roaming_data.merge_sessions()
 
-    # Save work file
+        # Save complete data
+        roaming_data.write_data(roaming_data.get_data("complete", ""), DEFAULT_OUTPUT_DATA_PATH)
+
+        # Save work file
+        roaming_data.write_data(roaming_data.get_data("work"), DEFAULT_WORK_DATA_OUTPUT_PATH)
+        break
 
     application_lock.disable()
     application_stop_time = timeit.default_timer()

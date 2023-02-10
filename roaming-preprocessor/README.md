@@ -91,6 +91,13 @@ type = ["a", "b"] -- column and values to filter
 * [x] Save only specific columns
   * [ ] Columns returned by `RoamingData.get_data` can be requested via parameter
   * [ ] Saved columns can be configured
+* [ ] Process multiple files
+  * [ ] Check eligible files
+  * [ ] Loop over eligible files
+  * [ ] Save the output files and work data regularly
+  * [ ] Remove processed files
+  * [ ] Configurable action for processed files (delete, move/rename)
+  * [ ] Configurable max batch (between saves)
 
 ### Questions
 
