@@ -8,10 +8,19 @@ from application_lock import ApplicationLock
 from roaming_data import RoamingData
 
 DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
-DEFAULT_WORK_DATA_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work_out.dat"  # Only for development purposes
-DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
-DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
+LOCALHOST = True
+if LOCALHOST:
+    DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
+    DEFAULT_WORK_DATA_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work_out.dat"  # Only for development purposes
+    # DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
+    DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/big"
+    DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
+else:
+    DEFAULT_WORK_DATA_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/work.dat"
+    DEFAULT_WORK_DATA_OUTPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/work_out.dat"  # Only for development purposes
+    # DEFAULT_INPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor"
+    DEFAULT_INPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/big"
+    DEFAULT_OUTPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor"
 
 
 def main():
@@ -56,7 +65,7 @@ def main():
         roaming_data.merge_sessions()
 
         # Save complete data
-        roaming_data.write_data(roaming_data.get_data("complete", ""), DEFAULT_OUTPUT_PATH + "/" + filename[0:len(filename)-4] + ".csv")
+        # roaming_data.write_data(roaming_data.get_data("complete", ""), DEFAULT_OUTPUT_PATH + "/" + filename[0:len(filename)-4] + ".csv")
 
         # Save work file
         roaming_data.write_data(roaming_data.get_data("work"), DEFAULT_WORK_DATA_OUTPUT_PATH)

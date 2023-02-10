@@ -33,7 +33,7 @@ Requirement Notes
 
 Notes
 
-* Output filename: `refix_<timestamp>_<sequence>.csv`
+* Output filename: `prefix_<timestamp>_<sequence>.csv`
 * Always save files (output and work) as .tmp first and then rename them 
 
 ### Configuration File Draft
@@ -101,8 +101,9 @@ type = ["a", "b"] -- column and values to filter
 
 ### Questions
 
-* Should we extended the validation and check column values?
-* Should we implement filtration?
-* How to identify opening record?
-* Are the sessions (both records) limited to one file?
-* Should we timeout records in `work.dat`?
+* Should we extended the validation and check column values? - Only used values for calculation
+* Should we implement filtration? - No
+* How to identify opening record? - Direction
+* Are the sessions (both records) limited to one file? - Probably no
+* Should we timeout records in `work.dat`? - 24 hours, report afterwards
+  * Configurable

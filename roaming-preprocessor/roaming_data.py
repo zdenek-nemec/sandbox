@@ -28,7 +28,7 @@ class RoamingData(object):
             for row in reader:
                 data.append(row)
         logging.debug("Records {0}, columns {1}".format(len(data), len(data[0])))
-        logging.debug("Sample (first record): {0}".format(data[0]))
+        # logging.debug("Sample (first record): {0}".format(data[0]))
         self._work_data = data
 
     def validate(self):
