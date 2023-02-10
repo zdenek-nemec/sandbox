@@ -4,6 +4,8 @@ import logging
 import sys
 import timeit
 
+from application_lock import ApplicationLock
+
 DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
 DEFAULT_INPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/2023012600_01782806.dat"
@@ -27,9 +29,11 @@ class RoamingData(object):
         logging.debug("Sample (first record): {0}".format(data[0]))
         self._data = data
 
+
 def main():
     print("Roaming Preprocessor")
 
+    # Parse arguments and set up logging
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument(
         "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
@@ -47,6 +51,8 @@ def main():
     ))
 
     # Load configuration
+
+    application_lock = ApplicationLock()
 
     # Check eligible files
 
@@ -69,6 +75,7 @@ def main():
 
     # Save work file
 
+    application_lock.disable()
     application_stop_time = timeit.default_timer()
     logging.debug("Finished in %.1fs" % (application_stop_time - application_start_time))
     logging.info("Application finished")
