@@ -14,20 +14,41 @@ DEFAULT_OUTPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/20230126
 
 class RoamingData(object):
     def __init__(self):
-        self._data = []
+        self._work_data = []
+        self._complete_data = []
 
-    def get_data(self):
-        return self._data
+    def get_data(self, data_type: str, columns: str = "all"):
+        if data_type == "work":
+            data = self._work_data
+        elif data_type == "complete":
+            data = self._complete_data
+        else:
+            raise ValueError("Invalid data type")
 
-    def load_data(self, input_path):
-        data = self._data
-        with open(input_path, "r") as csv_file:
+        if columns == "all":
+            return data
+        else:
+            return [x[0:5] + x[15:17] for x in data]
+
+    def load_data(self, path):
+        data = self._work_data
+        with open(path, "r") as csv_file:
             reader = csv.reader(csv_file, delimiter="|")
             for row in reader:
                 data.append(row)
         logging.debug("Records {0}, columns {1}".format(len(data), len(data[0])))
         logging.debug("Sample (first record): {0}".format(data[0]))
-        self._data = data
+        self._work_data = data
+
+    def merge_sessions(self):
+        self._complete_data = self._work_data.copy()
+
+    @staticmethod
+    def write_data(data, path):
+        with open(path, "w", newline="") as csv_file:
+            writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+            for row in data:
+                writer.writerow(row)
 
 
 def main():
@@ -64,14 +85,10 @@ def main():
     roaming_data.load_data(DEFAULT_INPUT_DATA_PATH)
 
     # Assemble data
+    roaming_data.merge_sessions()
 
     # Save complete data
-    output_data = [x[0:2] for x in roaming_data.get_data()]
-    output_filename = DEFAULT_OUTPUT_DATA_PATH
-    with open(output_filename, "w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-        for row in output_data:
-            writer.writerow(row)
+    roaming_data.write_data(roaming_data.get_data("complete", ""), DEFAULT_OUTPUT_DATA_PATH)
 
     # Save work file
 

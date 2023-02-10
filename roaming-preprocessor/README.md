@@ -72,4 +72,6 @@ type = ["a", "b"] -- column and values to filter
 * [ ] Add logging
 * [ ] Add application lock
 * [ ] Load in data separately in RoamingData.load_data
-* [ ] Add data validation
+* [ ] Add data validation in RoamingData.load_data
+* [ ] Add support for selecting columns in RoamingData.get_data
+
