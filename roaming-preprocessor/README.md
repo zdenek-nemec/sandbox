@@ -87,6 +87,7 @@ type = ["a", "b"] -- column and values to filter
   * [x] Merge sessions based on session ID
   * [ ] Propagate release cause to the session record
   * [ ] Validate that all the values are initiated with the opening record
+  * [ ] Duplicates are checked (do not count towards session completeness)
 * [x] Save only specific columns
   * [ ] Columns returned by `RoamingData.get_data` can be requested via parameter
   * [ ] Saved columns can be configured
