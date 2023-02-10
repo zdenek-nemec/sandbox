@@ -21,6 +21,7 @@ class RoamingData(object):
             return [x[0:5] + x[15:17] for x in data]
 
     def load_data(self, path):
+        logging.info("Processing {0}".format(path))
         data = self._work_data
         with open(path, "r") as csv_file:
             reader = csv.reader(csv_file, delimiter="|")
@@ -57,7 +58,7 @@ class RoamingData(object):
 
     @staticmethod
     def write_data(data, path):
-        logging.debug("Records to save {0}".format(len(data)))
+        logging.debug("Saving {0} records to {1}".format(len(data), path))
         with open(path, "w", newline="") as csv_file:
             writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
             for row in data:
