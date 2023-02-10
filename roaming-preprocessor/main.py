@@ -53,7 +53,14 @@ class RoamingData(object):
         logging.debug("Entries after validation: {0}".format(len(self._work_data)))
 
     def merge_sessions(self):
-        self._complete_data = self._work_data.copy()
+        sessions = {}
+        for entry in self._work_data.copy():
+            key = entry[4]
+            if key not in sessions:
+                sessions[key] = entry
+            else:
+                pass
+        self._complete_data = list(sessions.values())
 
     @staticmethod
     def write_data(data, path):

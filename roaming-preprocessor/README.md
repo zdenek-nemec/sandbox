@@ -67,12 +67,34 @@ type = ["a", "b"] -- column and values to filter
 
 ## To Do
 
-* [ ] Implement functionality
-* [ ] Add configuration parser
-* [ ] Add logging
-* [ ] Add application lock
-* [ ] Load in data separately in RoamingData.load_data
-* [ ] Add data validation in RoamingData.load_data
-* [ ] Add support for selecting columns in RoamingData.get_data
-* [ ] Report invalid entries to error file instead of just removing 
-* [ ] Get rid of magic variable in RoamingData.validate, use configuratio file
+* [ ] Configuration `.cfg`
+  * [ ] Parser
+  * [ ] Validator
+* [x] Logging
+* [ ] Application lock
+  * [x] Port lock
+  * [ ] Configurable application lock
+    * Allows running multiple instances which do not interfere with each other
+* [ ] Separate class for data loading and saving
+  * Allows implementing other interfaces, e.g. DB/stream
+* [ ] Validation
+  * [x] Validate number of columns
+  * [ ] Configurable validation (number of columns)
+  * [x] Invalid entries are removed
+  * [ ] Invalid entries are saved to error file 
+* [ ] Filtration
+* [ ] Merging
+  * [x] Merge sessions based on session ID
+  * [ ] Propagate release cause to the session record
+  * [ ] Validate that all the values are initiated with the opening record
+* [x] Save only specific columns
+  * [ ] Columns returned by `RoamingData.get_data` can be requested via parameter
+  * [ ] Saved columns can be configured
+
+### Questions
+
+* Should we extended the validation and check column values?
+* Should we implement filtration?
+* How to identify opening record?
+* Are the sessions (both records) limited to one file?
+* Should we timeout records in `work.dat`?
