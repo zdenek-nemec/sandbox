@@ -9,6 +9,7 @@ from application_lock import ApplicationLock
 DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
 DEFAULT_INPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/2023012600_01782806.dat"
+# DEFAULT_INPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/sample_500m.dat"
 DEFAULT_OUTPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/2023012600_01782806.csv"
 
 
@@ -40,11 +41,23 @@ class RoamingData(object):
         logging.debug("Sample (first record): {0}".format(data[0]))
         self._work_data = data
 
+    def validate(self):
+        logging.debug("Entries before validation: {0}".format(len(self._work_data)))
+        valid = []
+        for entry in self._work_data:
+            if len(entry) == 32:
+                valid.append(entry)
+            else:
+                logging.error("Removing invalid entry {0}".format(entry))
+        self._work_data = valid
+        logging.debug("Entries after validation: {0}".format(len(self._work_data)))
+
     def merge_sessions(self):
         self._complete_data = self._work_data.copy()
 
     @staticmethod
     def write_data(data, path):
+        logging.debug("Records to save {0}".format(len(data)))
         with open(path, "w", newline="") as csv_file:
             writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
             for row in data:
@@ -83,6 +96,7 @@ def main():
 
     # Load input file
     roaming_data.load_data(DEFAULT_INPUT_DATA_PATH)
+    roaming_data.validate()
 
     # Assemble data
     roaming_data.merge_sessions()

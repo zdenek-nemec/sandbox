@@ -74,4 +74,5 @@ type = ["a", "b"] -- column and values to filter
 * [ ] Load in data separately in RoamingData.load_data
 * [ ] Add data validation in RoamingData.load_data
 * [ ] Add support for selecting columns in RoamingData.get_data
-
+* [ ] Report invalid entries to error file instead of just removing 
+* [ ] Get rid of magic variable in RoamingData.validate, use configuratio file
