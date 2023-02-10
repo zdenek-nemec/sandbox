@@ -71,3 +71,5 @@ type = ["a", "b"] -- column and values to filter
 * [ ] Add configuration parser
 * [ ] Add logging
 * [ ] Add application lock
+* [ ] Load in data separately in RoamingData.load_data
+* [ ] Add data validation

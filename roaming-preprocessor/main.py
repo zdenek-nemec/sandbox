@@ -5,9 +5,27 @@ import sys
 import timeit
 
 DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-DEFAULT_INPUT_FILENAME = "c:/Zdenek/_tmp/roaming-preprocessor/2023012600_01782806.dat"
-DEFAULT_OUTPUT_FILENAME = "c:/Zdenek/_tmp/roaming-preprocessor/2023012600_01782806.csv"
+DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
+DEFAULT_INPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/2023012600_01782806.dat"
+DEFAULT_OUTPUT_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/2023012600_01782806.csv"
 
+
+class RoamingData(object):
+    def __init__(self):
+        self._data = []
+
+    def get_data(self):
+        return self._data
+
+    def load_data(self, input_path):
+        data = self._data
+        with open(input_path, "r") as csv_file:
+            reader = csv.reader(csv_file, delimiter="|")
+            for row in reader:
+                data.append(row)
+        logging.debug("Records {0}, columns {1}".format(len(data), len(data[0])))
+        logging.debug("Sample (first record): {0}".format(data[0]))
+        self._data = data
 
 def main():
     print("Roaming Preprocessor")
@@ -33,23 +51,17 @@ def main():
     # Check eligible files
 
     # Load work file
+    roaming_data = RoamingData()
+    roaming_data.load_data(DEFAULT_WORK_DATA_PATH)
 
     # Load input file
-    input_data = []
-    input_filename = DEFAULT_INPUT_FILENAME
-    with open(input_filename, "r") as csv_file:
-        reader = csv.reader(csv_file, delimiter="|")
-        for row in reader:
-            input_data.append(row)
-    print("First record:", input_data[0])
-    print("Number of columns:", len(input_data[0]))
-    print("Number of records:", len(input_data))
+    roaming_data.load_data(DEFAULT_INPUT_DATA_PATH)
 
     # Assemble data
 
     # Save complete data
-    output_data = [x[0:2] for x in input_data]
-    output_filename = DEFAULT_OUTPUT_FILENAME
+    output_data = [x[0:2] for x in roaming_data.get_data()]
+    output_filename = DEFAULT_OUTPUT_DATA_PATH
     with open(output_filename, "w", newline="") as csv_file:
         writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
         for row in output_data:
