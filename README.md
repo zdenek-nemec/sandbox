@@ -27,6 +27,7 @@ Every subproject has its own directory.
 * `math-demos` - Demonstration of mathematical operations and problem-solving
 * `python-demos` - Python tutorials and demonstrations
 * `python-mega-course` - The Python Mega Course on Udemy
+* `roaming-preprocessor` - Prototype for roaming preprocessor project
 * `spring-demos` - Java Spring tutorials and demonstrations
 
 ## Rules
@@ -69,3 +70,4 @@ Every subproject has its own directory.
 * `#86` CSG Intermediate Tools: Archiving
 * `#87` CSG Intermediate Tools: Compiler
 * `#90` Films
+* `#95` Roaming Preprocessor

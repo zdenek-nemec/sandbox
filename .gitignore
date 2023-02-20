@@ -8,6 +8,3 @@ venv/
 
 # Logs
 *.log
-
-# PyCharm and IntelliJ IDEA
-.idea/
