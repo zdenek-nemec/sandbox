@@ -8,3 +8,6 @@ venv/
 
 # PyCharm
 .idea/
+
+# Flask
+instance/
