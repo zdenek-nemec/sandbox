@@ -21,6 +21,9 @@ class ApplicationController(object):
         log_format = "%(asctime)s - %(levelname)s - %(message)s"
         logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
+    def debug_arguments(self):
+        logging.debug(f"{self._argument_parser.parse_args().log_level=}")
+
 
 if __name__ == "__main__":
     pass
