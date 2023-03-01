@@ -16,11 +16,11 @@ def main():
     application_lock = ApplicationLock()
 
     lucky_numbers = LuckyNumbers(DEFAULT_NUMBER_LIST)
-    print("Trending lucky number is " + str(lucky_numbers.get_lucky_number()))
+    print(f"Trending lucky number is {str(lucky_numbers.get_lucky_number())}")
 
     application_lock.disable()
     application_stop_time = timeit.default_timer()
-    logging.debug("Finished in %.1fs" % (application_stop_time - application_start_time))
+    logging.debug(f"Finished in {application_stop_time-application_start_time:.1f}s")
     logging.info("Application finished")
 
 
