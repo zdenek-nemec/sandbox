@@ -3,10 +3,13 @@
 
 {% block content%}
 <h1 align="center">Notes</h1>
-<ul class="list-group list-group-flush" in="notes">
+<ul class="list-group list-group-flush" id="notes">
     {% for note in user.notes %}
     <li class="list-group-item">
         {{ note.content }}
+        <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </li>
     {% endfor %}
 </ul>
@@ -18,5 +21,4 @@
         <button type="submit" class="btn btn-primary">Add Note</button>
     </div>
 </form>
-
 {% endblock %}
