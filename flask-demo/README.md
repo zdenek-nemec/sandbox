@@ -1,6 +1,8 @@
 # Flask Demo
 
-* [YouTube](https://www.youtube.com/watch?v=dam0GPOAvVI&ab_channel=TechWithTim)
+Technology: Python, Flask
+
+* [YouTube](https://www.youtube.com/watch?v=dam0GPOAvVI)
 * [GitHub](https://github.com/techwithtim/Flask-Web-App-Tutorial)
 
 ## Install
@@ -27,4 +29,4 @@ Start the server
 python main.py
 ```
 
-And go to [http://127.0.0.1:5000`](http://127.0.0.1:5000`)
+And go to [http://127.0.0.1:5000](http://127.0.0.1:5000)
