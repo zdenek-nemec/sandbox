@@ -1,10 +1,7 @@
 # Python
-__pycache__/
 venv/
+website/__pycache__/
 *.pyc
 
-# Logs
-*.log
-
-# PyCharm
-.idea/
+# Flask
+instance/

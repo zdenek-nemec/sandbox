@@ -14,6 +14,7 @@ Every subproject has its own directory.
 * `energy-supplier-comparison` - Comparison of energy supplier offers
 * `file-explorer` - Tool for locating files and saving basic information about them
 * `films` - Tool for retrieving data file properties
+* `flask-demo` - Flask tutorial from TwT
 * `heroes3` - Ideas related to the turn based strategy game Heroes of Might and Magic 3
 * `intermediate-tools` - Experimental tools for CSG Intermediate
   * `archiving`
@@ -34,11 +35,11 @@ Every subproject has its own directory.
 
 * Every subproject has its own directory under the root and its name follows language/technology conventions.
   * Java: Pascal case with space characters ` ` removed
-  * Python: Lower case with dash `-` character used instead of a space ` `
+  * Python: Kebab case with dash `-` character used instead of a space ` `
 * Structure under the subproject directory follows language/technology conventions and allows to be imported to IDE (IntelliJ IDEA, PyCharm, etc.).
-* Every subproject directory contains the `README.md` file with a basic documentation.
+* Every subproject directory contains a `README.md` file with basic documentation.
 
-## Open Issues
+## Issues
 
 * `#6` Python Text Editor
 * `#8` Udemy - The Python Mega Course - Section 3 - Beyond the Basics
@@ -71,3 +72,8 @@ Every subproject has its own directory.
 * `#87` CSG Intermediate Tools: Compiler
 * `#90` Films
 * `#95` Roaming Preprocessor
+* `#97` Hex - Number convertor and ULI decoder
+
+### Closed
+
+* `#91` [Flask Demo](https://github.com/zdenek-nemec/sandbox/tree/master/flask-demo)

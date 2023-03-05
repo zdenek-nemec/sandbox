@@ -19,6 +19,8 @@ Python tutorials and demonstrations.
 * `read_write_files` - Demonstration of reading and writing files
 * `selenium_demo` - Demonstration of `selenium` module for web testing automation
 * `sftp_connectivity_check` - Demonstration of `paramiko` module for SFTP connections
+* `slicing_demo` - Demonstration of slicing
+* `strings_demo` - Demonstration of string usage
 * `template` - Script template
 * `types_demo` - Demonstration of datatypes
 * `unit_test_demo` - Demonstration of unit tests
