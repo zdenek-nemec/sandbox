@@ -1,26 +1,23 @@
 import argparse
 import logging
 import os
+import socket
 import sys
 import timeit
+from datetime import datetime
 
 from application_lock import ApplicationLock
 from roaming_data import RoamingData
 
 DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-LOCALHOST = True
-if LOCALHOST:
-    DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
-    DEFAULT_WORK_DATA_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work_out.dat"  # Only for development purposes
-    # DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
-    DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/big"
-    DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
+
+if socket.gethostname() in ["N007510"]:
+    DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing/big"
+    # DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing/small"
+    DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing"
 else:
-    DEFAULT_WORK_DATA_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/work.dat"
-    DEFAULT_WORK_DATA_OUTPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/work_out.dat"  # Only for development purposes
-    # DEFAULT_INPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor"
-    DEFAULT_INPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/big"
-    DEFAULT_OUTPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor"
+    DEFAULT_INPUT_PATH = "/dcs/data01/WORKDATA/W_RR/LOAD"
+    DEFAULT_OUTPUT_PATH = "/dcs/data01/WORKDATA/W_RR/LOAD"
 
 
 def main():
@@ -44,31 +41,29 @@ def main():
     ))
 
     # Load configuration
-
     application_lock = ApplicationLock()
 
     # Check eligible files
     os.chdir(DEFAULT_INPUT_PATH)
-    files = [filename for filename in os.listdir() if filename[0:4] == "2023" and filename[-4:] == ".dat"]
+    files = [filename for filename in os.listdir() if filename[0:4] == "2023"]
 
-    # Load work file
-    roaming_data = RoamingData()
-    roaming_data.load_data(DEFAULT_WORK_DATA_PATH)
+    aggregated = {}
 
     # Iterate over eligible files
     for filename in files:
         # Load input file
-        roaming_data.load_data(DEFAULT_INPUT_PATH + "/" + filename)
+        roaming_data = RoamingData(aggregated)
+        roaming_data.load(DEFAULT_INPUT_PATH + "/" + filename)
         roaming_data.validate()
+        roaming_data.filter()
+        roaming_data.aggregate()
+        aggregated = roaming_data.get("aggregated")
 
-        # Assemble data
-        roaming_data.merge_sessions()
-
-        # Save complete data
-        # roaming_data.write_data(roaming_data.get_data("complete", ""), DEFAULT_OUTPUT_PATH + "/" + filename[0:len(filename)-4] + ".csv")
-
-        # Save work file
-        roaming_data.write_data(roaming_data.get_data("work"), DEFAULT_WORK_DATA_OUTPUT_PATH)
+    # Save aggregated data
+    aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
+    RoamingData.write(aggregated_output,
+                      DEFAULT_OUTPUT_PATH + "/report_" + str(datetime.now())[0:19].replace(" ", "_").replace(":",
+                                                                                                             "-") + ".csv")
 
     application_lock.disable()
     application_stop_time = timeit.default_timer()

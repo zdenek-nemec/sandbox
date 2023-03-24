@@ -1,64 +1,104 @@
 import csv
 import logging
+from datetime import datetime
 
 
 class RoamingData(object):
-    def __init__(self):
-        self._work_data = []
-        self._complete_data = []
+    def __init__(self, aggregated):
+        self._data = []
+        self._aggregated = aggregated
 
-    def get_data(self, data_type: str, columns: str = "all"):
-        if data_type == "work":
-            data = self._work_data
-        elif data_type == "complete":
-            data = self._complete_data
+    def get(self, data_type: str):
+        if data_type == "data":
+            return self._data
+        elif data_type == "aggregated":
+            return self._aggregated
         else:
             raise ValueError("Invalid data type")
 
-        if columns == "all":
-            return data
-        else:
-            return [x[0:5] + x[15:17] for x in data]
-
-    def load_data(self, path):
-        logging.info("Processing {0}".format(path))
-        data = self._work_data
+    def load(self, path):
+        logging.info(f"Processing {path}")
+        data = []
         with open(path, "r") as csv_file:
             reader = csv.reader(csv_file, delimiter="|")
             for row in reader:
                 data.append(row)
-        logging.debug("Records {0}, columns {1}".format(len(data), len(data[0])))
-        # logging.debug("Sample (first record): {0}".format(data[0]))
-        self._work_data = data
+        logging.debug(f"Records {len(data)}, columns {len(data[0])}")
+        self._data = []
+        self._data = data
 
     def validate(self):
-        logging.debug("Entries before validation: {0}".format(len(self._work_data)))
+        data = self._data
+        logging.debug(f"Entries before validation: {len(data)}")
         valid = []
-        for entry in self._work_data:
-            if len(entry) == 32:
+        for entry in data:
+            if len(entry) == 47:
                 valid.append(entry)
             else:
-                logging.error("Removing invalid entry {0}".format(entry))
-        self._work_data = valid
-        logging.debug("Entries after validation: {0}".format(len(self._work_data)))
+                logging.error(f"Removing invalid entry {entry}")
+        logging.debug(f"Entries after validation: {len(valid)}")
+        self._data = valid
 
-    def merge_sessions(self):
-        logging.debug("Started merging, work data entries: {0}".format(len(self._work_data)))
-        sessions = {}
-        complete = {}
-        for entry in self._work_data:
-            key = entry[4]
-            if key not in sessions:
-                sessions[key] = entry
+    def filter(self):
+        data = self._data
+        logging.debug(f"Entries before filtering: {len(data)}")
+        output = []
+        for entry in data:
+            sccp_cgpa_gt_noa = entry[20]
+            sccp_cdpa_gt_noa = entry[27]
+            mtp3_si = entry[10]
+            mtp3_variant = entry[6]
+
+            if (sccp_cgpa_gt_noa == "4" and sccp_cdpa_gt_noa == "4" and mtp3_si == "3" and mtp3_variant == "1"):
+                output.append(entry)
+        logging.debug(f"Entries after filtering: {len(output)}")
+        self._data = output
+
+    def aggregate(self):
+        data = self._data
+        aggregated = self._aggregated
+        for entry in data:
+            timestamp = str(datetime.fromtimestamp(int(entry[0]) / 1000.0))[0:13]
+            observation_domain = entry[2]
+            observation_point = entry[3]
+            direction = entry[4]
+            mtp3_variant = entry[6]
+            mtp3_opc = entry[7]
+            mtp3_dpc = entry[8]
+            mtp3_si = entry[10]
+            sccp_message_type = entry[12]
+            sccp_cgpa_gt_noa = entry[20]
+            sccp_cgpa_gt_digits = entry[21][0:6]
+            sccp_cdpa_gt_noa = entry[27]
+            sccp_cdpa_gt_digits = entry[28][0:6]
+
+            msu_length = int(entry[11])
+
+            key = (
+                timestamp,
+                observation_domain,
+                observation_point,
+                direction,
+                mtp3_variant,
+                mtp3_opc,
+                mtp3_dpc,
+                mtp3_si,
+                sccp_message_type,
+                sccp_cgpa_gt_noa,
+                sccp_cgpa_gt_digits,
+                sccp_cdpa_gt_noa,
+                sccp_cdpa_gt_digits
+            )
+
+            if key in aggregated:
+                aggregated[key][0] += 1
+                aggregated[key][1] += msu_length
             else:
-                complete[key] = sessions[key]
-        self._complete_data = list(complete.values())
-        self._work_data = [sessions[key] for key in sessions.keys() if key not in complete]
-        logging.debug("Finished merging, complete {0}, work {1}".format(len(self._complete_data), len(self._work_data)))
+                aggregated[key] = [1, msu_length]
 
     @staticmethod
-    def write_data(data, path):
-        logging.debug("Saving {0} records to {1}".format(len(data), path))
+    def write(data, path):
+        logging.debug(f"Saving {len(data)} records to {path}")
         with open(path, "w", newline="") as csv_file:
             writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
             for row in data:
