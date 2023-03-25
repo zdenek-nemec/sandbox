@@ -1,46 +1,31 @@
-import argparse
 import logging
 import os
 import socket
 import sys
-import timeit
 from datetime import datetime
 
+from application_controller import ApplicationController
 from application_lock import ApplicationLock
 from roaming_data import RoamingData
 
-DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-
 if socket.gethostname() in ["N007510"]:
-    DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing/big"
-    # DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing/small"
+    # DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing/big"
+    DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing/small"
     DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing"
 else:
     DEFAULT_INPUT_PATH = "/dcs/data01/WORKDATA/W_RR/LOAD"
     DEFAULT_OUTPUT_PATH = "/dcs/data01/WORKDATA/W_RR/LOAD"
 
 
-def main():
-    print("Roaming Preprocessor")
-
-    # Parse arguments and set up logging
-    argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument(
-        "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    )
-
-    log_level = argument_parser.parse_args().log_level
-    log_format = DEFAULT_LOG_FORMAT
+def set_logging(log_level, log_format):
     logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
 
+
+def main():
+    print("Roaming Preprocessor")
+    application_controller = ApplicationController()
     logging.info("Application started")
-    application_start_time = timeit.default_timer()
 
-    logging.debug("Arguments: log_level = {0}".format(
-        argument_parser.parse_args().log_level
-    ))
-
-    # Load configuration
     application_lock = ApplicationLock()
 
     # Check eligible files
@@ -66,9 +51,9 @@ def main():
                                                                                                              "-") + ".csv")
 
     application_lock.disable()
-    application_stop_time = timeit.default_timer()
-    logging.debug("Finished in %.1fs" % (application_stop_time - application_start_time))
+
     logging.info("Application finished")
+    logging.debug(f"Finished in {application_controller.get_runtime():,.1f}s")
 
 
 if __name__ == "__main__":
