@@ -20,7 +20,7 @@ class ApplicationController(object):
             "--log_level", default="WARNING", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
         )
         self._argument_parser.add_argument("--config")
-        self._argument_parser.add_argument("--reset", action="store_true")
+        self._argument_parser.add_argument("--generate", action="store_true")
 
     def _set_logging(self):
         log_level = self._argument_parser.parse_args().log_level
@@ -29,6 +29,12 @@ class ApplicationController(object):
     def get_runtime(self):
         application_stop_time = timeit.default_timer()
         return application_stop_time - self._application_start_time
+
+    def get_configuration_file(self):
+        return self._argument_parser.parse_args().config
+
+    def is_new_configuration_requested(self):
+        return self._argument_parser.parse_args().generate
 
 
 if __name__ == "__main__":
