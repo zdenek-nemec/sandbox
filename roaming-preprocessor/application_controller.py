@@ -19,7 +19,7 @@ class ApplicationController(object):
         self._argument_parser.add_argument(
             "--log_level", default="WARNING", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
         )
-        self._argument_parser.add_argument("--config")
+        self._argument_parser.add_argument("--config", required=True)
         self._argument_parser.add_argument("--generate", action="store_true")
 
     def _set_logging(self):
