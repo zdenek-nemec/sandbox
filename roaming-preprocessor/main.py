@@ -71,7 +71,7 @@ def main():
         configuration = Configuration()
         configuration.load(application_controller.get_configuration_file())
         application_lock = ApplicationLock(configuration.get_port_lock())
-        global_titles = GlobalTitles("c:/Zdenek/_tmp/Cetin/roaming-preprocessor/global_titles.csv")
+        global_titles = GlobalTitles(configuration.get_global_titles_path())
 
         # Check eligible files
         os.chdir(configuration.get_input_path())

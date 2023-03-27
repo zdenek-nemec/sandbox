@@ -12,7 +12,7 @@ class GlobalTitles(object):
             reader = csv.reader(csv_file, delimiter=";")
             for row in reader:
                 tadig, entry_type, value = row
-                if entry_type == "GT":
+                if value not in data.keys():
                     data[value] = tadig
         return data
 
