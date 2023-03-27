@@ -31,6 +31,12 @@ class TestGlobalTitles(unittest.TestCase):
         expected_output = None
         self.assertEqual(expected_output, actual_output)
 
+    def test_missing_with_default(self):
+        for default_value in ["123", "miss"]:
+            actual_output = self.global_titles.get_tadig("123", default_value)
+            expected_output = default_value
+            self.assertEqual(expected_output, actual_output)
+
 
 if __name__ == "__main__":
     unittest.main()

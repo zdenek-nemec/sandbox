@@ -6,6 +6,7 @@ from application_controller import ApplicationController
 from application_lock import ApplicationLock
 from configuration import Configuration
 from roaming_data import RoamingData
+from global_titles import GlobalTitles
 
 
 def generate_new_configuration(filename):
@@ -13,6 +14,50 @@ def generate_new_configuration(filename):
     configuration = Configuration()
     configuration.generate(filename)
     configuration.save()
+
+
+def aggregate(data, aggregated, global_titles):
+    for entry in data:
+        timestamp = datetime.fromtimestamp(int(entry[0]) / 1000.0)
+        timestamp_day = str(timestamp)[0:10]
+        timestamp_hour = str(timestamp)[11:13]
+        observation_domain = entry[2]
+        observation_point = entry[3]
+        direction = entry[4]
+        mtp3_variant = entry[6]
+        mtp3_opc = entry[7]
+        mtp3_dpc = entry[8]
+        mtp3_si = entry[10]
+        sccp_message_type = entry[12]
+        sccp_cgpa_gt_noa = entry[20]
+        sccp_cgpa_gt_digits_tadig = global_titles.get_tadig(entry[21], entry[21])
+        sccp_cdpa_gt_noa = entry[27]
+        sccp_cdpa_gt_digits_tadig = global_titles.get_tadig(entry[28], entry[28])
+
+        msu_length = int(entry[11])
+
+        key = (
+            timestamp_day,
+            timestamp_hour,
+            observation_domain,
+            observation_point,
+            direction,
+            mtp3_variant,
+            mtp3_opc,
+            mtp3_dpc,
+            mtp3_si,
+            sccp_message_type,
+            sccp_cgpa_gt_noa,
+            sccp_cgpa_gt_digits_tadig,
+            sccp_cdpa_gt_noa,
+            sccp_cdpa_gt_digits_tadig
+        )
+
+        if key in aggregated:
+            aggregated[key][0] += 1
+            aggregated[key][1] += msu_length
+        else:
+            aggregated[key] = [1, msu_length]
 
 
 def main():
@@ -26,6 +71,7 @@ def main():
         configuration = Configuration()
         configuration.load(application_controller.get_configuration_file())
         application_lock = ApplicationLock(configuration.get_port_lock())
+        global_titles = GlobalTitles("c:/Zdenek/_tmp/Cetin/roaming-preprocessor/global_titles.csv")
 
         # Check eligible files
         os.chdir(configuration.get_input_path())
@@ -40,8 +86,7 @@ def main():
             roaming_data.load(configuration.get_input_path() + "/" + filename)
             roaming_data.validate()
             roaming_data.filter()
-            roaming_data.aggregate()
-            aggregated = roaming_data.get("aggregated")
+            aggregate(roaming_data._data, aggregated, global_titles)
 
         # Save aggregated data
         aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
