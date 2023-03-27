@@ -25,8 +25,7 @@ def main():
     else:
         configuration = Configuration()
         configuration.load(application_controller.get_configuration_file())
-
-        application_lock = ApplicationLock()
+        application_lock = ApplicationLock(configuration.get_port_lock())
 
         # Check eligible files
         os.chdir(configuration.get_input_path())
