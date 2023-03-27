@@ -1,3 +1,4 @@
+import socket
 import unittest
 
 from global_titles import GlobalTitles
@@ -5,7 +6,10 @@ from global_titles import GlobalTitles
 
 class TestGlobalTitles(unittest.TestCase):
     def setUp(self):
-        self.global_titles = GlobalTitles("c:/Zdenek/_tmp/Cetin/roaming-preprocessor/global_titles.csv")
+        if socket.gethostname()[0:7] == "celimdt":
+            self.global_titles = GlobalTitles("/appl/cgi/dcs/data01_loc/TOOLS/roaming-preprocessor/global_titles.csv")
+        else:
+            self.global_titles = GlobalTitles("c:/Zdenek/_tmp/Cetin/roaming-preprocessor/global_titles.csv")
 
     def test_exact_match(self):
         actual_output = self.global_titles.get_tadig("8835150")
