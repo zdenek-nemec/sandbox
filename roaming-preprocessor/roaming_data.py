@@ -58,7 +58,9 @@ class RoamingData(object):
         data = self._data
         aggregated = self._aggregated
         for entry in data:
-            timestamp = str(datetime.fromtimestamp(int(entry[0]) / 1000.0))[0:13]
+            timestamp = datetime.fromtimestamp(int(entry[0]) / 1000.0)
+            timestamp_day = str(timestamp)[0:10]
+            timestamp_hour = str(timestamp)[11:13]
             observation_domain = entry[2]
             observation_point = entry[3]
             direction = entry[4]
@@ -75,7 +77,8 @@ class RoamingData(object):
             msu_length = int(entry[11])
 
             key = (
-                timestamp,
+                timestamp_day,
+                timestamp_hour,
                 observation_domain,
                 observation_point,
                 direction,
