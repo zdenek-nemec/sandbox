@@ -24,14 +24,10 @@ def aggregate(data, aggregated, global_titles):
         observation_domain = entry[2]
         observation_point = entry[3]
         direction = entry[4]
-        mtp3_variant = entry[6]
         mtp3_opc = entry[7]
         mtp3_dpc = entry[8]
-        mtp3_si = entry[10]
         sccp_message_type = entry[12]
-        sccp_cgpa_gt_noa = entry[20]
         sccp_cgpa_gt_digits_tadig = global_titles.get_tadig(entry[21], entry[21])
-        sccp_cdpa_gt_noa = entry[27]
         sccp_cdpa_gt_digits_tadig = global_titles.get_tadig(entry[28], entry[28])
 
         msu_length = int(entry[11])
@@ -42,14 +38,10 @@ def aggregate(data, aggregated, global_titles):
             observation_domain,
             observation_point,
             direction,
-            mtp3_variant,
             mtp3_opc,
             mtp3_dpc,
-            mtp3_si,
             sccp_message_type,
-            sccp_cgpa_gt_noa,
             sccp_cgpa_gt_digits_tadig,
-            sccp_cdpa_gt_noa,
             sccp_cdpa_gt_digits_tadig
         )
 
