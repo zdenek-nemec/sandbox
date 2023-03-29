@@ -19,9 +19,9 @@ class GlobalTitles(object):
     def get_tadig(self, phone_number, default_value=None):
         for length in range(len(phone_number), 1, -1):
             if (prefix := phone_number[0:length]) in self._data.keys():
-                return self._data[prefix]
+                return prefix, self._data[prefix]
         else:
-            return default_value
+            return default_value, default_value
 
 
 if __name__ == "__main__":

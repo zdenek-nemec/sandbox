@@ -27,8 +27,8 @@ def aggregate(data, aggregated, global_titles):
         mtp3_opc = entry[7]
         mtp3_dpc = entry[8]
         sccp_message_type = entry[12]
-        sccp_cgpa_gt_digits_tadig = global_titles.get_tadig(entry[21], "unknown")
-        sccp_cdpa_gt_digits_tadig = global_titles.get_tadig(entry[28], "unknown")
+        global_title_cgpa, tadig_cgpa = global_titles.get_tadig(entry[21], "unknown")
+        global_title_cdpa, tadig_cdpa = global_titles.get_tadig(entry[28], "unknown")
 
         msu_length = int(entry[11])
 
@@ -41,8 +41,10 @@ def aggregate(data, aggregated, global_titles):
             mtp3_opc,
             mtp3_dpc,
             sccp_message_type,
-            sccp_cgpa_gt_digits_tadig,
-            sccp_cdpa_gt_digits_tadig
+            global_title_cgpa,
+            tadig_cgpa,
+            global_title_cdpa,
+            tadig_cdpa
         )
 
         if key in aggregated:
