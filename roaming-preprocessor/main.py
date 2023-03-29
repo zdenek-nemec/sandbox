@@ -5,8 +5,8 @@ from datetime import datetime
 from application_controller import ApplicationController
 from application_lock import ApplicationLock
 from configuration import Configuration
-from roaming_data import RoamingData
 from global_titles import GlobalTitles
+from roaming_data import RoamingData
 
 
 def generate_new_configuration(filename):
@@ -27,8 +27,8 @@ def aggregate(data, aggregated, global_titles):
         mtp3_opc = entry[7]
         mtp3_dpc = entry[8]
         sccp_message_type = entry[12]
-        sccp_cgpa_gt_digits_tadig = global_titles.get_tadig(entry[21], entry[21])
-        sccp_cdpa_gt_digits_tadig = global_titles.get_tadig(entry[28], entry[28])
+        sccp_cgpa_gt_digits_tadig = global_titles.get_tadig(entry[21], "unknown")
+        sccp_cdpa_gt_digits_tadig = global_titles.get_tadig(entry[28], "unknown")
 
         msu_length = int(entry[11])
 
