@@ -21,7 +21,7 @@ class GlobalTitles(object):
             if (prefix := phone_number[0:length]) in self._data.keys():
                 return prefix, self._data[prefix]
         else:
-            return default_value, default_value
+            return phone_number[0:6], default_value
 
 
 if __name__ == "__main__":
