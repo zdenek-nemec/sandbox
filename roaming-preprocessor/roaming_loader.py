@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 
 
-class RoamingData(object):
+class RoamingLoader(object):
     def __init__(self, aggregated):
         self._data = []
         self._aggregated = aggregated

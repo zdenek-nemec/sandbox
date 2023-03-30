@@ -6,7 +6,7 @@ from application_controller import ApplicationController
 from application_lock import ApplicationLock
 from configuration import Configuration
 from global_titles import GlobalTitles
-from roaming_data import RoamingData
+from roaming_loader import RoamingLoader
 
 
 def generate_new_configuration(filename):
@@ -76,7 +76,7 @@ def main():
         # Iterate over eligible files
         for filename in files:
             # Load input file
-            roaming_data = RoamingData(aggregated)
+            roaming_data = RoamingLoader(aggregated)
             roaming_data.load(configuration.get_input_path() + "/" + filename)
             roaming_data.validate()
             roaming_data.filter()
@@ -84,8 +84,8 @@ def main():
 
         # Save aggregated data
         aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
-        RoamingData.write(aggregated_output,
-                          configuration.get_output_path() + "/report_" + str(datetime.now())[0:19].replace(" ",
+        RoamingLoader.write(aggregated_output,
+                            configuration.get_output_path() + "/report_" + str(datetime.now())[0:19].replace(" ",
                                                                                                            "_").replace(
                               ":",
                               "-") + ".csv")
