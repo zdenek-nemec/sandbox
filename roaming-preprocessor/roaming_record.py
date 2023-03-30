@@ -28,5 +28,14 @@ class RoamingRecord(object):
 
     @staticmethod
     def _validate_input_data_length(data):
-        if len(data) is not 47:
+        if len(data) != 47:
             raise ValueError(f"Expected CSV record with 47 fields, got {len(data)} instead")
+
+    def is_filtered(self):
+        if (self._sccp_cgpa_gt_noa == "4"
+                and self._sccp_cdpa_gt_noa == "4"
+                and self._mtp3_si == "3"
+                and self._mtp3_variant == "1"):
+            return False
+        else:
+            return True

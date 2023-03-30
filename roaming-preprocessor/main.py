@@ -1,3 +1,4 @@
+import csv
 import logging
 import os
 from datetime import datetime
@@ -7,6 +8,7 @@ from application_lock import ApplicationLock
 from configuration import Configuration
 from global_titles import GlobalTitles
 from roaming_loader import RoamingLoader
+from roaming_record import RoamingRecord
 
 
 def generate_new_configuration(filename):
@@ -18,19 +20,21 @@ def generate_new_configuration(filename):
 
 def aggregate(data, aggregated, global_titles):
     for entry in data:
-        timestamp = datetime.fromtimestamp(int(entry[0]) / 1000.0)
-        timestamp_day = str(timestamp)[0:10]
-        timestamp_hour = str(timestamp)[11:13]
-        observation_domain = entry[2]
-        observation_point = entry[3]
-        direction = entry[4]
-        mtp3_opc = entry[7]
-        mtp3_dpc = entry[8]
-        sccp_message_type = entry[12]
-        global_title_cgpa, tadig_cgpa = global_titles.get_tadig(entry[21], "unknown")
-        global_title_cdpa, tadig_cdpa = global_titles.get_tadig(entry[28], "unknown")
+        if not type(entry) is RoamingRecord:
+            raise RuntimeError(f"Unexpected data type {type(entry)}")
 
-        msu_length = int(entry[11])
+        timestamp_day = str(entry._timestamp)[0:10]
+        timestamp_hour = str(entry._timestamp)[11:13]
+        observation_domain = entry._observation_domain
+        observation_point = entry._observation_point
+        direction = entry._direction
+        mtp3_opc = entry._mtp3_opc
+        mtp3_dpc = entry._mtp3_dpc
+        sccp_message_type = entry._sccp_message_type
+        global_title_cgpa, tadig_cgpa = global_titles.get_tadig(entry._sccp_cgpa_gt_digits, "unknown")
+        global_title_cdpa, tadig_cdpa = global_titles.get_tadig(entry._sccp_cdpa_gt_digits, "unknown")
+
+        msu_length = int(entry._msu_length)
 
         key = (
             timestamp_day,
@@ -54,6 +58,14 @@ def aggregate(data, aggregated, global_titles):
             aggregated[key] = [1, msu_length]
 
 
+def write_aggregated(data, path):
+    logging.debug(f"Saving {len(data)} records to {path}")
+    with open(path, "w", newline="") as csv_file:
+        writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+        for row in data:
+            writer.writerow(row)
+
+
 def main():
     print("Roaming Preprocessor")
     application_controller = ApplicationController()
@@ -72,23 +84,20 @@ def main():
         files = [filename for filename in os.listdir() if filename[0:4] == "2023"]
 
         aggregated = {}
-
         # Iterate over eligible files
         for filename in files:
             # Load input file
-            roaming_data = RoamingLoader(aggregated)
+            roaming_data = RoamingLoader()
             roaming_data.load(configuration.get_input_path() + "/" + filename)
-            roaming_data.validate()
-            roaming_data.filter()
-            aggregate(roaming_data._data, aggregated, global_titles)
+            aggregate(roaming_data._records, aggregated, global_titles)
 
         # Save aggregated data
         aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
-        RoamingLoader.write(aggregated_output,
-                            configuration.get_output_path() + "/report_" + str(datetime.now())[0:19].replace(" ",
-                                                                                                           "_").replace(
-                              ":",
-                              "-") + ".csv")
+        write_aggregated(
+            aggregated_output,
+            configuration.get_output_path()
+            + "/report_"
+            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv")
 
         application_lock.disable()
 
