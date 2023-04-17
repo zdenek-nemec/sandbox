@@ -94,10 +94,41 @@ def aggregate_4g5g(data, aggregated, global_titles):
             aggregated[key] = [1]
 
 
-def write_aggregated(data, path):
+def write_aggregated(data, path, data_type):
     logging.debug(f"Saving {len(data)} records to {path}")
     with open(path, "w", newline="") as csv_file:
         writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+        if data_type == "2G/3G":
+            writer.writerow([
+                "#Timestamp Day",
+                "Timestamp Hour",
+                "Observation domain",
+                "Observation point",
+                "Direction",
+                "MTP3 OPC",
+                "MTP3 DPC",
+                "SCCP message type",
+                "Global title CGPA",
+                "TADIG CGPA",
+                "Global title CDPA",
+                "TADIG CDPA",
+                "MSU Count",
+                "MSU Length"
+            ])
+        elif data_type == "4G/5G":
+            writer.writerow([
+                "#Timestamp day",
+                "Timestamp hour",
+                "Direction",
+                "Peername",
+                "Hostname",
+                "Original realm",
+                "Destination realm",
+                "Release cause",
+                "MSU count"
+            ])
+        else:
+            raise ValueError(f"Unknown datatype")
         for row in data:
             writer.writerow(row)
 
@@ -138,7 +169,9 @@ def main():
             aggregated_output,
             configuration.get_output_path()
             + "/report_"
-            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv")
+            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv",
+            configuration.get_type()
+        )
 
         application_lock.disable()
 
