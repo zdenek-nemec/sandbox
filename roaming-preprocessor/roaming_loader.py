@@ -4,11 +4,13 @@ import logging
 import os
 
 from roaming_record import RoamingRecord
+from roaming_record_4g5g import RoamingRecord4g5g
 
 
 class RoamingLoader(object):
-    def __init__(self):
+    def __init__(self, data_type):
         self._records = []
+        self._type = data_type
 
     def get_records(self):
         return self._records
@@ -32,8 +34,13 @@ class RoamingLoader(object):
         for row in reader:
             row_count += 1
             try:
-                roaming_record = RoamingRecord(row)
-            except (TypeError, ValueError):
+                if self._type == "2G/3G":
+                    roaming_record = RoamingRecord(row)
+                elif self._type == "4G/5G":
+                    roaming_record = RoamingRecord4g5g(row)
+                else:
+                    raise ValueError(f"Unknown datatype {type(self._type)}")
+            except (TypeError, ValueError) as e:
                 logging.error(f"Removing invalid record {row}")
                 invalid_count += 1
             else:

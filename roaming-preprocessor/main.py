@@ -9,6 +9,7 @@ from configuration import Configuration
 from global_titles import GlobalTitles
 from roaming_loader import RoamingLoader
 from roaming_record import RoamingRecord
+from roaming_record_4g5g import RoamingRecord4g5g
 
 
 def generate_new_configuration(filename):
@@ -22,6 +23,8 @@ def aggregate(data, aggregated, global_titles):
     for entry in data:
         if not type(entry) is RoamingRecord:
             raise RuntimeError(f"Unexpected data type {type(entry)}")
+        else:
+            entry: RoamingRecord
 
         timestamp_day = str(entry._timestamp)[0:10]
         timestamp_hour = str(entry._timestamp)[11:13]
@@ -58,6 +61,27 @@ def aggregate(data, aggregated, global_titles):
             aggregated[key] = [1, msu_length]
 
 
+def aggregate_4g5g(data, aggregated, global_titles):
+    for entry in data:
+        if not type(entry) is RoamingRecord4g5g:
+            raise RuntimeError(f"Unexpected data type {type(entry)}")
+        else:
+            entry: RoamingRecord
+
+        timestamp_day = str(entry._timestamp)[0:10]
+        timestamp_hour = str(entry._timestamp)[11:13]
+
+        key = (
+            timestamp_day,
+            timestamp_hour
+        )
+
+        if key in aggregated:
+            aggregated[key][0] += 1
+        else:
+            aggregated[key] = [1]
+
+
 def write_aggregated(data, path):
     logging.debug(f"Saving {len(data)} records to {path}")
     with open(path, "w", newline="") as csv_file:
@@ -87,9 +111,14 @@ def main():
         # Iterate over eligible files
         for filename in files:
             # Load input file
-            roaming_data = RoamingLoader()
+            roaming_data = RoamingLoader(configuration.get_type())
             roaming_data.load(configuration.get_input_path() + "/" + filename)
-            aggregate(roaming_data._records, aggregated, global_titles)
+            if configuration.get_type() == "2G/3G":
+                aggregate(roaming_data._records, aggregated, global_titles)
+            elif configuration.get_type() == "4G/5G":
+                aggregate_4g5g(roaming_data._records, aggregated, global_titles)
+            else:
+                raise ValueError(f"Unknown datatype")
 
         # Save aggregated data
         aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
