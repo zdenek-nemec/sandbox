@@ -8,6 +8,11 @@ class RoamingRecord4g5g(object):
 
         self._timestamp = datetime.strptime(data[0], "%Y-%m-%d %H:%M:%S.%f")
         self._direction = data[1]
+        self._peername = data[3]
+        self._hostname = data[4]
+        self._original_realm = data[9]
+        self._destination_realm = data[11]
+        self._release_cause = data[20]
 
     @staticmethod
     def _validate_input_data_type(data):

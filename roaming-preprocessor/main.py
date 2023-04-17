@@ -66,14 +66,26 @@ def aggregate_4g5g(data, aggregated, global_titles):
         if not type(entry) is RoamingRecord4g5g:
             raise RuntimeError(f"Unexpected data type {type(entry)}")
         else:
-            entry: RoamingRecord
+            entry: RoamingRecord4g5g
 
         timestamp_day = str(entry._timestamp)[0:10]
         timestamp_hour = str(entry._timestamp)[11:13]
+        direction = entry._direction
+        peername = entry._peername
+        hostname = entry._hostname
+        original_realm = entry._original_realm
+        destination_realm = entry._destination_realm
+        release_cause = entry._release_cause
 
         key = (
             timestamp_day,
-            timestamp_hour
+            timestamp_hour,
+            direction,
+            peername,
+            hostname,
+            original_realm,
+            destination_realm,
+            release_cause
         )
 
         if key in aggregated:
