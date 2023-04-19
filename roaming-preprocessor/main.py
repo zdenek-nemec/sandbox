@@ -26,8 +26,7 @@ def aggregate(data, aggregated, global_titles):
         else:
             entry: RoamingRecord
 
-        timestamp_day = str(entry._timestamp)[0:10]
-        timestamp_hour = str(entry._timestamp)[11:13]
+        date = str(entry._timestamp)[0:10]
         observation_domain = entry._observation_domain
         observation_point = entry._observation_point
         direction = entry._direction
@@ -40,8 +39,7 @@ def aggregate(data, aggregated, global_titles):
         msu_length = int(entry._msu_length)
 
         key = (
-            timestamp_day,
-            timestamp_hour,
+            date,
             observation_domain,
             observation_point,
             direction,
@@ -68,8 +66,7 @@ def aggregate_4g5g(data, aggregated, global_titles):
         else:
             entry: RoamingRecord4g5g
 
-        timestamp_day = str(entry._timestamp)[0:10]
-        timestamp_hour = str(entry._timestamp)[11:13]
+        date = str(entry._timestamp)[0:10]
         direction = entry._direction
         peername = entry._peername
         hostname = entry._hostname
@@ -78,8 +75,7 @@ def aggregate_4g5g(data, aggregated, global_titles):
         release_cause = entry._release_cause
 
         key = (
-            timestamp_day,
-            timestamp_hour,
+            date,
             direction,
             peername,
             hostname,
@@ -100,8 +96,7 @@ def write_aggregated(data, path, data_type):
         writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
         if data_type == "2G/3G":
             writer.writerow([
-                "#Timestamp Day",
-                "Timestamp Hour",
+                "Date",
                 "Observation domain",
                 "Observation point",
                 "Direction",
@@ -117,8 +112,7 @@ def write_aggregated(data, path, data_type):
             ])
         elif data_type == "4G/5G":
             writer.writerow([
-                "#Timestamp day",
-                "Timestamp hour",
+                "Date",
                 "Direction",
                 "Peername",
                 "Hostname",
