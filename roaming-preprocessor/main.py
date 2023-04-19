@@ -166,7 +166,9 @@ def main():
         write_aggregated(
             aggregated_output,
             configuration.get_output_path()
-            + "/report_"
+            + "/aggregated_"
+            + configuration.get_type().replace("/", "-")
+            + f"_{configuration.get_port_lock()}_"
             + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv",
             configuration.get_type()
         )

@@ -66,7 +66,7 @@ class RoamingLoader(object):
                 self._load_records(input_file)
         elif self._is_zip(path):
             with ZipFile(path) as zip_file:
-                filename = os.path.splitext(os.path.basename(path))[0]
+                filename = os.path.splitext(os.path.basename(path))[0] + ".dat"
                 with zip_file.open(filename, "r") as input_file:
                     self._load_records(TextIOWrapper(input_file, "utf-8"))
         else:
