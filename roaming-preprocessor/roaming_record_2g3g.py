@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class RoamingRecord(object):
+class RoamingRecord2g3g(object):
     def __init__(self, data):
         self._validate_input_data_type(data)
         self._validate_input_data_length(data)

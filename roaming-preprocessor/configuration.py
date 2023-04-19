@@ -3,9 +3,9 @@ from configparser import ConfigParser
 DEFAULT_NAME = "N007510 2G/3G"
 DEFAULT_TYPE = "2G/3G"
 DEFAULT_PORT_LOCK = 54321
-DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing/small"
-DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/testing"
-DEFAULT_GLOBAL_TITLES_PATH = "c:/Zdenek/_tmp/Cetin/roaming-preprocessor/global_titles.csv"
+DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-processing/testing"
+DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-processing/testing"
+DEFAULT_GLOBAL_TITLES_PATH = "c:/Zdenek/_tmp/Cetin/roaming-processing/global_titles.csv"
 
 
 class Configuration(object):

@@ -8,7 +8,7 @@ from application_lock import ApplicationLock
 from configuration import Configuration
 from global_titles import GlobalTitles
 from roaming_loader import RoamingLoader
-from roaming_record import RoamingRecord
+from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
 
 
@@ -21,10 +21,10 @@ def generate_new_configuration(filename):
 
 def aggregate(data, aggregated, global_titles):
     for entry in data:
-        if not type(entry) is RoamingRecord:
+        if not type(entry) is RoamingRecord2g3g:
             raise RuntimeError(f"Unexpected data type {type(entry)}")
         else:
-            entry: RoamingRecord
+            entry: RoamingRecord2g3g
 
         date = str(entry._timestamp)[0:10]
         observation_domain = entry._observation_domain

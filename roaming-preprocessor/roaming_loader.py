@@ -3,7 +3,7 @@ import gzip
 import logging
 import os
 
-from roaming_record import RoamingRecord
+from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
 
 
@@ -35,7 +35,7 @@ class RoamingLoader(object):
             row_count += 1
             try:
                 if self._type == "2G/3G":
-                    roaming_record = RoamingRecord(row)
+                    roaming_record = RoamingRecord2g3g(row)
                 elif self._type == "4G/5G":
                     roaming_record = RoamingRecord4g5g(row)
                 else:
