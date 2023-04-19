@@ -19,6 +19,10 @@ def generate_new_configuration(filename):
     configuration.save()
 
 
+def transform_mtp3(original):
+    return f"{original // 2048}-{(original % 2048) // 8}-{original % 8}"
+
+
 def aggregate(data, aggregated, global_titles):
     for entry in data:
         if not type(entry) is RoamingRecord2g3g:
@@ -30,8 +34,8 @@ def aggregate(data, aggregated, global_titles):
         observation_domain = entry._observation_domain
         observation_point = entry._observation_point
         direction = entry._direction
-        mtp3_opc = entry._mtp3_opc
-        mtp3_dpc = entry._mtp3_dpc
+        mtp3_opc = transform_mtp3(int(entry._mtp3_opc))
+        mtp3_dpc = transform_mtp3(int(entry._mtp3_dpc))
         sccp_message_type = entry._sccp_message_type
         global_title_cgpa, tadig_cgpa = global_titles.get_tadig(entry._sccp_cgpa_gt_digits, "unknown")
         global_title_cdpa, tadig_cdpa = global_titles.get_tadig(entry._sccp_cdpa_gt_digits, "unknown")
