@@ -131,6 +131,37 @@ def write_aggregated(data, path, data_type):
             writer.writerow(row)
 
 
+def get_selected_files(path):
+    os.chdir(path)
+    files = [filename for filename in os.listdir() if filename[0:4] == "2023"]
+    logging.info(f"Selected {len(files)} files to be processed")
+    return files
+
+
+def process_files(configuration, global_titles, files):
+    aggregated = {}
+    for filename in files:
+        roaming_data = RoamingLoader(configuration.get_type())
+        roaming_data.load(configuration.get_input_path() + "/" + filename)
+        if configuration.get_type() == "2G/3G":
+            aggregate(roaming_data._records, aggregated, global_titles)
+        elif configuration.get_type() == "4G/5G":
+            aggregate_4g5g(roaming_data._records, aggregated, global_titles)
+        else:
+            raise ValueError(f"Unknown datatype")
+
+    aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
+    write_aggregated(
+        aggregated_output,
+        configuration.get_output_path()
+        + "/aggregated_"
+        + configuration.get_type().replace("/", "-")
+        + f"_{configuration.get_port_lock()}_"
+        + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv",
+        configuration.get_type()
+    )
+
+
 def main():
     print("Roaming Preprocessor")
     application_controller = ApplicationController()
@@ -143,36 +174,9 @@ def main():
         configuration.load(application_controller.get_configuration_file())
         application_lock = ApplicationLock(configuration.get_port_lock())
         global_titles = GlobalTitles(configuration.get_global_titles_path())
-
-        # Check eligible files
-        os.chdir(configuration.get_input_path())
-        files = [filename for filename in os.listdir() if filename[0:4] == "2023"]
-
-        aggregated = {}
-        # Iterate over eligible files
-        for filename in files:
-            # Load input file
-            roaming_data = RoamingLoader(configuration.get_type())
-            roaming_data.load(configuration.get_input_path() + "/" + filename)
-            if configuration.get_type() == "2G/3G":
-                aggregate(roaming_data._records, aggregated, global_titles)
-            elif configuration.get_type() == "4G/5G":
-                aggregate_4g5g(roaming_data._records, aggregated, global_titles)
-            else:
-                raise ValueError(f"Unknown datatype")
-
-        # Save aggregated data
-        aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
-        write_aggregated(
-            aggregated_output,
-            configuration.get_output_path()
-            + "/aggregated_"
-            + configuration.get_type().replace("/", "-")
-            + f"_{configuration.get_port_lock()}_"
-            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv",
-            configuration.get_type()
-        )
-
+        selected_files = get_selected_files(configuration.get_input_path())
+        if selected_files:
+            process_files(configuration, global_titles, selected_files)
         application_lock.disable()
 
     logging.info("Application finished")
