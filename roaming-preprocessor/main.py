@@ -10,7 +10,7 @@ from global_titles import GlobalTitles
 from roaming_loader import RoamingLoader
 from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
-
+from data_type import DataType
 
 def generate_new_configuration(filename):
     logging.info("New configuration requested")
@@ -23,7 +23,7 @@ def transform_mtp3(original):
     return f"{original // 2048}-{(original % 2048) // 8}-{original % 8}"
 
 
-def aggregate(data, aggregated, global_titles):
+def aggregate_2g3g(data, aggregated, global_titles):
     for entry in data:
         if not type(entry) is RoamingRecord2g3g:
             raise RuntimeError(f"Unexpected data type {type(entry)}")
@@ -94,11 +94,11 @@ def aggregate_4g5g(data, aggregated, global_titles):
             aggregated[key] = [1]
 
 
-def write_aggregated(data, path, data_type):
+def write_aggregated(data, path, data_type: DataType):
     logging.debug(f"Saving {len(data)} records to {path}")
     with open(path, "w", newline="") as csv_file:
         writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
-        if data_type == "2G/3G":
+        if data_type.is_2g3g():
             writer.writerow([
                 "Date",
                 "Observation domain",
@@ -114,7 +114,7 @@ def write_aggregated(data, path, data_type):
                 "MSU Count",
                 "MSU Length"
             ])
-        elif data_type == "4G/5G":
+        elif data_type.is_4g5g():
             writer.writerow([
                 "Date",
                 "Direction",
@@ -141,11 +141,11 @@ def get_selected_files(path):
 def process_files(configuration, global_titles, files):
     aggregated = {}
     for filename in files:
-        roaming_data = RoamingLoader(configuration.get_type())
+        roaming_data = RoamingLoader(configuration.get_data_type())
         roaming_data.load(configuration.get_input_path() + "/" + filename)
-        if configuration.get_type() == "2G/3G":
-            aggregate(roaming_data._records, aggregated, global_titles)
-        elif configuration.get_type() == "4G/5G":
+        if configuration.get_data_type().is_2g3g():
+            aggregate_2g3g(roaming_data._records, aggregated, global_titles)
+        elif configuration.get_data_type().is_4g5g():
             aggregate_4g5g(roaming_data._records, aggregated, global_titles)
         else:
             raise ValueError(f"Unknown datatype")
@@ -154,11 +154,9 @@ def process_files(configuration, global_titles, files):
     write_aggregated(
         aggregated_output,
         configuration.get_output_path()
-        + "/aggregated_"
-        + configuration.get_type().replace("/", "-")
-        + f"_{configuration.get_port_lock()}_"
+        + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
         + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv",
-        configuration.get_type()
+        configuration.get_data_type()
     )
 
 

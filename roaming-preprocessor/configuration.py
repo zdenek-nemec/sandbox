@@ -1,8 +1,9 @@
 import os
 from configparser import ConfigParser
+from data_type import DataType
 
 DEFAULT_NAME = "Local 2G/3G test"
-DEFAULT_TYPE = "2G/3G"
+DEFAULT_DATA_TYPE = "2G/3G"
 DEFAULT_COLUMNS = 47
 DEFAULT_PORT_LOCK = 54321
 DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/Cetin/roaming-processing/testing"
@@ -17,7 +18,7 @@ class Configuration(object):
     def __init__(self):
         self._filename = None
         self._name = None
-        self._type = None
+        self._data_type = None
         self._columns = None
         self._port_lock = None
         self._input_path = None
@@ -30,7 +31,7 @@ class Configuration(object):
     def generate(self, filename: str):
         self._filename = filename
         self._name = DEFAULT_NAME
-        self._type = DEFAULT_TYPE
+        self._data_type = DEFAULT_DATA_TYPE
         self._columns = DEFAULT_COLUMNS
         self._port_lock = DEFAULT_PORT_LOCK
         self._input_path = DEFAULT_INPUT_PATH
@@ -45,7 +46,7 @@ class Configuration(object):
             "Current configuration:\n"
             f"* filename = {self._filename}\n"
             f"* name = {self._name}\n"
-            f"* type = {self._type}\n"
+            f"* data_type = {self._data_type}\n"
             f"* columns = {self._columns}\n"
             f"* port_lock = {self._port_lock}\n"
             f"* input_path = {self._input_path}\n"
@@ -62,7 +63,7 @@ class Configuration(object):
         config = ConfigParser()
         config["settings"] = {
             "name": self._name,
-            "type": self._type,
+            "data_type": self._data_type,
             "columns": self._columns,
             "port_lock": self._port_lock,
             "input_path": self._input_path,
@@ -80,7 +81,7 @@ class Configuration(object):
         config.read(filename)
         self._filename = filename
         self._name = config.get("settings", "name")
-        self._type = config.get("settings", "type")
+        self._data_type = config.get("settings", "data_type")
         self._columns = config.getint("settings", "columns")
         self._port_lock = config.getint("settings", "port_lock")
         self._input_path = os.path.abspath(config.get("settings", "input_path"))
@@ -90,8 +91,8 @@ class Configuration(object):
         self._output_filename_prefix = config.get("settings", "output_filename_prefix")
         self._global_titles_path = os.path.abspath(config.get("settings", "global_titles_path"))
 
-    def get_type(self) -> str:
-        return self._type
+    def get_data_type(self) -> DataType:
+        return DataType(self._data_type)
 
     def get_columns(self) -> int:
         return self._columns
@@ -104,6 +105,9 @@ class Configuration(object):
 
     def get_output_path(self) -> str:
         return self._output_path
+
+    def get_output_filename_prefix(self) -> str:
+        return self._output_filename_prefix
 
     def get_global_titles_path(self) -> str:
         return self._global_titles_path

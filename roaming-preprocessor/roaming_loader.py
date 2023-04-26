@@ -7,10 +7,11 @@ from zipfile import ZipFile
 
 from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
+from data_type import DataType
 
 
 class RoamingLoader(object):
-    def __init__(self, data_type):
+    def __init__(self, data_type: DataType):
         self._records = []
         self._type = data_type
 
@@ -42,9 +43,9 @@ class RoamingLoader(object):
         for row in reader:
             row_count += 1
             try:
-                if self._type == "2G/3G":
+                if self._type.is_2g3g():
                     roaming_record = RoamingRecord2g3g(row)
-                elif self._type == "4G/5G":
+                elif self._type.is_4g5g():
                     roaming_record = RoamingRecord4g5g(row)
                 else:
                     raise ValueError(f"Unknown datatype {type(self._type)}")
