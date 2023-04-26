@@ -1,4 +1,5 @@
 import csv
+import glob
 import logging
 import os
 from datetime import datetime
@@ -12,11 +13,18 @@ from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
 from data_type import DataType
 
+
 def generate_new_configuration(filename):
     logging.info("New configuration requested")
     configuration = Configuration()
     configuration.generate(filename)
     configuration.save()
+
+
+def get_selected_files(path: str, mask: str) -> list:
+    files = [os.path.abspath(filepath) for filepath in glob.glob(path + "/" + mask)]
+    logging.info(f"Selected {len(files)} files to be processed")
+    return files
 
 
 def transform_mtp3(original):
@@ -131,18 +139,12 @@ def write_aggregated(data, path, data_type: DataType):
             writer.writerow(row)
 
 
-def get_selected_files(path):
-    os.chdir(path)
-    files = [filename for filename in os.listdir() if filename[0:4] == "2023"]
-    logging.info(f"Selected {len(files)} files to be processed")
-    return files
-
-
-def process_files(configuration, global_titles, files):
+def process_files(configuration, files):
+    global_titles = GlobalTitles(configuration.get_global_titles_path())
     aggregated = {}
-    for filename in files:
+    for filepath in files:
         roaming_data = RoamingLoader(configuration.get_data_type())
-        roaming_data.load(configuration.get_input_path() + "/" + filename)
+        roaming_data.load(filepath)
         if configuration.get_data_type().is_2g3g():
             aggregate_2g3g(roaming_data._records, aggregated, global_titles)
         elif configuration.get_data_type().is_4g5g():
@@ -153,9 +155,10 @@ def process_files(configuration, global_titles, files):
     aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
     write_aggregated(
         aggregated_output,
-        configuration.get_output_path()
-        + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
-        + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv",
+        os.path.abspath(
+            configuration.get_output_path()
+            + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
+            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv"),
         configuration.get_data_type()
     )
 
@@ -171,10 +174,9 @@ def main():
         configuration = Configuration()
         configuration.load(application_controller.get_configuration_file())
         application_lock = ApplicationLock(configuration.get_port_lock())
-        global_titles = GlobalTitles(configuration.get_global_titles_path())
-        selected_files = get_selected_files(configuration.get_input_path())
+        selected_files = get_selected_files(configuration.get_input_path(), configuration.get_input_mask())
         if selected_files:
-            process_files(configuration, global_titles, selected_files)
+            process_files(configuration, selected_files)
         application_lock.disable()
 
     logging.info("Application finished")

@@ -103,6 +103,9 @@ class Configuration(object):
     def get_input_path(self) -> str:
         return self._input_path
 
+    def get_input_mask(self) -> str:
+        return self._input_mask
+
     def get_output_path(self) -> str:
         return self._output_path
 
