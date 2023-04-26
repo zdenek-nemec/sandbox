@@ -163,8 +163,8 @@ def process_files(configuration, global_titles, files):
 
 
 def main():
-    print("Roaming Preprocessor")
     application_controller = ApplicationController()
+    logging.info("Roaming Preprocessor")
     logging.info("Application started")
 
     if application_controller.is_new_configuration_requested():
