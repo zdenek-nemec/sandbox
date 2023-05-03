@@ -45,8 +45,8 @@ def aggregate_2g3g(data, aggregated, global_titles):
         mtp3_opc = transform_mtp3(int(entry._mtp3_opc))
         mtp3_dpc = transform_mtp3(int(entry._mtp3_dpc))
         sccp_message_type = entry._sccp_message_type
-        global_title_cgpa, tadig_cgpa = global_titles.get_tadig(entry._sccp_cgpa_gt_digits, "unknown")
-        global_title_cdpa, tadig_cdpa = global_titles.get_tadig(entry._sccp_cdpa_gt_digits, "unknown")
+        global_title_cgpa, tadig_cgpa = global_titles.get_tadig(entry._sccp_cgpa_gt_digits, "unk")
+        global_title_cdpa, tadig_cdpa = global_titles.get_tadig(entry._sccp_cdpa_gt_digits, "unk")
 
         msu_length = int(entry._msu_length)
 
