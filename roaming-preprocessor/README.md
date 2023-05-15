@@ -67,13 +67,13 @@ type = ["a", "b"] -- column and values to filter
 
 ## To Do
 
-* [ ] Configuration `.cfg`
-  * [ ] Parser
-  * [ ] Validator
+* [x] Configuration `.ini`
+  * [x] Parser
+  * [x] Validator
 * [x] Logging
-* [ ] Application lock
+* [x] Application lock
   * [x] Port lock
-  * [ ] Configurable application lock
+  * [x] Configurable application lock
     * Allows running multiple instances which do not interfere with each other
 * [ ] Separate class for data loading and saving
   * Allows implementing other interfaces, e.g. DB/stream

@@ -1,79 +1,186 @@
-import argparse
+import csv
+import glob
 import logging
 import os
-import sys
-import timeit
+from datetime import datetime
 
+from application_controller import ApplicationController
 from application_lock import ApplicationLock
-from roaming_data import RoamingData
+from configuration import Configuration
+from global_titles import GlobalTitles
+from roaming_loader import RoamingLoader
+from roaming_record_2g3g import RoamingRecord2g3g
+from roaming_record_4g5g import RoamingRecord4g5g
+from data_type import DataType
 
-DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-LOCALHOST = True
-if LOCALHOST:
-    DEFAULT_WORK_DATA_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work.dat"
-    DEFAULT_WORK_DATA_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/work_out.dat"  # Only for development purposes
-    # DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
-    DEFAULT_INPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing/big"
-    DEFAULT_OUTPUT_PATH = "c:/Zdenek/_tmp/roaming-preprocessor/testing"
-else:
-    DEFAULT_WORK_DATA_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/work.dat"
-    DEFAULT_WORK_DATA_OUTPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/work_out.dat"  # Only for development purposes
-    # DEFAULT_INPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor"
-    DEFAULT_INPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor/big"
-    DEFAULT_OUTPUT_PATH = "/dcs/data01/tmp/zdenek/roaming-preprocessor"
+
+def generate_new_configuration(filename):
+    logging.info("New configuration requested")
+    configuration = Configuration()
+    configuration.generate(filename)
+    configuration.save()
+
+
+def get_selected_files(path: str, mask: str) -> list:
+    files = [os.path.abspath(filepath) for filepath in glob.glob(path + "/" + mask)]
+    logging.info(f"Selected {len(files)} files to be processed")
+    return files
+
+
+def transform_mtp3(original):
+    return f"{original // 2048}-{(original % 2048) // 8}-{original % 8}"
+
+
+def aggregate_2g3g(data, aggregated, global_titles):
+    for entry in data:
+        if not type(entry) is RoamingRecord2g3g:
+            raise RuntimeError(f"Unexpected data type {type(entry)}")
+        else:
+            entry: RoamingRecord2g3g
+
+        date = str(entry._timestamp)[0:10]
+        observation_domain = entry._observation_domain
+        observation_point = entry._observation_point
+        direction = entry._direction
+        mtp3_opc = transform_mtp3(int(entry._mtp3_opc))
+        mtp3_dpc = transform_mtp3(int(entry._mtp3_dpc))
+        sccp_message_type = entry._sccp_message_type
+        global_title_cgpa, tadig_cgpa = global_titles.get_tadig(entry._sccp_cgpa_gt_digits, "unk")
+        global_title_cdpa, tadig_cdpa = global_titles.get_tadig(entry._sccp_cdpa_gt_digits, "unk")
+
+        msu_length = int(entry._msu_length)
+
+        key = (
+            date,
+            observation_domain,
+            observation_point,
+            direction,
+            mtp3_opc,
+            mtp3_dpc,
+            sccp_message_type,
+            global_title_cgpa,
+            tadig_cgpa,
+            global_title_cdpa,
+            tadig_cdpa
+        )
+
+        if key in aggregated:
+            aggregated[key][0] += 1
+            aggregated[key][1] += msu_length
+        else:
+            aggregated[key] = [1, msu_length]
+
+
+def aggregate_4g5g(data, aggregated, global_titles):
+    for entry in data:
+        if not type(entry) is RoamingRecord4g5g:
+            raise RuntimeError(f"Unexpected data type {type(entry)}")
+        else:
+            entry: RoamingRecord4g5g
+
+        date = str(entry._timestamp)[0:10]
+        direction = entry._direction
+        peername = entry._peername
+        hostname = entry._hostname
+        original_realm = entry._original_realm
+        destination_realm = entry._destination_realm
+        release_cause = entry._release_cause
+
+        key = (
+            date,
+            direction,
+            peername,
+            hostname,
+            original_realm,
+            destination_realm,
+            release_cause
+        )
+
+        if key in aggregated:
+            aggregated[key][0] += 1
+        else:
+            aggregated[key] = [1]
+
+
+def write_aggregated(data, path, data_type: DataType):
+    logging.debug(f"Saving {len(data)} records to {path}")
+    with open(path, "w", newline="") as csv_file:
+        writer = csv.writer(csv_file, delimiter="|", quotechar="\"", quoting=csv.QUOTE_MINIMAL)
+        if data_type.is_2g3g():
+            writer.writerow([
+                "Date",
+                "Observation domain",
+                "Observation point",
+                "Direction",
+                "MTP3 OPC",
+                "MTP3 DPC",
+                "SCCP message type",
+                "Global title CGPA",
+                "TADIG CGPA",
+                "Global title CDPA",
+                "TADIG CDPA",
+                "MSU Count",
+                "MSU Length"
+            ])
+        elif data_type.is_4g5g():
+            writer.writerow([
+                "Date",
+                "Direction",
+                "Peername",
+                "Hostname",
+                "Original realm",
+                "Destination realm",
+                "Release cause",
+                "MSU count"
+            ])
+        else:
+            raise ValueError(f"Unknown datatype")
+        for row in data:
+            writer.writerow(row)
+
+
+def process_files(configuration, files):
+    global_titles = GlobalTitles(configuration.get_global_titles_path())
+    aggregated = {}
+    for filepath in files:
+        roaming_data = RoamingLoader(configuration.get_data_type())
+        roaming_data.load(filepath)
+        if configuration.get_data_type().is_2g3g():
+            aggregate_2g3g(roaming_data._records, aggregated, global_titles)
+        elif configuration.get_data_type().is_4g5g():
+            aggregate_4g5g(roaming_data._records, aggregated, global_titles)
+        else:
+            raise ValueError(f"Unknown datatype")
+
+    aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
+    write_aggregated(
+        aggregated_output,
+        os.path.abspath(
+            configuration.get_output_path()
+            + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
+            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv"),
+        configuration.get_data_type()
+    )
 
 
 def main():
-    print("Roaming Preprocessor")
-
-    # Parse arguments and set up logging
-    argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument(
-        "--log_level", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-    )
-
-    log_level = argument_parser.parse_args().log_level
-    log_format = DEFAULT_LOG_FORMAT
-    logging.basicConfig(stream=sys.stdout, level=log_level, format=log_format)
-
+    application_controller = ApplicationController()
+    logging.info("Roaming Preprocessor")
     logging.info("Application started")
-    application_start_time = timeit.default_timer()
 
-    logging.debug("Arguments: log_level = {0}".format(
-        argument_parser.parse_args().log_level
-    ))
+    if application_controller.is_new_configuration_requested():
+        generate_new_configuration(application_controller.get_configuration_file())
+    else:
+        configuration = Configuration()
+        configuration.load(application_controller.get_configuration_file())
+        application_lock = ApplicationLock(configuration.get_port_lock())
+        selected_files = get_selected_files(configuration.get_input_path(), configuration.get_input_mask())
+        if selected_files:
+            process_files(configuration, selected_files)
+        application_lock.disable()
 
-    # Load configuration
-
-    application_lock = ApplicationLock()
-
-    # Check eligible files
-    os.chdir(DEFAULT_INPUT_PATH)
-    files = [filename for filename in os.listdir() if filename[0:4] == "2023" and filename[-4:] == ".dat"]
-
-    # Load work file
-    roaming_data = RoamingData()
-    roaming_data.load_data(DEFAULT_WORK_DATA_PATH)
-
-    # Iterate over eligible files
-    for filename in files:
-        # Load input file
-        roaming_data.load_data(DEFAULT_INPUT_PATH + "/" + filename)
-        roaming_data.validate()
-
-        # Assemble data
-        roaming_data.merge_sessions()
-
-        # Save complete data
-        # roaming_data.write_data(roaming_data.get_data("complete", ""), DEFAULT_OUTPUT_PATH + "/" + filename[0:len(filename)-4] + ".csv")
-
-        # Save work file
-        roaming_data.write_data(roaming_data.get_data("work"), DEFAULT_WORK_DATA_OUTPUT_PATH)
-
-    application_lock.disable()
-    application_stop_time = timeit.default_timer()
-    logging.debug("Finished in %.1fs" % (application_stop_time - application_start_time))
     logging.info("Application finished")
+    logging.debug(f"Finished in {application_controller.get_runtime():,.1f}s")
 
 
 if __name__ == "__main__":
