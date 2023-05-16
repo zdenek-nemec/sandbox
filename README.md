@@ -5,7 +5,7 @@ and experimental projects.
 
 ## Structure
 
-Every subproject has its own directory.
+Every project has its own directory
 
 * `ahk-demos` - AutoHotkey tutorials and demonstrations
 * `anomaly-detector` - Anomaly detection in statistical data
@@ -15,6 +15,7 @@ Every subproject has its own directory.
 * `file-explorer` - Tool for locating files and saving basic information about them
 * `films` - Tool for retrieving data file properties
 * `flask-demo` - Flask tutorial from TwT
+* `grafana-bm` - Experiments with [Grafana](https://grafana.com/) and BlackMed
 * `heroes3` - Ideas related to the turn based strategy game Heroes of Might and Magic 3
 * `intermediate-tools` - Experimental tools for CSG Intermediate
   * `archiving`
@@ -33,11 +34,15 @@ Every subproject has its own directory.
 
 ## Rules
 
-* Every subproject has its own directory under the root and its name follows language/technology conventions.
-  * Java: Pascal case with space characters ` ` removed
-  * Python: Kebab case with dash `-` character used instead of a space ` `
-* Structure under the subproject directory follows language/technology conventions and allows to be imported to IDE (IntelliJ IDEA, PyCharm, etc.).
-* Every subproject directory contains a `README.md` file with basic documentation.
+* Every project has its own directory under the root and its name follows language/technology conventions
+  * Java/Maven: Kebab case
+  * Python: Kebab case
+* Structure in the project directory follows language/technology conventions and allows importing to IDE (IntelliJ IDEA, PyCharm, VS Code, etc.)
+* Every project directory contains `README.md`
+
+### Notes
+
+* Kebab case = Lower case where space ` ` is replaced with dash `-`
 
 ## Issues
 
@@ -73,6 +78,7 @@ Every subproject has its own directory.
 * `#90` Films
 * `#95` Roaming Preprocessor
 * `#97` Hex - Number convertor and ULI decoder
+* `#101` Grafana BM
 
 ### Closed
 
