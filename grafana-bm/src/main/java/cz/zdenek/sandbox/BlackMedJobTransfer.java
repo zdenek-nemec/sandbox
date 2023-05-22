@@ -3,15 +3,20 @@ package cz.zdenek.sandbox;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BlackMedJobTransfer extends BlackMedJob {
     private static final Object sync = new Object();
     private static final String MEASUREMENT = "BlackMedTransferJob";
+    private static final int GRAFANA_FILE_PERIOD_SECONDS = 1;
+    private static final String GRAFANA_FILE_LOCATION = ".";
+    private static final String GRAFANA_FILENAME_PREFIX = "grafana_";
+    private static final String GRAFANA_FILE_TIMESTAMP_FORMAT = "yyyy-MM-dd_HH-mm-ss";
+    private static final String GRAFANA_FILENAME_EXTENSION = ".log";
     private static FileOutputStream grafanaFile;
     private final String source;
     private final String destination;
-    private final int GRAFANA_FILE_PERIOD_SECONDS = 1;
 
     public BlackMedJobTransfer(int id, String name, String source, String destination) {
         super("TransferJob", id, name);
@@ -55,8 +60,9 @@ public class BlackMedJobTransfer extends BlackMedJob {
 
     private FileOutputStream getGrafanaFile() {
         if (grafanaFile == null) {
+            SimpleDateFormat grafanaFilenameTimestamp = new SimpleDateFormat(GRAFANA_FILE_TIMESTAMP_FORMAT);
             try {
-                grafanaFile = new FileOutputStream("./grafana" + new Date().getTime() + ".log", true);
+                grafanaFile = new FileOutputStream(GRAFANA_FILE_LOCATION + "/" + GRAFANA_FILENAME_PREFIX + grafanaFilenameTimestamp.format(new Date()) + GRAFANA_FILENAME_EXTENSION, true);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
