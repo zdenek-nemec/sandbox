@@ -1,27 +1,26 @@
 package cz.zdenek.sandbox;
 
-import java.util.Date;
-
 public class BlackMedJob {
-    private BlackMedMetrics metrics;
+    private final String type;
+    private final int id;
+    private final String name;
 
-    public BlackMedJob() {
+    public BlackMedJob(String type, int id, String name) {
         System.out.println("BlackMedJob.constructor");
-        this.metrics = null;
+        this.type = type;
+        this.id = id;
+        this.name = name;
     }
 
-    protected void generateMetrics(String type, Integer id, String name, String source, String destination, Integer size, Date startTime, Date endTime) {
-        this.metrics = new BlackMedMetrics(type, id, name, source, destination, size, startTime, endTime);
+    public String getType() {
+        return type;
     }
 
-    private String getMetricsInfluxDbFormat() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(metrics.getType() + " " + metrics.getName() + " " + metrics.getId());
-        return stringBuilder.toString();
+    public Integer getId() {
+        return id;
     }
 
-    protected void writeMetrics() {
-        System.out.println("BlackMedJob.writeMetrics");
-        System.out.println(getMetricsInfluxDbFormat());
+    public String getName() {
+        return this.name;
     }
 }
