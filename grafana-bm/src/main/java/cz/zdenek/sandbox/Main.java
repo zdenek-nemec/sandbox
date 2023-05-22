@@ -1,12 +1,10 @@
 package cz.zdenek.sandbox;
 
-import java.io.IOException;
-
 public class Main {
     private static final int JOBS_COUNT = 20;
     private static final int WAIT_PERIOD_MSECONDS = 100;
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Grafana BM");
 
         for (int i = 0; i < JOBS_COUNT; i++) {
