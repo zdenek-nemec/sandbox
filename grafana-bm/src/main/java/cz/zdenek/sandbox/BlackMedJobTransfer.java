@@ -15,21 +15,24 @@ public class BlackMedJobTransfer extends BlackMedJob {
 
     public boolean run() {
         System.out.println("BlackMedJobTransfer.run");
-        writeMetrics(RandomGenerator.getInt(1000), new Date(), new Date());
+        int duration = RandomGenerator.getInt(100000);
+        Date startTimestamp = new Date();
+        Date endTimestamp = new Date(startTimestamp.getTime() + duration);
+        writeMetrics(startTimestamp, endTimestamp, RandomGenerator.getInt(10000));
         return true;
     }
 
-    private void writeMetrics(int size, Date startTimestamp, Date endTimestamp) {
+    private void writeMetrics(Date startTimestamp, Date endTimestamp, int size) {
         System.out.println("BlackMedJobTransfer.writeMetrics");
-        String metrics = String.format("%s,%d,%s,%s,%s %d,%s,%s",
-                this.getType(),
+        int durationSeconds = (int) (endTimestamp.getTime() - startTimestamp.getTime()) / 1000 + 1;
+        String metrics = String.format("BlackMedTransferJob,id=%d,name=%s,source=%s,destination=%s size=%d,duration=%d %s",
                 this.getId(),
                 this.getName(),
                 this.source,
                 this.destination,
                 size,
-                startTimestamp.getTime() + "000000",
-                endTimestamp.getTime() + "000000"
+                durationSeconds,
+                startTimestamp.getTime() + "000000"
         );
         System.out.println(metrics);
     }
