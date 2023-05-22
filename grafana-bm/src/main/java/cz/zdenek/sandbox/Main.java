@@ -3,8 +3,8 @@ package cz.zdenek.sandbox;
 import java.io.IOException;
 
 public class Main {
-    private static final int JOBS_COUNT = 3;
-    private static final int WAIT_PERIOD = 500;
+    private static final int JOBS_COUNT = 20;
+    private static final int WAIT_PERIOD_MSECONDS = 100;
 
     public static void main(String[] args) throws InterruptedException, IOException {
         System.out.println("Grafana BM");
@@ -29,7 +29,7 @@ public class Main {
                     System.out.println("Shell job error");
                 }
             }
-            Thread.sleep(WAIT_PERIOD);
+            Thread.sleep(WAIT_PERIOD_MSECONDS);
             System.out.println();
         }
     }

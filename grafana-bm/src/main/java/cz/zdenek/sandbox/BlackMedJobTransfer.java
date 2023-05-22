@@ -10,6 +10,7 @@ public class BlackMedJobTransfer extends BlackMedJob {
     private static Object sync;
     private final String source;
     private final String destination;
+    private final int GRAFANA_FILE_PERIOD_SECONDS = 1;
 
     public BlackMedJobTransfer(int id, String name, String source, String destination) {
         super("TransferJob", id, name);
@@ -27,7 +28,7 @@ public class BlackMedJobTransfer extends BlackMedJob {
         return true;
     }
 
-    private void writeMetrics(Date startTimestamp, Date endTimestamp, int size) throws IOException {
+    private synchronized void writeMetrics(Date startTimestamp, Date endTimestamp, int size) throws IOException {
         System.out.println("BlackMedJobTransfer.writeMetrics");
         int durationSeconds = (int) (endTimestamp.getTime() - startTimestamp.getTime()) / 1000 + 1;
         String metrics = String.format("BlackMedTransferJob,id=%d,name=%s,source=%s,destination=%s size=%d,duration=%d %s\n",
@@ -40,17 +41,28 @@ public class BlackMedJobTransfer extends BlackMedJob {
                 startTimestamp.getTime() + "000000"
         );
         System.out.println(metrics);
-//        synchronized (sync) {
-            grafanaFile = getGrafanaFile();
-            grafanaFile.write(metrics.getBytes());
-//        }
+        grafanaFile = getGrafanaFile();
+        grafanaFile.write(metrics.getBytes());
     }
 
     private FileOutputStream getGrafanaFile() throws FileNotFoundException {
         if (grafanaFile == null) {
-            return new FileOutputStream("./grafana.log", true);
-        } else {
-            return grafanaFile;
+            grafanaFile = new FileOutputStream("./grafana" + new Date().getTime() + ".log", true);
+            new Thread(() -> {
+                try {
+                    Thread.sleep(GRAFANA_FILE_PERIOD_SECONDS * 1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    grafanaFile.close();
+                    grafanaFile = null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
         }
+        return grafanaFile;
     }
 }
