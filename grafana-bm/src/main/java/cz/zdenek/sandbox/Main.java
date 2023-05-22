@@ -13,16 +13,16 @@ public class Main {
                 System.out.println("Transfer job");
                 BlackMedJobTransfer blackMedJobTransfer = new BlackMedJobTransfer(
                         i,
-                        RandomStringGenerator.generateRandomString(10),
-                        RandomStringGenerator.generateRandomString(20),
-                        RandomStringGenerator.generateRandomString(20)
+                        RandomGenerator.getString(10),
+                        RandomGenerator.getString(20),
+                        RandomGenerator.getString(20)
                 );
                 if (!blackMedJobTransfer.run()) {
                     System.out.println("Transfer job error");
                 }
             } else {
                 System.out.println("Shell job");
-                BlackMedJobShell blackMedJobShell = new BlackMedJobShell(i, RandomStringGenerator.generateRandomString(10));
+                BlackMedJobShell blackMedJobShell = new BlackMedJobShell(i, RandomGenerator.getString(10));
                 if (!blackMedJobShell.run()) {
                     System.out.println("Shell job error");
                 }
