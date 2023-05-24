@@ -71,7 +71,7 @@ def aggregate_2g3g(data, aggregated, global_titles):
             aggregated[key] = [1, msu_length]
 
 
-def aggregate_4g5g(data, aggregated, global_titles):
+def aggregate_4g5g(data, aggregated):
     for entry in data:
         if not type(entry) is RoamingRecord4g5g:
             raise RuntimeError(f"Unexpected data type {type(entry)}")
@@ -148,7 +148,7 @@ def process_files(configuration, files):
         if configuration.get_data_type().is_2g3g():
             aggregate_2g3g(roaming_data._records, aggregated, global_titles)
         elif configuration.get_data_type().is_4g5g():
-            aggregate_4g5g(roaming_data._records, aggregated, global_titles)
+            aggregate_4g5g(roaming_data._records, aggregated)
         else:
             raise ValueError(f"Unknown datatype")
 
