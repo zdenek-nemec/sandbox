@@ -3,6 +3,8 @@ package cz.zdenek.sandbox;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,7 +15,6 @@ public class BlackMedJobTransfer extends BlackMedJob {
     private static final String GRAFANA_FILE_LOCATION = ".";
     private static final String GRAFANA_FILENAME_PREFIX = "grafana_";
     private static final String GRAFANA_FILE_TIMESTAMP_FORMAT = "yyyy-MM-dd_HH-mm-ss";
-    private static final String GRAFANA_FILENAME_EXTENSION = ".log";
     private static FileOutputStream grafanaFile;
     private final String source;
     private final String destination;
@@ -61,8 +62,9 @@ public class BlackMedJobTransfer extends BlackMedJob {
     private FileOutputStream getGrafanaFile() {
         if (grafanaFile == null) {
             SimpleDateFormat grafanaFilenameTimestamp = new SimpleDateFormat(GRAFANA_FILE_TIMESTAMP_FORMAT);
+            String fileName = GRAFANA_FILENAME_PREFIX + grafanaFilenameTimestamp.format(new Date());
             try {
-                grafanaFile = new FileOutputStream(GRAFANA_FILE_LOCATION + "/" + GRAFANA_FILENAME_PREFIX + grafanaFilenameTimestamp.format(new Date()) + GRAFANA_FILENAME_EXTENSION, true);
+                grafanaFile = new FileOutputStream(GRAFANA_FILE_LOCATION + "/" + fileName + ".tmp", true);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -76,7 +78,12 @@ public class BlackMedJobTransfer extends BlackMedJob {
 
                 synchronized (sync) {
                     try {
+                        System.out.println("bla");
                         grafanaFile.close();
+                        Files.move(
+                                Paths.get(GRAFANA_FILE_LOCATION + "/" + fileName + ".tmp"),
+                                Paths.get(GRAFANA_FILE_LOCATION + "/" + fileName + ".log")
+                        );
                         grafanaFile = null;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
