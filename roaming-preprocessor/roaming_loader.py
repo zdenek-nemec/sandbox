@@ -5,15 +5,16 @@ import os
 from io import TextIOWrapper
 from zipfile import ZipFile
 
+from data_type import DataType
 from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
-from data_type import DataType
 
 
 class RoamingLoader(object):
-    def __init__(self, data_type: DataType):
+    def __init__(self, data_type: DataType, columns: int):
         self._records = []
         self._type = data_type
+        self._columns = columns
 
     def get_records(self):
         return self._records
@@ -44,9 +45,9 @@ class RoamingLoader(object):
             row_count += 1
             try:
                 if self._type.is_2g3g():
-                    roaming_record = RoamingRecord2g3g(row)
+                    roaming_record = RoamingRecord2g3g(row, self._columns)
                 elif self._type.is_4g5g():
-                    roaming_record = RoamingRecord4g5g(row)
+                    roaming_record = RoamingRecord4g5g(row, self._columns)
                 else:
                     raise ValueError(f"Unknown datatype {type(self._type)}")
             except (TypeError, ValueError) as e:

@@ -7,11 +7,11 @@ from datetime import datetime
 from application_controller import ApplicationController
 from application_lock import ApplicationLock
 from configuration import Configuration
+from data_type import DataType
 from global_titles import GlobalTitles
 from roaming_loader import RoamingLoader
 from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
-from data_type import DataType
 
 
 def generate_new_configuration(filename):
@@ -143,7 +143,7 @@ def process_files(configuration, files):
     global_titles = GlobalTitles(configuration.get_global_titles_path())
     aggregated = {}
     for filepath in files:
-        roaming_data = RoamingLoader(configuration.get_data_type())
+        roaming_data = RoamingLoader(configuration.get_data_type(), configuration.get_columns())
         roaming_data.load(filepath)
         if configuration.get_data_type().is_2g3g():
             aggregate_2g3g(roaming_data._records, aggregated, global_titles)
