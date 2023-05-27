@@ -151,7 +151,18 @@ def process_files(configuration, files):
             aggregate_4g5g(roaming_data._records, aggregated)
         else:
             raise ValueError(f"Unknown datatype")
-
+        if configuration.get_delete_input_files():
+            if os.path.exists(filepath):
+                try:
+                    os.remove(filepath)
+                except OSError:
+                    raise RuntimeError(f"Cannot delete input file {filepath}")
+                else:
+                    logging.debug(f"Deleted input file {filepath}")
+            else:
+                logging.warning(f"File {filepath} missing before delete")
+        else:
+            logging.debug(f"Keeping input file {filepath}")
     aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
     write_aggregated(
         aggregated_output,
