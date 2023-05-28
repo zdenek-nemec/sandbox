@@ -141,6 +141,11 @@ def write_aggregated(data, path, data_type: DataType):
 
 def process_files(configuration, files):
     global_titles = GlobalTitles(configuration.get_global_titles_path())
+    output_filename_without_extension = os.path.abspath(
+        configuration.get_output_path()
+        + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
+        + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-")
+    )
     aggregated = {}
     for filepath in files:
         roaming_data = RoamingLoader(configuration.get_data_type(), configuration.get_columns())
@@ -151,6 +156,12 @@ def process_files(configuration, files):
             aggregate_4g5g(roaming_data._records, aggregated)
         else:
             raise ValueError(f"Unknown datatype")
+        aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
+        write_aggregated(
+            aggregated_output,
+            output_filename_without_extension + ".tmp",
+            configuration.get_data_type()
+        )
         if configuration.get_delete_input_files():
             if os.path.exists(filepath):
                 try:
@@ -163,15 +174,8 @@ def process_files(configuration, files):
                 logging.warning(f"File {filepath} missing before delete")
         else:
             logging.debug(f"Keeping input file {filepath}")
-    aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
-    write_aggregated(
-        aggregated_output,
-        os.path.abspath(
-            configuration.get_output_path()
-            + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
-            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv"),
-        configuration.get_data_type()
-    )
+    os.rename(
+        output_filename_without_extension + ".tmp", output_filename_without_extension + ".csv")
 
 
 def main():
