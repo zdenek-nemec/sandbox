@@ -51,7 +51,7 @@ class RoamingLoader(object):
                 else:
                     raise ValueError(f"Unknown datatype {type(self._type)}")
             except (TypeError, ValueError) as e:
-                logging.error(f"Removing invalid record {row}")
+                logging.error(f"Removing invalid record {row} due to exception {e}")
                 invalid_count += 1
             else:
                 if roaming_record.is_filtered():
