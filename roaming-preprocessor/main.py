@@ -149,7 +149,11 @@ def process_files(configuration, files):
     aggregated = {}
     for filepath in files:
         roaming_data = RoamingLoader(configuration.get_data_type(), configuration.get_columns())
-        roaming_data.load(filepath)
+        try:
+            roaming_data.load(filepath)
+        except Exception as e:
+            logging.warning(f"{type(e)} exception while processing {filepath}, ignoring the file. Full exception: {e}")
+            continue
         if configuration.get_data_type().is_2g3g():
             aggregate_2g3g(roaming_data._records, aggregated, global_titles)
         elif configuration.get_data_type().is_4g5g():
