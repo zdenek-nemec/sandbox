@@ -1,9 +1,8 @@
 import csv
 import os.path
 
-SV_EXPORT = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/ics_2_sv_res_v2_session_ids.csv"
-REPORT_A_PARTY = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/reports/ics_2_sv_res_v2_session_ids_report_a_party.csv"
-REPORT_DATE = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/reports/ics_2_sv_res_v2_session_ids_report_date.csv"
+SV_EXPORTS_DIRECTORY = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/exports"
+REPORTS_DIRECTORY = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/reports"
 
 
 class Report(object):
@@ -34,14 +33,11 @@ class Report(object):
                 writer.writerow([key, duration, duration_converted])
 
 
-def main():
-    print("Started")
-
-    sv_export_file = os.path.normpath(SV_EXPORT)
-    print(f"{sv_export_file=}")
+def process_sv_export(sv_export_file_path: str, reports_directory_path: str):
+    print(f"{sv_export_file_path=}")
     a_party_report = Report()
     date_report = Report()
-    with open(sv_export_file, "r") as csv_file:
+    with open(sv_export_file_path, "r") as csv_file:
         reader = csv.reader(csv_file, delimiter=",")
         for i, row in enumerate(reader):
             if i == 0 and row[0] == "TRACE":
@@ -55,8 +51,20 @@ def main():
     print(f"{a_party_report.size()=}")
     print(f"{date_report.size()=}")
 
-    a_party_report.save(os.path.normpath(REPORT_A_PARTY), "A-Party")
-    date_report.save(os.path.normpath(REPORT_DATE), "Date")
+    export_filename, _ = str(os.path.basename(sv_export_file_path)).split(".")
+    a_party_report.save(os.path.normpath(reports_directory_path + "/" + export_filename + "_a_party.csv"), "A-Party")
+    date_report.save(os.path.normpath(reports_directory_path + "/" + export_filename + "_date.csv"), "Date")
+
+
+def main():
+    print("Started")
+
+    sv_exports_directory = os.path.normpath(SV_EXPORTS_DIRECTORY)
+    for sv_export in os.listdir(sv_exports_directory):
+        process_sv_export(
+            os.path.normpath(sv_exports_directory + "/" + sv_export),
+            os.path.normpath(REPORTS_DIRECTORY)
+        )
 
     print("Finished")
 
