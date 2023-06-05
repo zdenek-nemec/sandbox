@@ -2,7 +2,7 @@ import csv
 import os.path
 
 SV_EXPORTS_DIRECTORY = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/exports"
-REPORTS_DIRECTORY = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/reports"
+REPORTS_DIRECTORY = "c:/Zdenek/_tmp/A4A1-15618_ICS-SV_520_Reprocessing/reports_python"
 
 
 class Report(object):
