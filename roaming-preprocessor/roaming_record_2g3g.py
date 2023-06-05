@@ -2,9 +2,9 @@ from datetime import datetime
 
 
 class RoamingRecord2g3g(object):
-    def __init__(self, data):
+    def __init__(self, data, columns: int):
         self._validate_input_data_type(data)
-        self._validate_input_data_length(data)
+        self._validate_input_data_length(data, columns)
 
         self._timestamp = datetime.fromtimestamp(int(data[0]) / 1000.0)
         self._observation_domain = data[2]
@@ -27,9 +27,9 @@ class RoamingRecord2g3g(object):
             raise TypeError(f"Expected input data to be a list, got {type(data)} instead")
 
     @staticmethod
-    def _validate_input_data_length(data):
-        if len(data) != 47:
-            raise ValueError(f"Expected CSV record with 47 fields, got {len(data)} instead")
+    def _validate_input_data_length(data, columns: int):
+        if len(data) != columns:
+            raise ValueError(f"Expected CSV record with {columns} fields, got {len(data)} instead")
 
     def is_filtered(self):
         if (self._sccp_cgpa_gt_noa == "4"

@@ -7,11 +7,11 @@ from datetime import datetime
 from application_controller import ApplicationController
 from application_lock import ApplicationLock
 from configuration import Configuration
+from data_type import DataType
 from global_titles import GlobalTitles
 from roaming_loader import RoamingLoader
 from roaming_record_2g3g import RoamingRecord2g3g
 from roaming_record_4g5g import RoamingRecord4g5g
-from data_type import DataType
 
 
 def generate_new_configuration(filename):
@@ -71,7 +71,7 @@ def aggregate_2g3g(data, aggregated, global_titles):
             aggregated[key] = [1, msu_length]
 
 
-def aggregate_4g5g(data, aggregated, global_titles):
+def aggregate_4g5g(data, aggregated):
     for entry in data:
         if not type(entry) is RoamingRecord4g5g:
             raise RuntimeError(f"Unexpected data type {type(entry)}")
@@ -141,26 +141,45 @@ def write_aggregated(data, path, data_type: DataType):
 
 def process_files(configuration, files):
     global_titles = GlobalTitles(configuration.get_global_titles_path())
+    output_filename_without_extension = os.path.abspath(
+        configuration.get_output_path()
+        + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
+        + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-")
+    )
     aggregated = {}
     for filepath in files:
-        roaming_data = RoamingLoader(configuration.get_data_type())
-        roaming_data.load(filepath)
+        roaming_data = RoamingLoader(configuration.get_data_type(), configuration.get_columns())
+        try:
+            roaming_data.load(filepath)
+        except Exception as e:
+            logging.warning(f"{type(e)} exception while processing {filepath}, ignoring the file. Full exception: {e}")
+            continue
         if configuration.get_data_type().is_2g3g():
             aggregate_2g3g(roaming_data._records, aggregated, global_titles)
         elif configuration.get_data_type().is_4g5g():
-            aggregate_4g5g(roaming_data._records, aggregated, global_titles)
+            aggregate_4g5g(roaming_data._records, aggregated)
         else:
             raise ValueError(f"Unknown datatype")
-
-    aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
-    write_aggregated(
-        aggregated_output,
-        os.path.abspath(
-            configuration.get_output_path()
-            + f"/{configuration.get_output_filename_prefix()}{configuration.get_port_lock()}_"
-            + str(datetime.now())[0:19].replace(" ", "_").replace(":", "-") + ".csv"),
-        configuration.get_data_type()
-    )
+        aggregated_output = [list(key) + list(aggregated[key]) for key in aggregated.keys()]
+        write_aggregated(
+            aggregated_output,
+            output_filename_without_extension + ".tmp",
+            configuration.get_data_type()
+        )
+        if configuration.get_delete_input_files():
+            if os.path.exists(filepath):
+                try:
+                    os.remove(filepath)
+                except OSError:
+                    raise RuntimeError(f"Cannot delete input file {filepath}")
+                else:
+                    logging.debug(f"Deleted input file {filepath}")
+            else:
+                logging.warning(f"File {filepath} missing before delete")
+        else:
+            logging.debug(f"Keeping input file {filepath}")
+    os.rename(
+        output_filename_without_extension + ".tmp", output_filename_without_extension + ".csv")
 
 
 def main():

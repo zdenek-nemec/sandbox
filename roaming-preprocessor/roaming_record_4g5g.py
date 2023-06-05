@@ -2,11 +2,14 @@ from datetime import datetime
 
 
 class RoamingRecord4g5g(object):
-    def __init__(self, data):
+    def __init__(self, data, columns: int):
         self._validate_input_data_type(data)
-        self._validate_input_data_length(data)
+        self._validate_input_data_length(data, columns)
 
-        self._timestamp = datetime.strptime(data[0], "%Y-%m-%d %H:%M:%S.%f")
+        try:
+            self._timestamp = datetime.strptime(data[0], "%Y-%m-%d %H:%M:%S.%f")
+        except ValueError:
+            self._timestamp = datetime.strptime(data[0], "%Y-%m-%d %H:%M:%S:%f")
         self._direction = data[1]
         self._peername = data[2]
         self._hostname = data[3]
@@ -20,9 +23,9 @@ class RoamingRecord4g5g(object):
             raise TypeError(f"Expected input data to be a list, got {type(data)} instead")
 
     @staticmethod
-    def _validate_input_data_length(data):
-        if len(data) != 32:
-            raise ValueError(f"Expected CSV record with 32 fields, got {len(data)} instead")
+    def _validate_input_data_length(data, columns: int):
+        if len(data) != columns:
+            raise ValueError(f"Expected CSV record with {columns} fields, got {len(data)} instead")
 
     @staticmethod
     def is_filtered():
