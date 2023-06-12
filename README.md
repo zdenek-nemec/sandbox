@@ -1,25 +1,35 @@
-# Sandbox
+# Zdenek's Sandbox
 
-Purpose of this repository is to be a collection of tutorials, demonstrations
-and experimental projects.
+Purpose of this repository is to be a collection of experimental projects.
 
 ## Structure
 
 Every project has its own directory
 
-* `ahk-demos` - AutoHotkey tutorials and demonstrations
+* `AdventOfCode2022`
 * `anomaly-detector` - Anomaly detection in statistical data
 * `bash-demos` - Bash tutorials and demonstrations
+* `billions`
 * `binec` - Everything that is not sorted out yet
+* `c-demos`
+* `ConnectivityCheck`
+* `connectivity-check`
 * `energy-supplier-comparison` - Comparison of energy supplier offers
+* `fast-file-transfer`
 * `file-explorer` - Tool for locating files and saving basic information about them
 * `films` - Tool for retrieving data file properties
 * `flask-demo` - Flask tutorial from TwT
 * `grafana-bm` - Experiments with [Grafana](https://grafana.com/) and BlackMed
 * `heroes3` - Ideas related to the turn based strategy game Heroes of Might and Magic 3
+* `hex`
+* `ics-sv-res-analysis-java`
+* `ics-sv-res-analysis-python`
 * `intermediate-tools` - Experimental tools for CSG Intermediate
+  * `analyse_stats`
   * `archiving`
   * `compiler`
+  * `set_portals`
+  * `shell_prompt_setup`
   * `synchronisation`
 * `janca`
 * `java-demos` - Java tutorials and demonstrations
@@ -31,6 +41,7 @@ Every project has its own directory
 * `python-mega-course` - The Python Mega Course on Udemy
 * `roaming-preprocessor` - Prototype for roaming preprocessor project
 * `spring-demos` - Java Spring tutorials and demonstrations
+* `subtitles-offset`
 
 ## Rules
 
@@ -57,7 +68,6 @@ Every project has its own directory
 * `#49` Anomaly Detector
 * `#50` Java Demos
 * `#51` FWR Check
-* `#52` AutoHotkey Demos
 * `#53` Heroes of Might and Magic 3
 * `#54` CSG Intermediate Tools
 * `#55` Markdown Demos
@@ -76,10 +86,14 @@ Every project has its own directory
 * `#86` CSG Intermediate Tools: Archiving
 * `#87` CSG Intermediate Tools: Compiler
 * `#90` Films
+* `#93` Advent of Code 2022
 * `#95` Roaming Preprocessor
 * `#97` Hex - Number convertor and ULI decoder
+* `#99` C Demos
 * `#101` Grafana BM
+* `#102` ICS to SV-RES Analysis
 
 ### Closed
 
+* `#52` [AutoHotkey Demos](https://github.com/zdenek-nemec/demos/tree/master/ahk)
 * `#91` [Flask Demo](https://github.com/zdenek-nemec/sandbox/tree/master/flask-demo)
