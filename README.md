@@ -35,7 +35,6 @@ Every project has its own directory
 * `java-demos` - Java tutorials and demonstrations
 * `JavaSelenium`
 * `json-to-csv-converter` - Experimental application for JSON-CSV conversion
-* `markdown-demos` - Markdown tutorials and demonstrations
 * `math-demos` - Demonstration of mathematical operations and problem-solving
 * `python-demos` - Python tutorials and demonstrations
 * `python-mega-course` - The Python Mega Course on Udemy
@@ -70,7 +69,6 @@ Every project has its own directory
 * `#51` FWR Check
 * `#53` Heroes of Might and Magic 3
 * `#54` CSG Intermediate Tools
-* `#55` Markdown Demos
 * `#56` Math Demos
 * `#57` Python Demos
 * `#58` Spring Demos
@@ -96,4 +94,5 @@ Every project has its own directory
 ### Closed
 
 * `#52` [AutoHotkey Demos](https://github.com/zdenek-nemec/demos/tree/master/ahk)
+* `#55` [Markdown Demos](https://github.com/zdenek-nemec/demos/tree/master/markdown)
 * `#91` [Flask Demo](https://github.com/zdenek-nemec/sandbox/tree/master/flask-demo)
