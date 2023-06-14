@@ -11,7 +11,6 @@ Every project has its own directory
 * `bash-demos` - Bash tutorials and demonstrations
 * `billions`
 * `binec` - Everything that is not sorted out yet
-* `c-demos`
 * `ConnectivityCheck`
 * `connectivity-check`
 * `energy-supplier-comparison` - Comparison of energy supplier offers
@@ -39,6 +38,7 @@ Every project has its own directory
 * `python-demos` - Python tutorials and demonstrations
 * `python-mega-course` - The Python Mega Course on Udemy
 * `roaming-preprocessor` - Prototype for roaming preprocessor project
+* `segfault-c`
 * `spring-demos` - Java Spring tutorials and demonstrations
 * `subtitles-offset`
 
@@ -87,7 +87,6 @@ Every project has its own directory
 * `#93` Advent of Code 2022
 * `#95` Roaming Preprocessor
 * `#97` Hex - Number convertor and ULI decoder
-* `#99` C Demos
 * `#101` Grafana BM
 * `#102` ICS to SV-RES Analysis
 
@@ -96,3 +95,4 @@ Every project has its own directory
 * `#52` [AutoHotkey Demos](https://github.com/zdenek-nemec/demos/tree/master/ahk)
 * `#55` [Markdown Demos](https://github.com/zdenek-nemec/demos/tree/master/markdown)
 * `#91` [Flask Demo](https://github.com/zdenek-nemec/sandbox/tree/master/flask-demo)
+* `#99` [C Demos](https://github.com/zdenek-nemec/demos/tree/master/c)
