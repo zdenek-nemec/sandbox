@@ -39,6 +39,7 @@ class RoamingLoader(object):
     def _load_records(self, input_file):
         reader = csv.reader(input_file, delimiter="|")
         row_count = 0
+        header_count = 0
         invalid_count = 0
         filter_count = 0
         for row in reader:
@@ -54,12 +55,14 @@ class RoamingLoader(object):
                 logging.error(f"Removing invalid record {row} due to exception {e}")
                 invalid_count += 1
             else:
-                if roaming_record.is_filtered():
+                if roaming_record.is_header():
+                    header_count += 1
+                elif roaming_record.is_filtered():
                     filter_count += 1
                 else:
                     self._records.append(roaming_record)
         logging.debug(
-            f"Lines {row_count}, loaded {len(self._records)}, invalid {invalid_count}, filtered {filter_count}")
+            f"Lines {row_count}, loaded {len(self._records)}, headers {header_count}, invalid {invalid_count}, filtered {filter_count}")
 
     def load(self, path):
         logging.info(f"Processing {path}")
