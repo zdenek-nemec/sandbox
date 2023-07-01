@@ -46,7 +46,7 @@ date_today=$(date "+%Y%m%d")
 
 echo "Testing started"
 
-echo "TC01 - Unbroken sequence"
+echo "TC01 - Unbroken sequence: No alarms"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -64,7 +64,7 @@ touch ./testing/$date_today/${date_today}_090000_STP_PH_${date_today}hhmm-500009
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC02 - Broken sequence"
+echo "TC02 - Broken sequence: Missing 500002, 500004, 500005 and 500006"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -78,7 +78,7 @@ touch ./testing/$date_today/${date_today}_090000_STP_PH_${date_today}hhmm-500009
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC03 - Completed broken sequence"
+echo "TC03 - Completed broken sequence: No alarms"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -96,7 +96,7 @@ touch ./testing/$date_today/${date_today}_090000_STP_PH_${date_today}hhmm-500009
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC04 - Completed broken sequence day after"
+echo "TC04 - Completed broken sequence day after: No alarms"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -113,7 +113,7 @@ touch ./testing/$date_today/${date_today}_110000_STP_PH_${date_today}hhmm-500011
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC05 - Unbroken sequence with rollover"
+echo "TC05 - Unbroken sequence with rollover: Rollover warning"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -133,7 +133,7 @@ touch ./testing/$date_today/${date_today}_110000_STP_PH_${date_today}hhmm-000007
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC06 - Broken sequence with rollover"
+echo "TC06 - Broken sequence with rollover: Rollover warning and missing 999998, 000002, 000003 and 000004"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -149,7 +149,7 @@ touch ./testing/$date_today/${date_today}_110000_STP_PH_${date_today}hhmm-000007
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC07 - Broken sequence with rollover completed"
+echo "TC07 - Broken sequence with rollover completed: Rollover warning"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -169,7 +169,7 @@ touch ./testing/$date_today/${date_today}_110000_STP_PH_${date_today}hhmm-000007
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC08 - Only one file per day"
+echo "TC08 - Only one file per day: No alarms"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -180,7 +180,7 @@ touch ./testing/$date_yesterday/${date_yesterday}_020000_STP_PH_${date_yesterday
 ./stp_sequence_check.sh --path ./testing
 echo ""
 
-echo "TC09 - Multiple days with same sequence"
+echo "TC09 - Multiple days with same sequence: Single sequence warning"
 if [[ -d "./testing" ]]; then
     rm -rf ./testing
 fi
@@ -190,6 +190,64 @@ mkdir -p ./testing/$date_today
 touch ./testing/$date_today/${date_today}_010000_STP_PH_${date_today}hhmm-500001.gz
 ./stp_sequence_check.sh --path ./testing
 rm -rf ./testing/*
+echo ""
+
+echo "TC10 - Unbroken sequences on both sources: No alarms"
+if [[ -d "./testing" ]]; then
+    rm -rf ./testing
+fi
+mkdir -p ./testing/$date_yesterday
+touch ./testing/$date_yesterday/${date_yesterday}_010000_STP_BO_${date_yesterday}hhmm-500001.gz
+touch ./testing/$date_yesterday/${date_yesterday}_020000_STP_BO_${date_yesterday}hhmm-500002.gz
+touch ./testing/$date_yesterday/${date_yesterday}_030000_STP_BO_${date_yesterday}hhmm-500003.gz
+touch ./testing/$date_yesterday/${date_yesterday}_010000_STP_PH_${date_yesterday}hhmm-500001.gz
+touch ./testing/$date_yesterday/${date_yesterday}_020000_STP_PH_${date_yesterday}hhmm-500002.gz
+touch ./testing/$date_yesterday/${date_yesterday}_030000_STP_PH_${date_yesterday}hhmm-500003.gz
+touch ./testing/$date_yesterday/${date_yesterday}_040000_STP_PH_${date_yesterday}hhmm-500004.gz
+touch ./testing/$date_yesterday/${date_yesterday}_050000_STP_PH_${date_yesterday}hhmm-500005.gz
+touch ./testing/$date_yesterday/${date_yesterday}_060000_STP_PH_${date_yesterday}hhmm-500006.gz
+touch ./testing/$date_yesterday/${date_yesterday}_070000_STP_PH_${date_yesterday}hhmm-500007.gz
+mkdir -p ./testing/$date_today
+touch ./testing/$date_today/${date_today}_080000_STP_PH_${date_today}hhmm-500008.gz
+touch ./testing/$date_today/${date_today}_090000_STP_PH_${date_today}hhmm-500009.gz
+./stp_sequence_check.sh --path ./testing
+echo ""
+
+echo "TC11 - Broken sequence on one of the sources: Missing BO 500002"
+if [[ -d "./testing" ]]; then
+    rm -rf ./testing
+fi
+mkdir -p ./testing/$date_yesterday
+touch ./testing/$date_yesterday/${date_yesterday}_010000_STP_BO_${date_yesterday}hhmm-500001.gz
+touch ./testing/$date_yesterday/${date_yesterday}_030000_STP_BO_${date_yesterday}hhmm-500003.gz
+touch ./testing/$date_yesterday/${date_yesterday}_010000_STP_PH_${date_yesterday}hhmm-500001.gz
+touch ./testing/$date_yesterday/${date_yesterday}_020000_STP_PH_${date_yesterday}hhmm-500002.gz
+touch ./testing/$date_yesterday/${date_yesterday}_030000_STP_PH_${date_yesterday}hhmm-500003.gz
+touch ./testing/$date_yesterday/${date_yesterday}_040000_STP_PH_${date_yesterday}hhmm-500004.gz
+touch ./testing/$date_yesterday/${date_yesterday}_050000_STP_PH_${date_yesterday}hhmm-500005.gz
+touch ./testing/$date_yesterday/${date_yesterday}_060000_STP_PH_${date_yesterday}hhmm-500006.gz
+touch ./testing/$date_yesterday/${date_yesterday}_070000_STP_PH_${date_yesterday}hhmm-500007.gz
+mkdir -p ./testing/$date_today
+touch ./testing/$date_today/${date_today}_080000_STP_PH_${date_today}hhmm-500008.gz
+touch ./testing/$date_today/${date_today}_090000_STP_PH_${date_today}hhmm-500009.gz
+./stp_sequence_check.sh --path ./testing
+echo ""
+
+echo "TC12 - Broken sequences on both sources: Missing BO 500002, PH 500002, 500003 and 500004"
+if [[ -d "./testing" ]]; then
+    rm -rf ./testing
+fi
+mkdir -p ./testing/$date_yesterday
+touch ./testing/$date_yesterday/${date_yesterday}_010000_STP_BO_${date_yesterday}hhmm-500001.gz
+touch ./testing/$date_yesterday/${date_yesterday}_030000_STP_BO_${date_yesterday}hhmm-500003.gz
+touch ./testing/$date_yesterday/${date_yesterday}_010000_STP_PH_${date_yesterday}hhmm-500001.gz
+touch ./testing/$date_yesterday/${date_yesterday}_050000_STP_PH_${date_yesterday}hhmm-500005.gz
+touch ./testing/$date_yesterday/${date_yesterday}_060000_STP_PH_${date_yesterday}hhmm-500006.gz
+touch ./testing/$date_yesterday/${date_yesterday}_070000_STP_PH_${date_yesterday}hhmm-500007.gz
+mkdir -p ./testing/$date_today
+touch ./testing/$date_today/${date_today}_080000_STP_PH_${date_today}hhmm-500008.gz
+touch ./testing/$date_today/${date_today}_090000_STP_PH_${date_today}hhmm-500009.gz
+./stp_sequence_check.sh --path ./testing
 echo ""
 
 if [[ -d "./testing" ]]; then

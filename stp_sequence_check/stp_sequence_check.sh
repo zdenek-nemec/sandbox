@@ -32,12 +32,11 @@ function print_help {
 }
 
 function check_sequence {
-    local seq_numbers_sorted=$1
-    local seq_start=$2
-    local seq_end=$3
+    local loc_seq_start=$1
+    local loc_seq_end=$2
     diff --side-by-side --suppress-common-lines \
         <(echo "$seq_numbers_sorted") \
-        <(seq -w $seq_start $seq_end) \
+        <(seq -w $loc_seq_start $loc_seq_end) \
         | grep ">" | awk '{print "Warning: Missing sequence number " $2}'
 }
 
@@ -73,11 +72,11 @@ for source in STP_BO STP_PH; do
         if [ $seq_start -eq $seq_end ]; then
             echo "Warning: Only a single sequence number $seq_start is present"
         elif [ $seq_start -lt $seq_end ]; then
-            check_sequence "$seq_numbers_sorted" $seq_start $seq_end
+            check_sequence $seq_start $seq_end
         elif [ $seq_start -gt $seq_end ]; then
             echo "Warning: Rollover detected"
-            check_sequence "$seq_numbers_sorted" $seq_start 999999
-            check_sequence "$seq_numbers_sorted" 000000 $seq_end
+            check_sequence $seq_start 999999
+            check_sequence 000000 $seq_end
         else
             echo "Error: Unknown error"
         fi
