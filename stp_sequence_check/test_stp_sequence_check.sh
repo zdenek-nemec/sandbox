@@ -48,11 +48,10 @@ if [[ $parent_directory != "stp_sequence_check" ]]; then
     exit 1
 fi
 
-yesterday=$(date -d "1 day ago" "+%Y%m%d")
-today=$(date "+%Y%m%d")
-
 echo "Testing started"
 result=""
+yesterday=$(date -d "1 day ago" "+%Y%m%d")
+today=$(date "+%Y%m%d")
 echo ""
 
 if [[ -z $test_case || $test_case == 1 ]]; then
