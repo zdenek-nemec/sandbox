@@ -65,7 +65,7 @@ yesterday=$(date -d "1 day ago" "+%Y%m%d")
 today=$(date "+%Y%m%d")
 for source in STP_BO STP_PH; do
     echo -n "$source $yesterday+$today:"
-    seq_nums=$(find testing/20230630 testing/20230701 -type f -name "*$source*" -printf "%f\n" | cut -c 37-42)
+    seq_nums=$(find "$archive_path/$yesterday" "$archive_path/$today" -type f -name "*$source*" -printf "%f\n" | cut -c 37-42)
     seq_nums_sorted=$(echo "$seq_nums" | sort | uniq)
     if [[ $seq_nums ]]; then
         seq_start=${seq_nums%%[[:space:]]*}
