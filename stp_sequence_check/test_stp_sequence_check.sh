@@ -88,7 +88,7 @@ if [[ -z $test_case || $test_case == 1 ]]; then
 fi
 
 if [[ -z $test_case || $test_case == 2 ]]; then
-    echo "TC02 - Broken sequence - Missing numbers"
+    echo "TC02 - Broken sequence - Missing sequence numbers"
     if [[ -d ./testing ]]; then
         rm -rf ./testing
     fi
@@ -104,7 +104,7 @@ if [[ -z $test_case || $test_case == 2 ]]; then
     [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
     [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
     [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 4 ]] && echo "* Failed, number of warnings" && failed=true
-    [[ $(grep "^Warning:" test_stp_sequence_check.log | cut -d " " -f 5) != "500002"*"500004"*"500005"*"500006" ]] && echo "* Failed, numbers" && failed=true
+    [[ $(grep "^Warning: Missing sequence number .*$" test_stp_sequence_check.log | cut -d " " -f 5) != "500002"*"500004"*"500005"*"500006" ]] && echo "* Failed, sequence numbers" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -118,7 +118,7 @@ fi
 
 if [[ -z $test_case || $test_case == 3 ]]; then
     echo "TC03 - Completed broken sequence - No alarms"
-    if [[ -d "./testing" ]]; then
+    if [[ -d ./testing ]]; then
         rm -rf ./testing
     fi
     mkdir -p "./testing/$yesterday"
@@ -150,7 +150,7 @@ fi
 
 if [[ -z $test_case || $test_case == 4 ]]; then
     echo "TC04 - Completed broken sequence day after - No alarms"
-    if [[ -d "./testing" ]]; then
+    if [[ -d ./testing ]]; then
         rm -rf ./testing
     fi
     mkdir -p "./testing/$yesterday"
@@ -181,7 +181,7 @@ fi
 
 if [[ -z $test_case || $test_case == 5 ]]; then
     echo "TC05 - Unbroken sequence with rollover - Rollover warning"
-    if [[ -d "./testing" ]]; then
+    if [[ -d ./testing ]]; then
         rm -rf ./testing
     fi
     mkdir -p "./testing/$yesterday"
@@ -214,126 +214,227 @@ if [[ -z $test_case || $test_case == 5 ]]; then
     echo ""
 fi
 
-# echo "TC06 - Broken sequence with rollover: Rollover warning and missing 999998, 000002, 000003 and 000004"
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
-# mkdir -p ./testing/$yesterday
-# touch ./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-999997.gz
-# touch ./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-999999.gz
-# touch ./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-000000.gz
-# touch ./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-000001.gz
-# touch ./testing/$yesterday/${yesterday}_090000_STP_PH_${yesterday}hhmm-000005.gz
-# mkdir -p ./testing/$today
-# touch ./testing/$today/${today}_100000_STP_PH_${today}hhmm-000006.gz
-# touch ./testing/$today/${today}_110000_STP_PH_${today}hhmm-000007.gz
-# ./stp_sequence_check.sh --path ./testing
-# echo ""
+if [[ -z $test_case || $test_case == 6 ]]; then
+    echo "TC06 - Broken sequence with rollover - Rollover warning and missing sequence numbers"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-999997.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-999999.gz"
+    touch "./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-000000.gz"
+    touch "./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-000001.gz"
+    touch "./testing/$yesterday/${yesterday}_090000_STP_PH_${yesterday}hhmm-000005.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_100000_STP_PH_${today}hhmm-000006.gz"
+    touch "./testing/$today/${today}_110000_STP_PH_${today}hhmm-000007.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "STP_PH .*: checking sequence 999997-000007" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 5 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^Warning: Rollover detected$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, rollover warning" && failed=true
+    [[ $(grep "^Warning: Missing sequence number .*$" test_stp_sequence_check.log | cut -d " " -f 5) != "999998"*"000002"*"000003"*"000004" ]] && echo "* Failed, numbers" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
 
-# echo "TC07 - Broken sequence with rollover completed: Rollover warning"
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
-# mkdir -p ./testing/$yesterday
-# touch ./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-999997.gz
-# touch ./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-999999.gz
-# touch ./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-000000.gz
-# touch ./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-000001.gz
-# touch ./testing/$yesterday/${yesterday}_090000_STP_PH_${yesterday}hhmm-000005.gz
-# mkdir -p ./testing/$today
-# touch ./testing/$today/${today}_100000_STP_PH_${today}hhmm-000006.gz
-# touch ./testing/$today/${today}_103001_STP_PH_${today}hhmm-999998.gz
-# touch ./testing/$today/${today}_103002_STP_PH_${today}hhmm-000002.gz
-# touch ./testing/$today/${today}_103003_STP_PH_${today}hhmm-000003.gz
-# touch ./testing/$today/${today}_103004_STP_PH_${today}hhmm-000004.gz
-# touch ./testing/$today/${today}_110000_STP_PH_${today}hhmm-000007.gz
-# ./stp_sequence_check.sh --path ./testing
-# echo ""
+if [[ -z $test_case || $test_case == 7 ]]; then
+    echo "TC07 - Broken sequence with rollover completed - Rollover warning"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-999997.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-999999.gz"
+    touch "./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-000000.gz"
+    touch "./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-000001.gz"
+    touch "./testing/$yesterday/${yesterday}_090000_STP_PH_${yesterday}hhmm-000005.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_100000_STP_PH_${today}hhmm-000006.gz"
+    touch "./testing/$today/${today}_103001_STP_PH_${today}hhmm-999998.gz"
+    touch "./testing/$today/${today}_103002_STP_PH_${today}hhmm-000002.gz"
+    touch "./testing/$today/${today}_103003_STP_PH_${today}hhmm-000003.gz"
+    touch "./testing/$today/${today}_103004_STP_PH_${today}hhmm-000004.gz"
+    touch "./testing/$today/${today}_110000_STP_PH_${today}hhmm-000007.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "STP_PH .*: checking sequence 999997-000007" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^Warning: Rollover detected$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, rollover warning" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
 
-# echo "TC08 - Only one file per day: No alarms"
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
-# mkdir -p ./testing/$yesterday
-# touch ./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz
-# mkdir -p ./testing/$today
-# touch ./testing/$yesterday/${yesterday}_020000_STP_PH_${yesterday}hhmm-500002.gz
-# ./stp_sequence_check.sh --path ./testing
-# echo ""
+if [[ -z $test_case || $test_case == 8 ]]; then
+    echo "TC08 - Only one file per day - No alarms"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_020000_STP_PH_${today}hhmm-500002.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "STP_PH .*: checking sequence 500001-500002" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
 
-# echo "TC09 - Multiple days with same sequence: Single sequence warning"
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
-# mkdir -p ./testing/$yesterday
-# touch ./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz
-# mkdir -p ./testing/$today
-# touch ./testing/$today/${today}_010000_STP_PH_${today}hhmm-500001.gz
-# ./stp_sequence_check.sh --path ./testing
-# rm -rf ./testing/*
-# echo ""
+if [[ -z $test_case || $test_case == 9 ]]; then
+    echo "TC09 - Multiple days with same sequence - Single sequence warning"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_010000_STP_PH_${today}hhmm-500001.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "STP_PH .*: checking sequence 500001-500001" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^Warning: Both the first and the last sequence numbers are the same .*$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, same sequence warning" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
 
-# echo "TC10 - Unbroken sequences on both sources: No alarms"
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
-# mkdir -p ./testing/$yesterday
-# touch ./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-500001.gz
-# touch ./testing/$yesterday/${yesterday}_020000_STP_BO_${yesterday}hhmm-500002.gz
-# touch ./testing/$yesterday/${yesterday}_030000_STP_BO_${yesterday}hhmm-500003.gz
-# touch ./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz
-# touch ./testing/$yesterday/${yesterday}_020000_STP_PH_${yesterday}hhmm-500002.gz
-# touch ./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-500003.gz
-# touch ./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-500004.gz
-# touch ./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-500005.gz
-# touch ./testing/$yesterday/${yesterday}_060000_STP_PH_${yesterday}hhmm-500006.gz
-# touch ./testing/$yesterday/${yesterday}_070000_STP_PH_${yesterday}hhmm-500007.gz
-# mkdir -p ./testing/$today
-# touch ./testing/$today/${today}_080000_STP_PH_${today}hhmm-500008.gz
-# touch ./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz
-# ./stp_sequence_check.sh --path ./testing
-# echo ""
+if [[ -z $test_case || $test_case == 10 ]]; then
+    echo "TC10 - Unbroken sequences on both sources - No alarms"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-500001.gz"
+    touch "./testing/$yesterday/${yesterday}_020000_STP_BO_${yesterday}hhmm-500002.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_BO_${yesterday}hhmm-500003.gz"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz"
+    touch "./testing/$yesterday/${yesterday}_020000_STP_PH_${yesterday}hhmm-500002.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-500003.gz"
+    touch "./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-500004.gz"
+    touch "./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-500005.gz"
+    touch "./testing/$yesterday/${yesterday}_060000_STP_PH_${yesterday}hhmm-500006.gz"
+    touch "./testing/$yesterday/${yesterday}_070000_STP_PH_${yesterday}hhmm-500007.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_080000_STP_PH_${today}hhmm-500008.gz"
+    touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "STP_BO .*: checking sequence 500001-500003" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
 
-# echo "TC11 - Broken sequence on one of the sources: Missing BO 500002"
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
-# mkdir -p ./testing/$yesterday
-# touch ./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-500001.gz
-# touch ./testing/$yesterday/${yesterday}_030000_STP_BO_${yesterday}hhmm-500003.gz
-# touch ./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz
-# touch ./testing/$yesterday/${yesterday}_020000_STP_PH_${yesterday}hhmm-500002.gz
-# touch ./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-500003.gz
-# touch ./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-500004.gz
-# touch ./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-500005.gz
-# touch ./testing/$yesterday/${yesterday}_060000_STP_PH_${yesterday}hhmm-500006.gz
-# touch ./testing/$yesterday/${yesterday}_070000_STP_PH_${yesterday}hhmm-500007.gz
-# mkdir -p ./testing/$today
-# touch ./testing/$today/${today}_080000_STP_PH_${today}hhmm-500008.gz
-# touch ./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz
-# ./stp_sequence_check.sh --path ./testing
-# echo ""
+if [[ -z $test_case || $test_case == 11 ]]; then
+    echo "TC11 - Broken sequence on one of the sources - Missing sequence number"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-500001.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_BO_${yesterday}hhmm-500003.gz"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz"
+    touch "./testing/$yesterday/${yesterday}_020000_STP_PH_${yesterday}hhmm-500002.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-500003.gz"
+    touch "./testing/$yesterday/${yesterday}_040000_STP_PH_${yesterday}hhmm-500004.gz"
+    touch "./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-500005.gz"
+    touch "./testing/$yesterday/${yesterday}_060000_STP_PH_${yesterday}hhmm-500006.gz"
+    touch "./testing/$yesterday/${yesterday}_070000_STP_PH_${yesterday}hhmm-500007.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_080000_STP_PH_${today}hhmm-500008.gz"
+    touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
 
-# echo "TC12 - Broken sequences on both sources: Missing BO 500002, PH 500002, 500003 and 500004"
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
-# mkdir -p ./testing/$yesterday
-# touch ./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-500001.gz
-# touch ./testing/$yesterday/${yesterday}_030000_STP_BO_${yesterday}hhmm-500003.gz
-# touch ./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz
-# touch ./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-500005.gz
-# touch ./testing/$yesterday/${yesterday}_060000_STP_PH_${yesterday}hhmm-500006.gz
-# touch ./testing/$yesterday/${yesterday}_070000_STP_PH_${yesterday}hhmm-500007.gz
-# mkdir -p ./testing/$today
-# touch ./testing/$today/${today}_080000_STP_PH_${today}hhmm-500008.gz
-# touch ./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz
-# ./stp_sequence_check.sh --path ./testing
-# echo ""
+if [[ -z $test_case || $test_case == 12 ]]; then
+    echo "TC12 - Broken sequences on both sources - Missing sequence numbers"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-500001.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_BO_${yesterday}hhmm-500003.gz"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-500001.gz"
+    touch "./testing/$yesterday/${yesterday}_050000_STP_PH_${yesterday}hhmm-500005.gz"
+    touch "./testing/$yesterday/${yesterday}_060000_STP_PH_${yesterday}hhmm-500006.gz"
+    touch "./testing/$yesterday/${yesterday}_070000_STP_PH_${yesterday}hhmm-500007.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_080000_STP_PH_${today}hhmm-500008.gz"
+    touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
 
-# if [[ -d "./testing" ]]; then
-#     rm -rf ./testing
-# fi
+if [[ -d ./testing ]]; then
+    rm -rf ./testing
+fi
 
 if [[ $result == *"F"* ]]; then
     echo "There are failed tests: $result"
