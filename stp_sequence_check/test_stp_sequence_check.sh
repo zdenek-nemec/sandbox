@@ -15,7 +15,7 @@
 #
 #     -h, --help
 #         Show this help message and exit
-#     -t, --test
+#     -t TEST, --test TEST
 #         Run specific test case
 #
 
@@ -73,9 +73,9 @@ if [[ -z $test_case || $test_case == 1 ]]; then
     touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500009$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -101,9 +101,9 @@ if [[ -z $test_case || $test_case == 2 ]]; then
     touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 4 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500009$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 4 ]] && echo "* Failed, number of warnings" && failed=true
     [[ $(grep "^Warning: Missing sequence number .*$" test_stp_sequence_check.log | cut -d " " -f 5) != "500002"*"500004"*"500005"*"500006" ]] && echo "* Failed, sequence numbers" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
@@ -134,9 +134,9 @@ if [[ -z $test_case || $test_case == 3 ]]; then
     touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500009$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -165,9 +165,9 @@ if [[ -z $test_case || $test_case == 4 ]]; then
     touch "./testing/$today/${today}_110000_STP_PH_${today}hhmm-500011.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500008-500011" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500008-500011$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -199,9 +199,9 @@ if [[ -z $test_case || $test_case == 5 ]]; then
     touch "./testing/$today/${today}_110000_STP_PH_${today}hhmm-000007.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 999997-000007" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 999997-000007$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
     [[ $(grep -c "^Warning: Rollover detected$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, rollover warning" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
@@ -230,11 +230,11 @@ if [[ -z $test_case || $test_case == 6 ]]; then
     touch "./testing/$today/${today}_110000_STP_PH_${today}hhmm-000007.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 999997-000007" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 5 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 999997-000007$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 5 ]] && echo "* Failed, number of warnings" && failed=true
     [[ $(grep -c "^Warning: Rollover detected$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, rollover warning" && failed=true
-    [[ $(grep "^Warning: Missing sequence number .*$" test_stp_sequence_check.log | cut -d " " -f 5) != "999998"*"000002"*"000003"*"000004" ]] && echo "* Failed, numbers" && failed=true
+    [[ $(grep "^Warning: Missing sequence number .*$" test_stp_sequence_check.log | cut -d " " -f 5) != "999998"*"000002"*"000003"*"000004" ]] && echo "* Failed, sequence numbers" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -266,9 +266,9 @@ if [[ -z $test_case || $test_case == 7 ]]; then
     touch "./testing/$today/${today}_110000_STP_PH_${today}hhmm-000007.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 999997-000007" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 999997-000007$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
     [[ $(grep -c "^Warning: Rollover detected$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, rollover warning" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
@@ -292,9 +292,9 @@ if [[ -z $test_case || $test_case == 8 ]]; then
     touch "./testing/$today/${today}_020000_STP_PH_${today}hhmm-500002.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500002" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500002$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -317,9 +317,9 @@ if [[ -z $test_case || $test_case == 9 ]]; then
     touch "./testing/$today/${today}_010000_STP_PH_${today}hhmm-500001.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500001" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: no data$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500001$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
     [[ $(grep -c "^Warning: Both the first and the last sequence numbers are the same .*$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, same sequence warning" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
@@ -353,9 +353,9 @@ if [[ -z $test_case || $test_case == 10 ]]; then
     touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: checking sequence 500001-500003" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: checking sequence 500001-500003$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500009$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -387,9 +387,10 @@ if [[ -z $test_case || $test_case == 11 ]]; then
     touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: checking sequence 500001-500003$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500009$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep -c "^Warning: Missing sequence number 500002$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, sequence number" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
@@ -418,9 +419,69 @@ if [[ -z $test_case || $test_case == 12 ]]; then
     touch "./testing/$today/${today}_090000_STP_PH_${today}hhmm-500009.gz"
     ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
     unset failed
-    [[ $(grep -c "STP_BO .*: no data" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
-    [[ $(grep -c "STP_PH .*: checking sequence 500001-500009" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
-    [[ $(grep -c "^Warning:" test_stp_sequence_check.log) != 0 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^STP_BO .*: checking sequence 500001-500003$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 500001-500009$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 4 ]] && echo "* Failed, number of warnings" && failed=true
+    [[ $(grep "^Warning: Missing sequence number .*$" test_stp_sequence_check.log | cut -d " " -f 5) != "500002"*"500002"*"500003"*"500004" ]] && echo "* Failed, sequence numbers" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
+
+if [[ -z $test_case || $test_case == 13 ]]; then
+    echo "TC13 - Unbroken sequences on both sources with rollovers - Rollover warnings"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-999999.gz"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-999999.gz"
+    touch "./testing/$yesterday/${yesterday}_020000_STP_PH_${yesterday}hhmm-000000.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_010000_STP_BO_${today}hhmm-000000.gz"
+    touch "./testing/$today/${today}_010000_STP_PH_${today}hhmm-000001.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "^STP_BO .*: checking sequence 999999-000000$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 999999-000001$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 2 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^Warning: Rollover detected$" test_stp_sequence_check.log) != 2 ]] && echo "* Failed, rollover warning" && failed=true
+    if [[ -z $failed ]]; then
+        echo "Test passed"
+        result+="."
+    else
+        echo "Test failed"
+        result+="F"
+    fi
+    echo "Overall result: $result"
+    echo ""
+fi
+
+if [[ -z $test_case || $test_case == 14 ]]; then
+    echo "TC14 - Broken sequences on both sources with rollovers - Rollover warnings and missing sequence numbers"
+    if [[ -d ./testing ]]; then
+        rm -rf ./testing
+    fi
+    mkdir -p "./testing/$yesterday"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_BO_${yesterday}hhmm-999999.gz"
+    touch "./testing/$yesterday/${yesterday}_010000_STP_PH_${yesterday}hhmm-999999.gz"
+    touch "./testing/$yesterday/${yesterday}_030000_STP_PH_${yesterday}hhmm-000002.gz"
+    mkdir -p "./testing/$today"
+    touch "./testing/$today/${today}_010000_STP_BO_${today}hhmm-000002.gz"
+    touch "./testing/$today/${today}_010000_STP_PH_${today}hhmm-000003.gz"
+    ./stp_sequence_check.sh --path ./testing | tee test_stp_sequence_check.log
+    unset failed
+    [[ $(grep -c "^STP_BO .*: checking sequence 999999-000002$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_BO" && failed=true
+    [[ $(grep -c "^STP_PH .*: checking sequence 999999-000003$" test_stp_sequence_check.log) != 1 ]] && echo "* Failed, STP_PH" && failed=true
+    [[ $(grep -c "^Warning: .*$" test_stp_sequence_check.log) != 6 ]] && echo "* Failed, warnings" && failed=true
+    [[ $(grep -c "^Warning: Rollover detected$" test_stp_sequence_check.log) != 2 ]] && echo "* Failed, rollover warning" && failed=true
+    [[ $(grep "^Warning: Missing sequence number .*$" test_stp_sequence_check.log | cut -d " " -f 5) != "000000"*"000001"*"000000"*"000001" ]] && echo "* Failed, sequence numbers" && failed=true
     if [[ -z $failed ]]; then
         echo "Test passed"
         result+="."
