@@ -494,6 +494,7 @@ fi
 
 if [[ -d ./testing ]]; then
     rm -rf ./testing
+    rm test_stp_sequence_check.log
 fi
 
 if [[ $result == *"F"* ]]; then
