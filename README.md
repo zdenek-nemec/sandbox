@@ -40,6 +40,7 @@ Every project has its own directory
 * `roaming-preprocessor` - Prototype for roaming preprocessor project
 * `segfault-c`
 * `spring-demos` - Java Spring tutorials and demonstrations
+* `stp-sequence-check`
 * `subtitles-offset`
 
 ## Rules
@@ -89,6 +90,7 @@ Every project has its own directory
 * `#97` Hex - Number convertor and ULI decoder
 * `#101` Grafana BM
 * `#102` ICS to SV-RES Analysis
+* `#104` STP Sequence Check
 
 ### Closed
 

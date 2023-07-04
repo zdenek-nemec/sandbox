@@ -43,8 +43,8 @@ fi
 
 parent_directory=${PWD##*/}
 parent_directory=${parent_directory:-/}
-if [[ $parent_directory != "stp_sequence_check" ]]; then
-    echo "Error: This test can be run only from stp_sequence_check root directory" 1>&2
+if [[ $parent_directory != "stp-sequence-check" ]]; then
+    echo "Error: This test can be run only from stp-sequence-check root directory" 1>&2
     exit 1
 fi
 
