@@ -35,6 +35,7 @@ Every project has its own directory
 * `JavaSelenium`
 * `json-to-csv-converter` - Experimental application for JSON-CSV conversion
 * `math-demos` - Demonstration of mathematical operations and problem-solving
+* `pygame` - Tutorials and experiments using Python PyGame module
 * `python-demos` - Python tutorials and demonstrations
 * `python-mega-course` - The Python Mega Course on Udemy
 * `roaming-preprocessor` - Prototype for roaming preprocessor project
@@ -91,6 +92,7 @@ Every project has its own directory
 * `#101` Grafana BM
 * `#102` ICS to SV-RES Analysis
 * `#104` STP Sequence Check
+* `#105` Pygame
 
 ### Closed
 
