@@ -93,6 +93,7 @@ Every project has its own directory
 * `#102` ICS to SV-RES Analysis
 * `#104` STP Sequence Check
 * `#105` PyGame: CodersLegacy Tutorials
+* `#106` NumPy
 
 ### Closed
 
