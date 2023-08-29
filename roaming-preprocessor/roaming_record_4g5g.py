@@ -28,5 +28,9 @@ class RoamingRecord4g5g(object):
             raise ValueError(f"Expected CSV record with {columns} fields, got {len(data)} instead")
 
     @staticmethod
+    def is_header():
+        return False
+
+    @staticmethod
     def is_filtered():
         return False

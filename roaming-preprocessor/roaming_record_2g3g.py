@@ -4,6 +4,9 @@ from datetime import datetime
 class RoamingRecord2g3g(object):
     def __init__(self, data, columns: int):
         self._validate_input_data_type(data)
+        self._header = self._is_matching_header_data(data)
+        if self.is_header():
+            return
         self._validate_input_data_length(data, columns)
 
         self._timestamp = datetime.fromtimestamp(int(data[0]) / 1000.0)
@@ -27,9 +30,22 @@ class RoamingRecord2g3g(object):
             raise TypeError(f"Expected input data to be a list, got {type(data)} instead")
 
     @staticmethod
+    def _is_matching_header_data(data):
+        if len(data) == 10 and data[1] == "1740" and data[7] == "Prod.INT_Screening":
+            return True
+        else:
+            return False
+
+    @staticmethod
     def _validate_input_data_length(data, columns: int):
         if len(data) != columns:
             raise ValueError(f"Expected CSV record with {columns} fields, got {len(data)} instead")
+
+    def is_header(self):
+        if self._header:
+            return True
+        else:
+            return False
 
     def is_filtered(self):
         if (self._sccp_cgpa_gt_noa == "4"
