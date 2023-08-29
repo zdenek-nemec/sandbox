@@ -92,7 +92,7 @@ Every project has its own directory
 * `#101` Grafana BM
 * `#102` ICS to SV-RES Analysis
 * `#104` STP Sequence Check
-* `#105` Pygame: CodersLegacy Tutorials
+* `#105` PyGame: CodersLegacy Tutorials
 
 ### Closed
 
