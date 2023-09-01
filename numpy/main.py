@@ -43,6 +43,11 @@ def main():
     b = np.array([6, 7, 8])
     print(b)
     print(type(b))
+    print("---")
+
+    # Random integers 0-4
+    rg = np.random.default_rng()
+    print(rg.integers(5, size=(2, 4)))
 
 
 if __name__ == "__main__":
