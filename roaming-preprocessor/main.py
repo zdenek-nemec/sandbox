@@ -192,11 +192,15 @@ def main():
     else:
         configuration = Configuration()
         configuration.load(application_controller.get_configuration_file())
-        application_lock = ApplicationLock(configuration.get_port_lock())
-        selected_files = get_selected_files(configuration.get_input_path(), configuration.get_input_mask())
-        if selected_files:
-            process_files(configuration, selected_files)
-        application_lock.disable()
+        try:
+            application_lock = ApplicationLock(configuration.get_port_lock())
+        except RuntimeError as e:
+            logging.info(e)
+        else:
+            selected_files = get_selected_files(configuration.get_input_path(), configuration.get_input_mask())
+            if selected_files:
+                process_files(configuration, selected_files)
+            application_lock.disable()
 
     logging.info("Application finished")
     logging.debug(f"Finished in {application_controller.get_runtime():,.1f}s")
