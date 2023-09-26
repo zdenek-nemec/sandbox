@@ -3,6 +3,7 @@ import glob
 import logging
 import os
 from datetime import datetime
+from subprocess import Popen, PIPE
 
 from application_controller import ApplicationController
 from application_lock import ApplicationLock
@@ -182,6 +183,25 @@ def process_files(configuration, files):
         output_filename_without_extension + ".tmp", output_filename_without_extension + ".csv")
 
 
+def log_port_info(port: int):
+    try:
+        with Popen(["lsof", "-i", f":{port}"], stdout=PIPE, stderr=PIPE) as process:
+            stdout, stderr = process.communicate()
+            results = str(stdout.decode("utf-8")).split("\n")[1:-1]
+            logging.debug(f"lsof results ({len(results)})")
+            [logging.debug(x) for x in results]
+    except Exception as e:
+        logging.warning(e)
+    try:
+        with Popen(["netstat", "-a"], stdout=PIPE, stderr=PIPE) as process:
+            stdout, stderr = process.communicate()
+            results = [x for x in str(stdout.decode("utf-8")).split("\n") if str(port) in x]
+            logging.debug(f"netstat results ({len(results)})")
+            [logging.debug(x) for x in results]
+    except Exception as e:
+        logging.warning(e)
+
+
 def main():
     application_controller = ApplicationController()
     logging.info("Roaming Preprocessor")
@@ -196,6 +216,8 @@ def main():
             application_lock = ApplicationLock(configuration.get_port_lock())
         except RuntimeError as e:
             logging.info(e)
+            if application_controller.is_running_debug():
+                log_port_info(configuration.get_port_lock())
         else:
             selected_files = get_selected_files(configuration.get_input_path(), configuration.get_input_mask())
             if selected_files:

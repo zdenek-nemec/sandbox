@@ -12,6 +12,7 @@ class ApplicationController(object):
     def __init__(self):
         self._application_start_time = timeit.default_timer()
         self._set_arguments()
+        self._log_level = None
         self._set_logging()
 
     def _set_arguments(self):
@@ -23,8 +24,8 @@ class ApplicationController(object):
         self._argument_parser.add_argument("--generate", action="store_true")
 
     def _set_logging(self):
-        log_level = self._argument_parser.parse_args().log_level
-        logging.basicConfig(stream=sys.stdout, level=log_level, format=DEFAULT_LOG_FORMAT)
+        self._log_level = self._argument_parser.parse_args().log_level
+        logging.basicConfig(stream=sys.stdout, level=self._log_level, format=DEFAULT_LOG_FORMAT)
 
     def get_runtime(self):
         application_stop_time = timeit.default_timer()
@@ -32,6 +33,9 @@ class ApplicationController(object):
 
     def get_configuration_file(self):
         return self._argument_parser.parse_args().config
+
+    def is_running_debug(self):
+        return self._log_level == "DEBUG"
 
     def is_new_configuration_requested(self):
         return self._argument_parser.parse_args().generate
