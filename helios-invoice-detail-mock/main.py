@@ -6,41 +6,54 @@ class PageFields:
     def __init__(self, app):
         self.app = app
         self.fields = {}
+        self.frames = {}
 
-    def add_field(self, label: str = None):
+    def add_field(self, frame: int, label: str = None):
         app = self.app
+        frames = self.frames
+        if frame not in frames:
+            frames[frame] = tk.Frame(app)
+            frames[frame].pack(side=tk.TOP)
         fields = self.fields
         fields[len(fields)] = {
-            "label": tk.Label(app, text=label),
-            "item": tk.Entry(app)
+            "label": tk.Label(frames[frame], text=label),
+            "item": tk.Entry(frames[frame])
         }
 
-    def add_dropdown(self, label: str = None, selected: str = None, options: list[str] = None):
+    def add_dropdown(self, frame: int, label: str = None, selected: str = None, options: list[str] = None):
         app = self.app
+        frames = self.frames
+        if frame not in frames:
+            frames[frame] = tk.Frame(app)
+            frames[frame].pack(side=tk.TOP)
         fields = self.fields
         selected_var = tk.StringVar()
         selected_var.set(selected)
         fields[len(fields)] = {
-            "label": tk.Label(app, text=label),
-            "item": tk.OptionMenu(app, selected_var, *options)
+            "label": tk.Label(frames[frame], text=label),
+            "item": tk.OptionMenu(frames[frame], selected_var, *options)
         }
 
-    def add_checkbox(self, label: str = None, checked: bool = False):
+    def add_checkbox(self, frame: int, label: str = None, checked: bool = False):
         app = self.app
+        frames = self.frames
+        if frame not in frames:
+            frames[frame] = tk.Frame(app)
+            frames[frame].pack(side=tk.TOP)
         fields = self.fields
         status_var = tk.BooleanVar()
         status_var.set(checked)
         fields[len(fields)] = {
-            "label": tk.Label(app, text=label),
-            "item": tk.Checkbutton(app, variable=status_var),
+            "label": tk.Label(frames[frame], text=label),
+            "item": tk.Checkbutton(frames[frame], variable=status_var),
             "checked": status_var
         }
 
     def display(self):
         fields = self.fields
         for field_id in fields.keys():
-            fields[field_id]["label"].pack()
-            fields[field_id]["item"].pack()
+            fields[field_id]["label"].pack(side=tk.LEFT)
+            fields[field_id]["item"].pack(side=tk.LEFT)
 
 
 def submit_action(numbers: list[int], result_label: tk.Label):
@@ -55,33 +68,33 @@ def main():
     app.title("Helios Nephrite Invoice Detail Mock")
 
     pf = PageFields(app)
-    pf.add_field("Interni cislo:")
-    pf.add_field("Cislo faktury:")
-    pf.add_field("Typ dod.:")
-    pf.add_field("Dodavatel:")
-    pf.add_field()
-    pf.add_field("ICO:")
-    pf.add_field("DIC:")
-    pf.add_field("DIC vlastni:")
-    pf.add_field("Cislo uctu:")
-    pf.add_field()
-    pf.add_field("Expozitura - dodavatel:")
-    pf.add_field()
-    pf.add_field("Prijato:")
-    pf.add_field("DUZP:")
-    pf.add_field("Splatno:")
-    pf.add_field("Intrastat:")
-    pf.add_field("Datum porizeni:")
-    pf.add_field("Datum pripadu:")
-    pf.add_dropdown("Obdobi DPH:", "08", [f"{month:02}" for month in range(1, 13)])
-    pf.add_dropdown(selected="2023", options=[f"{year}" for year in range(2020, 2030)])
-    pf.add_checkbox("Dodatecne danove priznani:", False)
-    pf.add_checkbox("Autoaticke prepocitavani castek na formulari:", True)
-    pf.add_checkbox("Mena:", False)
-    pf.add_field("Datum kurzu:")
-    pf.add_dropdown("Kod meny:", "", options=["", "CZK", "EUR", "PLN"])
-    pf.add_field()
-    pf.add_field()
+    pf.add_field(1, "Interni cislo:")
+    pf.add_field(1, "Cislo faktury:")
+    pf.add_field(2, "Typ dod.:")
+    pf.add_field(3, "Dodavatel:")
+    pf.add_field(3)
+    pf.add_field(4, "ICO:")
+    pf.add_field(5, "DIC:")
+    pf.add_field(5, "DIC vlastni:")
+    pf.add_field(6, "Cislo uctu:")
+    pf.add_field(6)
+    pf.add_field(7, "Expozitura - dodavatel:")
+    pf.add_field(7)
+    pf.add_field(8, "Prijato:")
+    pf.add_field(8, "DUZP:")
+    pf.add_field(8, "Splatno:")
+    pf.add_field(8, "Intrastat:")
+    pf.add_field(9, "Datum porizeni:")
+    pf.add_field(10, "Datum pripadu:")
+    pf.add_dropdown(10, "Obdobi DPH:", "08", [f"{month:02}" for month in range(1, 13)])
+    pf.add_dropdown(10, selected="2023", options=[f"{year}" for year in range(2020, 2030)])
+    pf.add_checkbox(10, "Dodatecne danove priznani:", False)
+    pf.add_checkbox(11, "Automaticke prepocitavani castek na formulari:", True)
+    pf.add_checkbox(12, "Mena:", False)
+    pf.add_field(12, "Datum kurzu:")
+    pf.add_dropdown(12, "Kod meny:", "", options=["", "CZK", "EUR", "PLN"])
+    pf.add_field(12)
+    pf.add_field(12)
     pf.display()
 
     numbers = [0]
