@@ -1,43 +1,97 @@
 import tkinter as tk
 
 
-# Function to update the label text with the content of the input boxes
-def update_label():
-    first_name = entry_first_name.get()
-    last_name = entry_last_name.get()
-    full_name = f"Full Name: {first_name} {last_name}"
-    label_result.config(text=full_name)
+class PageFields:
+    """docstring for PageFields"""
+    def __init__(self, app):
+        self.app = app
+        self.fields = {}
+
+    def add_field(self, label: str = None):
+        app = self.app
+        fields = self.fields
+        fields[len(fields)] = {
+            "label": tk.Label(app, text=label),
+            "item": tk.Entry(app)
+        }
+
+    def add_dropdown(self, label: str = None, selected: str = None, options: list[str] = None):
+        app = self.app
+        fields = self.fields
+        selected_var = tk.StringVar()
+        selected_var.set(selected)
+        fields[len(fields)] = {
+            "label": tk.Label(app, text=label),
+            "item": tk.OptionMenu(app, selected_var, *options)
+        }
+
+    def add_checkbox(self, label: str = None, checked: bool = False):
+        app = self.app
+        fields = self.fields
+        status_var = tk.BooleanVar()
+        status_var.set(checked)
+        fields[len(fields)] = {
+            "label": tk.Label(app, text=label),
+            "item": tk.Checkbutton(app, variable=status_var),
+            "checked": status_var
+        }
+
+    def display(self):
+        fields = self.fields
+        for field_id in fields.keys():
+            fields[field_id]["label"].pack()
+            fields[field_id]["item"].pack()
+
+
+def submit_action(numbers: list[int], result_label: tk.Label):
+    numbers[0] += 1
+    result_label.config(text=f"{numbers[0]} ... ulozeno")
 
 
 def main():
     print("Helios Nephrite Invoice Detail Mock")
 
-    # Create the main application window
     app = tk.Tk()
     app.title("Helios Nephrite Invoice Detail Mock")
 
-    # Create Entry widgets for first name and last name
-    label_first_name = tk.Label(app, text="First Name:")
-    entry_first_name = tk.Entry(app)
+    pf = PageFields(app)
+    pf.add_field("Interni cislo:")
+    pf.add_field("Cislo faktury:")
+    pf.add_field("Typ dod.:")
+    pf.add_field("Dodavatel:")
+    pf.add_field()
+    pf.add_field("ICO:")
+    pf.add_field("DIC:")
+    pf.add_field("DIC vlastni:")
+    pf.add_field("Cislo uctu:")
+    pf.add_field()
+    pf.add_field("Expozitura - dodavatel:")
+    pf.add_field()
+    pf.add_field("Prijato:")
+    pf.add_field("DUZP:")
+    pf.add_field("Splatno:")
+    pf.add_field("Intrastat:")
+    pf.add_field("Datum porizeni:")
+    pf.add_field("Datum pripadu:")
+    pf.add_dropdown("Obdobi DPH:", "08", [f"{month:02}" for month in range(1, 13)])
+    pf.add_dropdown(selected="2023", options=[f"{year}" for year in range(2020, 2030)])
+    pf.add_checkbox("Dodatecne danove priznani:", False)
+    pf.add_checkbox("Autoaticke prepocitavani castek na formulari:", True)
+    pf.add_checkbox("Mena:", False)
+    pf.add_field("Datum kurzu:")
+    pf.add_dropdown("Kod meny:", "", options=["", "CZK", "EUR", "PLN"])
+    pf.add_field()
+    pf.add_field()
+    pf.display()
 
-    label_last_name = tk.Label(app, text="Last Name:")
-    entry_last_name = tk.Entry(app)
+    numbers = [0]
+    result_label = tk.Label(app, text=f"{numbers[0]} ... zadne zmeny")
+    submit_button = tk.Button(app, text="Ulozit", command=lambda: submit_action(numbers, result_label))
+    exit_button = tk.Button(app, text="Exit", command=app.destroy)
+    result_label.pack()
+    submit_button.pack()
+    exit_button.pack()
 
-    # Create a button to trigger the update_label function
-    update_button = tk.Button(app, text="Update", command=update_label)
-
-    # Create a label to display the result
-    label_result = tk.Label(app, text="Full Name: ")
-
-    # Pack the widgets into the window
-    label_first_name.pack()
-    entry_first_name.pack()
-    label_last_name.pack()
-    entry_last_name.pack()
-    update_button.pack()
-    label_result.pack()
-
-    # Start the Tkinter event loop
     app.mainloop()
 
 
