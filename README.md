@@ -19,6 +19,7 @@ Every project has its own directory
 * `films` - Tool for retrieving data file properties
 * `flask-demo` - Flask tutorial from TwT
 * `grafana-bm` - Experiments with [Grafana](https://grafana.com/) and BlackMed
+* `helios-invoice-detail-mock` - Tkinter mock for Helios Nephrite Invoice Detail
 * `heroes3` - Ideas related to the turn based strategy game Heroes of Might and Magic 3
 * `hex`
 * `ics-sv-res-analysis-java`
@@ -94,6 +95,7 @@ Every project has its own directory
 * `#104` STP Sequence Check
 * `#105` PyGame: CodersLegacy Tutorials
 * `#106` NumPy
+* `#108` Helios Invoice Detail Mock
 
 ### Closed
 
