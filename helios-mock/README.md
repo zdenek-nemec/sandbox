@@ -1,3 +1,5 @@
-# Helios Invoice Detail Mock
+# Helios Mock
 
-Mock application for testing Aiviro on Helios Nephrite.
+Mock application for testing Aiviro on Helios.
+
+* `nephrite_epl_invoice_detail.py` - Mock for Helios Nephrite EPL invoice detail
