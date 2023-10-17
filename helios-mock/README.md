@@ -41,3 +41,4 @@ Sources
 ## Todo
 
 * [ ] Windows batch file for running the mock application
+* [ ] `green_2vv_order_detail.py`

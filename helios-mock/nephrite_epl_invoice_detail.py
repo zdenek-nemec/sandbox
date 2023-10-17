@@ -2,8 +2,6 @@ from page import Page
 
 
 def main():
-    print("Helios Nephrite EPL Invoice Detail Mock")
-
     page = Page("Helios Nephrite EPL Invoice Detail Mock")
     page.add_frame()
     page.add_field("Interni cislo:")
