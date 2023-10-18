@@ -1,4 +1,4 @@
-from page import Page
+from library import Page
 
 
 def main():
