@@ -93,13 +93,20 @@ class Page:
         self.submits = 0
         self.result_label.config(text=f"{self.submits=}")
 
+    def _display_packed(self, items: list):
+        for item in items:
+            item.pack(side=tk.LEFT)
+
+    def _display_grid(self, items: list, columns: int = 2):
+        for i, item in enumerate(items):
+            item.grid(row=i // columns, column=i % columns)
+
     def display(self):
         for frame_id in sorted(self.frames.keys()):
             self.frames[frame_id].display()
         if self.result_label:
             self.result_label.pack()
-        for button in self.buttons:
-            button.pack(side=tk.LEFT)
+        self._display_packed(self.buttons)
 
     def run_loop(self):
         self.app.mainloop()
