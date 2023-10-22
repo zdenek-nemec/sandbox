@@ -11,6 +11,7 @@ Every project has its own directory
 * `bash-demos` - Bash tutorials and demonstrations
 * `billions`
 * `binec` - Everything that is not sorted out yet
+* `codewars`
 * `ConnectivityCheck`
 * `connectivity-check`
 * `energy-supplier-comparison` - Comparison of energy supplier offers
@@ -96,6 +97,7 @@ Every project has its own directory
 * `#105` PyGame: CodersLegacy Tutorials
 * `#106` NumPy
 * `#109` Helios Mock
+* `#110` Codewars
 
 ### Closed
 
