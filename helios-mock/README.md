@@ -4,12 +4,8 @@ Mock applications for testing Aiviro on Helios.
 
 Mocks:
 
-* `nephrite_epl_invoice_detail.py` - Mock for Helios Nephrite EPL invoice detail
-
-Dependencies:
-
-* `frame.py`
-* `page.py`
+* `hg_2vv.py` - Mock for Helios Green 2VV invoice detail
+* `hn_epl.py` - Mock for Helios Nephrite EPL invoice detail
 
 ## Install
 
@@ -41,4 +37,4 @@ Sources
 ## Todo
 
 * [ ] Windows batch file for running the mock application
-* [ ] `green_2vv_order_detail.py`
+* [x] `green_2vv_order_detail.py`
