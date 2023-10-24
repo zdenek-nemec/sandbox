@@ -11,6 +11,7 @@ Every project has its own directory
 * `bash-demos` - Bash tutorials and demonstrations
 * `billions`
 * `binec` - Everything that is not sorted out yet
+* `codewars`
 * `ConnectivityCheck`
 * `connectivity-check`
 * `energy-supplier-comparison` - Comparison of energy supplier offers
@@ -19,6 +20,7 @@ Every project has its own directory
 * `films` - Tool for retrieving data file properties
 * `flask-demo` - Flask tutorial from TwT
 * `grafana-bm` - Experiments with [Grafana](https://grafana.com/) and BlackMed
+* `helios-mock` - Mock GUI for Helios Application
 * `heroes3` - Ideas related to the turn based strategy game Heroes of Might and Magic 3
 * `hex`
 * `ics-sv-res-analysis-java`
@@ -94,6 +96,8 @@ Every project has its own directory
 * `#104` STP Sequence Check
 * `#105` PyGame: CodersLegacy Tutorials
 * `#106` NumPy
+* `#109` Helios Mock
+* `#110` Codewars
 
 ### Closed
 
@@ -101,3 +105,4 @@ Every project has its own directory
 * `#55` [Markdown Demos](https://github.com/zdenek-nemec/demos/tree/master/markdown)
 * `#91` [Flask Demo](https://github.com/zdenek-nemec/sandbox/tree/master/flask-demo)
 * `#99` [C Demos](https://github.com/zdenek-nemec/demos/tree/master/c)
+* `#108` Helios Invoice Detail Mock
