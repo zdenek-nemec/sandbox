@@ -53,6 +53,41 @@ ELECTRICITY_OFFERS = [{
         "Dan CZK/MWh": 34.24
     }
 }, {
+    "Dodavatel": "E.ON D25d 3x25 A 2023 Zvyhodneny",
+    "Obchodni": {
+        "Poplatky CZK/mesic": 120,
+        "Elektrina VT CZK/MWh": 4744,
+        "Elektrina NT CZK/MWh": 4269
+    },
+    "Regulovane": {
+        "Distribuce VT CZK/MWh": 2114.69,
+        "Distribuce NT CZK/MWh": 246.11,
+        "Rezervovany prikon CZK/mesic": 197,
+        "Systemove sluzby CZK/MWh": 137.37,
+        "Podpora vykupu CZK/mesic": 0,
+        # "Podpora vykupu CZK/MWh": 598.95,
+        "Podpora vykupu CZK/MWh": 0,
+        "OTE CZK/mesic": 4.15,
+        "Dan CZK/MWh": 34.24
+    }
+}, {
+    "Dodavatel": "E.ON D25d 3x25 A 2023 Zakladni",
+    "Obchodni": {
+        "Poplatky CZK/mesic": 120,
+        "Elektrina VT CZK/MWh": 5009,
+        "Elektrina NT CZK/MWh": 4508
+    },
+    "Regulovane": {
+        "Distribuce VT CZK/MWh": 2114.69,
+        "Distribuce NT CZK/MWh": 246.11,
+        "Rezervovany prikon CZK/mesic": 197,
+        "Systemove sluzby CZK/MWh": 137.37,
+        "Podpora vykupu CZK/mesic": 0,
+        "Podpora vykupu CZK/MWh": 598.95,
+        "OTE CZK/mesic": 4.15,
+        "Dan CZK/MWh": 34.24
+    }
+}, {
     "Dodavatel": "E.ON D26d 3x25 A",
     "Obchodni": {
         "Poplatky CZK/mesic": 96,
