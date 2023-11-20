@@ -38,11 +38,32 @@ class AlphabetSymmetry:
         tc().assertEqual(self.solve(["encode", "abc", "xyzD", "ABmD"]), [1, 3, 1, 3])
 
 
+class Testing123:
+    """https://www.codewars.com/kata/54bf85e3d5b56c7a05000cf9/train/python"""
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def number(lines: list) -> list:
+        return [f"{i}: {line}" for i, line in enumerate(lines, 1)]
+
+    def demo(self):
+        print(self.number([]))
+        print(self.number(["a", "b", "c"]))
+
+    def test(self):
+        tc().assertEqual(self.number([]), [])
+        tc().assertEqual(self.number(["a", "b", "c"]), ["1: a", "2: b", "3: c"])
+
+
 def main():
     print("Codewars")
 
-    AlphabetSymmetry().demo()
-    AlphabetSymmetry().test()
+    # AlphabetSymmetry().demo()
+    # AlphabetSymmetry().test()
+
+    Testing123().demo()
+    Testing123().test()
 
 
 if __name__ == "__main__":
