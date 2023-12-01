@@ -6,6 +6,7 @@ Purpose of this repository is to be a collection of experimental projects.
 
 Every project has its own directory
 
+* `advent-of-code`
 * `AdventOfCode2022`
 * `anomaly-detector` - Anomaly detection in statistical data
 * `bash-demos` - Bash tutorials and demonstrations
@@ -98,6 +99,7 @@ Every project has its own directory
 * `#106` NumPy
 * `#109` Helios Mock
 * `#110` Codewars
+* `#114` Advent of Code 2023
 
 ### Closed
 
