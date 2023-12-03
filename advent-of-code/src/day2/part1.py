@@ -1,4 +1,7 @@
 from unittest import TestCase
+from src import get_file_path
+
+INPUT_DATA_FILE = get_file_path("src", "day2", "input.txt")
 
 
 class GameRound:
@@ -83,21 +86,21 @@ class Day2Part1:
     def test(self):
         TestCase().assertEqual(8, self.sum_possible_ids(self.sample_input))
 
-    def solve(self, file_path: str) -> int:
+    def solve(self) -> int:
         data = []
-        with open(file_path, "r") as input_file:
+        with open(INPUT_DATA_FILE, "r") as input_file:
             for line in input_file:
                 data.append(line)
         return self.sum_possible_ids(data)
 
 
 def main():
-    print("Advent of Code 2023 - Day 2: Cube Conundrum")
+    print("Advent of Code 2023 - Day 2: Cube Conundrum, part 1")
 
     part1 = Day2Part1()
     # part1.demo()
     part1.test()
-    print(part1.solve("input.txt"))
+    print(part1.solve())
 
 
 if __name__ == "__main__":

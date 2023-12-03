@@ -1,5 +1,9 @@
 from unittest import TestCase
 
+from src import get_file_path
+
+INPUT_DATA_FILE = get_file_path("src", "day1", "input.txt")
+
 
 class Day1Part1:
     @staticmethod
@@ -28,9 +32,9 @@ class Day1Part1:
         ]
         TestCase().assertEqual(142, self._sum_values(data))
 
-    def solve(self, file_path: str) -> int:
+    def solve(self) -> int:
         data = []
-        with open(file_path, "r") as input_file:
+        with open(INPUT_DATA_FILE, "r") as input_file:
             for line in input_file:
                 data.append(line)
         return self._sum_values(data)
@@ -96,9 +100,9 @@ class Day1Part2:
         ]
         TestCase().assertEqual(281, self._sum_values(data))
 
-    def solve(self, file_path: str) -> int:
+    def solve(self) -> int:
         data = []
-        with open(file_path, "r") as input_file:
+        with open(INPUT_DATA_FILE, "r") as input_file:
             for line in input_file:
                 data.append(line)
         return self._sum_values(data)
@@ -109,11 +113,11 @@ def main():
 
     # Day1Part1().demo()
     Day1Part1().test()
-    print(Day1Part1().solve("input.txt"))
+    print(Day1Part1().solve())
 
     # Day1Part2().demo()
     Day1Part2().test()
-    print(Day1Part2().solve("input.txt"))
+    print(Day1Part2().solve())
 
 
 if __name__ == "__main__":
