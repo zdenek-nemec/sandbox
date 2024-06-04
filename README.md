@@ -10,6 +10,7 @@ Every project has its own directory
 * `AdventOfCode2022`
 * `anomaly-detector` - Anomaly detection in statistical data
 * `bash-demos` - Bash tutorials and demonstrations
+* `barcodes` - Barcode reader
 * `billions`
 * `binec` - Everything that is not sorted out yet
 * `codewars`
@@ -100,6 +101,7 @@ Every project has its own directory
 * `#109` Helios Mock
 * `#110` Codewars
 * `#114` Advent of Code 2023
+* `#119` Barcodes
 
 ### Closed
 
