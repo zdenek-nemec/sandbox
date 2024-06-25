@@ -43,6 +43,7 @@ Every project has its own directory
 * `python-demos` - Python tutorials and demonstrations
 * `python-mega-course` - The Python Mega Course on Udemy
 * `roaming-preprocessor` - Prototype for roaming preprocessor project
+* `rust-demos`
 * `segfault-c`
 * `spring-demos` - Java Spring tutorials and demonstrations
 * `stp-sequence-check`
@@ -102,6 +103,7 @@ Every project has its own directory
 * `#110` Codewars
 * `#114` Advent of Code 2023
 * `#119` Barcodes
+* `#120` Rust demos
 
 ### Closed
 
