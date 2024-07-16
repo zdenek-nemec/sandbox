@@ -48,6 +48,7 @@ Every project has its own directory
 * `spring-demos` - Java Spring tutorials and demonstrations
 * `stp-sequence-check`
 * `subtitles-offset`
+* `youtube-rss`
 
 ## Rules
 
@@ -104,6 +105,7 @@ Every project has its own directory
 * `#114` Advent of Code 2023
 * `#119` Barcodes
 * `#120` Rust demos
+* `#121` YouTube RSS
 
 ### Closed
 
