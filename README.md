@@ -48,6 +48,7 @@ Every project has its own directory
 * `spring-demos` - Java Spring tutorials and demonstrations
 * `stp-sequence-check`
 * `subtitles-offset`
+* `vue-demos`
 * `youtube-rss`
 
 ## Rules
@@ -106,6 +107,7 @@ Every project has its own directory
 * `#119` Barcodes
 * `#120` Rust demos
 * `#121` YouTube RSS
+* `#122` Vue.js
 
 ### Closed
 
