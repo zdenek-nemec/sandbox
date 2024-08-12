@@ -6,9 +6,11 @@ Purpose of this repository is to be a collection of experimental projects.
 
 Every project has its own directory
 
+* `advent-of-code`
 * `AdventOfCode2022`
 * `anomaly-detector` - Anomaly detection in statistical data
 * `bash-demos` - Bash tutorials and demonstrations
+* `barcodes` - Barcode reader
 * `billions`
 * `binec` - Everything that is not sorted out yet
 * `codewars`
@@ -41,10 +43,13 @@ Every project has its own directory
 * `python-demos` - Python tutorials and demonstrations
 * `python-mega-course` - The Python Mega Course on Udemy
 * `roaming-preprocessor` - Prototype for roaming preprocessor project
+* `rust-demos`
 * `segfault-c`
 * `spring-demos` - Java Spring tutorials and demonstrations
 * `stp-sequence-check`
 * `subtitles-offset`
+* `vue-demos`
+* `youtube-rss`
 
 ## Rules
 
@@ -98,6 +103,11 @@ Every project has its own directory
 * `#106` NumPy
 * `#109` Helios Mock
 * `#110` Codewars
+* `#114` Advent of Code 2023
+* `#119` Barcodes
+* `#120` Rust demos
+* `#121` YouTube RSS
+* `#122` Vue.js
 
 ### Closed
 

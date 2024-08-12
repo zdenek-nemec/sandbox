@@ -8,6 +8,7 @@ def main():
     print("C print: %d %f %.2f" % (a, b, c))
     print("Format print: {0} {1} {2}".format(a, b, c))
     print(f"F-string print: {a} {b=} {c=:,.2f}")
+    print(f"F-string print of decimal number with leading zeroes: {a=:07d}")
 
 
 if __name__ == "__main__":
