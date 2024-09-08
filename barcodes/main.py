@@ -1,4 +1,5 @@
 import cv2
+import os
 from pyzbar.pyzbar import decode
 
 
@@ -8,44 +9,44 @@ def print_environment_details():
     print(f"Environment {sys.prefix}")
 
 
-def read_barcode(image):
-    img = cv2.imread(image)
-    detected_barcodes = decode(img)
+def read_barcode(image_path: str):
+    if not os.path.isfile(image_path):
+        print(f"{image_path}: File not found")
+        return
 
+    image = cv2.imread(image_path)
+    detected_barcodes = decode(image)
     if not detected_barcodes:
-        print("Barcode not detected or your barcode is blank/corrupted!")
+        print(f"{image_path}: Barcode not detected")
     else:
         for barcode in detected_barcodes:
-
-            # Locate the barcode position in image
             (x, y, w, h) = barcode.rect
-
-            # Put the rectangle in image using
-            # cv2 to highlight the barcode
-            cv2.rectangle(img, (x - 10, y - 10),
+            cv2.rectangle(image, (x - 10, y - 10),
                           (x + w + 10, y + h + 10),
                           (255, 0, 0), 2)
-
-            if barcode.data != "":
-                print(barcode.data)
-                print(barcode.type)
-
-    cv2.imshow("Image", img)
+            if barcode.data:
+                print(f"{image_path}: {barcode.data=}, {barcode.type=}")
+    cv2.imshow("Image", image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
 def main():
-    print("Hello, World!")
-    print_environment_details()
+    print("Hello, Barcodes!")
+    # print_environment_details()
 
-    for image in [
-        "barcode39.png",
-        "barcode39chris.png",
-        "barcodex.png"
-    ]:
-        print(image)
-        read_barcode(image)
+    # for image_path in [
+    #     "barcode39.png",
+    #     "barcode39chris.png",
+    #     "barcodex.png"
+    # ]:
+    #     read_barcode(image_path)
+
+    for printer in os.listdir("extracted_images"):
+        for image_filename in os.listdir(f"extracted_images/{printer}"):
+            image_path = f"extracted_images/{printer}/{image_filename}"
+            read_barcode(image_path)
+        break
 
 
 if __name__ == "__main__":
