@@ -39,6 +39,7 @@ Every project has its own directory
 * `JavaSelenium`
 * `json-to-csv-converter` - Experimental application for JSON-CSV conversion
 * `math-demos` - Demonstration of mathematical operations and problem-solving
+* `pdf-merge` - PDF merger
 * `pygame` - Tutorials and experiments using Python PyGame module
 * `python-demos` - Python tutorials and demonstrations
 * `python-mega-course` - The Python Mega Course on Udemy
@@ -108,6 +109,7 @@ Every project has its own directory
 * `#120` Rust demos
 * `#121` YouTube RSS
 * `#122` Vue.js
+* `#125` PDF Merge
 
 ### Closed
 
