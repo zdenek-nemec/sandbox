@@ -1,0 +1,5 @@
+*.heic
+*.HEIC
+*.png
+*.jpg
+venv/
