@@ -105,6 +105,7 @@ Every project has its own directory
 * `#109` Helios Mock
 * `#110` Codewars
 * `#114` Advent of Code 2023
+* `#118` Scala
 * `#119` Barcodes
 * `#120` Rust demos
 * `#121` YouTube RSS
