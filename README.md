@@ -110,6 +110,7 @@ Every project has its own directory
 * `#121` YouTube RSS
 * `#122` Vue.js
 * `#125` PDF Merge
+* `#127` HEIC to PNG Convertor
 
 ### Closed
 
