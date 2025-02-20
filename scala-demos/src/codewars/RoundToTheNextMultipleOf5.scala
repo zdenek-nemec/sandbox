@@ -19,7 +19,7 @@ object RoundToTheNextMultipleOf5 {
     println(roundToNext5(-5) + " -5")
   }
 
-  private def roundToNext5(number: Int): Int = {
+  def roundToNext5(number: Int): Int = {
     val rem = number % 5
     if (rem == 0) {
       number;
