@@ -11,7 +11,7 @@ object Basics {
 
     // Value vs. variable
     val value: Int = 1 + 1
-//    value = 3 // Cannot assign again
+    //    value = 3 // Cannot assign again
     var variable: Int = 1 + 1
     variable = 3
 
@@ -35,8 +35,9 @@ object Basics {
     // Classes
     val greeter = new Greeter("Hello, ", "!")
     greeter.greet("Scala developer") // Hello, Scala developer!
-  }
 
+    println(name)
+  }
   private def addThenMultiply(x: Int, y: Int)(multiplier: Int): Int = (x + y) * multiplier
 
   private def getSquareString(input: Double): String = {
@@ -45,6 +46,10 @@ object Basics {
   }
 
   private def add(x: Int, y: Int): Int = x + y
+
+  // Method without parameters
+  def name: String = System.getProperty("user.name")
+
 }
 
 class Greeter(prefix: String, suffix: String) {
