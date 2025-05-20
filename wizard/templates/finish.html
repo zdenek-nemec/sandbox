@@ -13,18 +13,114 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
         .center-container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            z-index: 1;
+        }
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
         }
     </style>
 </head>
 <body>
-    <div class="center-container">
-        <h1>Finish Page</h1>
-        <p>Congratulations! You have reached the Finish page.</p>
+    <canvas id="confetti-canvas"></canvas>
+    <div class="center-container" align="center">
+        <h1>Finish</h1>
+        <p>You did it. You crazy son of a b...<br>You actually did it!</p>
     </div>
+    <script>
+        // Confetti animation
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let W = window.innerWidth;
+        let H = window.innerHeight;
+        canvas.width = W;
+        canvas.height = H;
+
+        window.addEventListener('resize', () => {
+            W = window.innerWidth;
+            H = window.innerHeight;
+            canvas.width = W;
+            canvas.height = H;
+        });
+
+        const confettiColors = [
+            "#61dafb", "#ffb347", "#f1f1f1", "#e53935", "#81c784", "#ffd700"
+        ];
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function ConfettiParticle() {
+            this.x = randomInt(0, W);
+            this.y = randomInt(-H, 0);
+            this.r = randomInt(6, 12);
+            this.d = randomInt(10, 30);
+            this.color = confettiColors[randomInt(0, confettiColors.length - 1)];
+            this.tilt = randomInt(-10, 10);
+            this.tiltAngleIncremental = (Math.random() * 0.07) + 0.05;
+            this.tiltAngle = 0;
+
+            this.draw = function() {
+                ctx.beginPath();
+                ctx.lineWidth = this.r;
+                ctx.strokeStyle = this.color;
+                ctx.moveTo(this.x + this.tilt + this.r / 3, this.y);
+                ctx.lineTo(this.x + this.tilt, this.y + this.tilt + this.d);
+                ctx.stroke();
+            }
+        }
+
+        let confettiParticles = [];
+        const maxParticles = 120;
+
+        for (let i = 0; i < maxParticles; i++) {
+            confettiParticles.push(new ConfettiParticle());
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, W, H);
+            for (let i = 0; i < confettiParticles.length; i++) {
+                confettiParticles[i].draw();
+            }
+            updateConfetti();
+        }
+
+        function updateConfetti() {
+            for (let i = 0; i < confettiParticles.length; i++) {
+                let p = confettiParticles[i];
+                p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                p.x += Math.sin(0.01 * p.d);
+
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.tilt = Math.sin(p.tiltAngle) * 15;
+
+                // Recycle confetti when out of view
+                if (p.y > H) {
+                    confettiParticles[i] = new ConfettiParticle();
+                    confettiParticles[i].x = randomInt(0, W);
+                    confettiParticles[i].y = -10;
+                }
+            }
+        }
+
+        function animateConfetti() {
+            drawConfetti();
+            requestAnimationFrame(animateConfetti);
+        }
+
+        animateConfetti();
+    </script>
 </body>
 </html>
