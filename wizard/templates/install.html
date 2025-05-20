@@ -75,6 +75,39 @@
             font-weight: bold;
             user-select: none;
         }
+        .devices-list {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            margin-top: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .device-box {
+            background: #23272e;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+            padding: 22px 28px;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            color: #f1f1f1;
+            font-size: 1.1rem;
+        }
+        .device-checkbox {
+            margin-right: 10px;
+            transform: scale(1.3);
+        }
+        .device-name {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .device-ip {
+            color: #61dafb;
+            font-family: monospace;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -91,6 +124,7 @@
                 <span class="progress-text">0%</span>
             </div>
         </div>
+        <div id="devices-list" class="devices-list" style="display:none;"></div>
         <form action="/finish" method="get">
             <button type="submit" class="big-button">Next</button>
         </form>
@@ -115,6 +149,7 @@
                 requestAnimationFrame(animateProgressBar);
             } else {
                 progressText.textContent = "100%";
+                showDevices();
             }
         }
 
@@ -122,6 +157,41 @@
         progressBar.setAttribute('stroke-dasharray', `0 ${circumference}`);
         progressText.textContent = "0%";
         requestAnimationFrame(animateProgressBar);
+
+        // Show random devices after progress completes
+        function showDevices() {
+            const container = document.getElementById('devices-list');
+            container.innerHTML = '';
+            const deviceCount = Math.floor(Math.random() * 3) + 2; // 2-4
+            const usedNumbers = new Set();
+            for (let i = 0; i < deviceCount; i++) {
+                // Unique two-digit number for device name
+                let devNum;
+                do {
+                    devNum = Math.floor(Math.random() * 90) + 10; // 10-99
+                } while (usedNumbers.has(devNum));
+                usedNumbers.add(devNum);
+
+                // Unique IP in 10.128.10.X (X: 2-254)
+                let ipLast;
+                do {
+                    ipLast = Math.floor(Math.random() * 253) + 2;
+                } while ([...usedNumbers].includes(ipLast));
+                // (no need to guarantee unique IP for this demo, but avoids overlap with device number)
+
+                const deviceDiv = document.createElement('div');
+                deviceDiv.className = 'device-box';
+                deviceDiv.innerHTML = `
+                    <label>
+                        <input type="checkbox" class="device-checkbox">
+                        <span class="device-name">Device${devNum}</span>
+                    </label>
+                    <div class="device-ip">10.128.10.${ipLast}</div>
+                `;
+                container.appendChild(deviceDiv);
+            }
+            container.style.display = 'flex';
+        }
     </script>
 </body>
 </html>
