@@ -1,27 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Install</title><style>
+    <title>Install</title>
+    <style>
         body {
             background-color: #181818;
             color: #f1f1f1;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
-        nav a {
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .big-button {
+            background-color: #222;
             color: #61dafb;
-            text-decoration: none;
-            margin: 0 5px;
+            border: none;
+            padding: 20px 60px;
+            font-size: 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
         }
-        nav a:hover {
-            text-decoration: underline;
+        .big-button:hover {
+            background-color: #333;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <h1>Install Page</h1>
-    <p>This page contains installation instructions.</p>
-    <form action="/finish" method="get">
-        <button type="submit">Next</button>
-    </form>
+    <div class="center-container">
+        <h1>Install Page</h1>
+        <p>This page contains installation instructions.</p>
+        <form action="/finish" method="get">
+            <button type="submit" class="big-button">Next</button>
+        </form>
+    </div>
 </body>
 </html>
