@@ -131,7 +131,7 @@
     </div>
     <div class="center-container">
         <h1>Install</h1>
-        <p>Add devices.</p>
+        <p>Search</p>
         <div class="progress-container">
             <svg class="progress-svg" width="120" height="120">
                 <circle class="progress-bg" cx="60" cy="60" r="50" stroke-width="12" fill="none"/>
@@ -148,10 +148,10 @@
         </form>
     </div>
     <script>
-        // Animate top progress bar to 60%
+        // Animate top progress bar to 35%
         window.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
-                document.getElementById('top-progress-bar').style.width = '60%';
+                document.getElementById('top-progress-bar').style.width = '35%';
             }, 50);
         });
 
@@ -216,6 +216,11 @@
                 container.appendChild(deviceDiv);
             }
             container.style.display = 'flex';
+
+            // Animate top progress bar to 70% after devices are shown
+            setTimeout(function() {
+                document.getElementById('top-progress-bar').style.width = '70%';
+            }, 100);
         }
     </script>
 </body>
