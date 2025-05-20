@@ -35,15 +35,93 @@
             background-color: #333;
             color: #fff;
         }
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        .progress-svg {
+            transform: rotate(-90deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .progress-bg {
+            stroke: #333;
+        }
+        .progress-bar {
+            stroke: #61dafb;
+            transition: stroke-dasharray 0.2s linear;
+        }
+        .progress-text-outer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .progress-text {
+            color: #f1f1f1;
+            font-size: 1.5rem;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
     <div class="center-container">
         <h1>Install Page</h1>
         <p>This page contains installation instructions.</p>
+        <div class="progress-container">
+            <svg class="progress-svg" width="120" height="120">
+                <circle class="progress-bg" cx="60" cy="60" r="50" stroke-width="12" fill="none"/>
+                <circle class="progress-bar" cx="60" cy="60" r="50" stroke-width="12" fill="none"
+                    stroke-dasharray="0 314" />
+            </svg>
+            <div class="progress-text-outer">
+                <span class="progress-text">0%</span>
+            </div>
+        </div>
         <form action="/finish" method="get">
             <button type="submit" class="big-button">Next</button>
         </form>
     </div>
+    <script>
+        // Circular progress bar animation
+        const progressBar = document.querySelector('.progress-bar');
+        const progressText = document.querySelector('.progress-text');
+        const radius = 50;
+        const circumference = 2 * Math.PI * radius;
+        let duration = 3000; // 3 seconds
+        let start = null;
+
+        function animateProgressBar(timestamp) {
+            if (!start) start = timestamp;
+            let elapsed = timestamp - start;
+            let percent = Math.min(elapsed / duration, 1);
+            let dash = percent * circumference;
+            progressBar.setAttribute('stroke-dasharray', `${dash} ${circumference - dash}`);
+            progressText.textContent = `${Math.round(percent * 100)}%`;
+            if (percent < 1) {
+                requestAnimationFrame(animateProgressBar);
+            } else {
+                progressText.textContent = "100%";
+            }
+        }
+
+        // Set initial state
+        progressBar.setAttribute('stroke-dasharray', `0 ${circumference}`);
+        progressText.textContent = "0%";
+        requestAnimationFrame(animateProgressBar);
+    </script>
 </body>
 </html>
