@@ -67,7 +67,7 @@
             border-radius: 8px;
             background: #222;
             color: #f1f1f1;
-            margin-top: 30px;
+            margin-top: 10px;
             margin-bottom: 10px;
             outline: none;
             transition: border 0.2s;
@@ -79,8 +79,10 @@
         .email-label {
             font-size: 1.1rem;
             margin-top: 10px;
-            margin-bottom: 5px;
             color: #bbb;
+            display: block;
+            text-align: center;
+            width: 100%;
         }
     </style>
 </head>
@@ -90,7 +92,7 @@
         <p>Do the cool stuff in just three steps.</p>
         <button class="download-button" onclick="window.location.href='/download'">Download App</button>
         <form id="startForm" action="/install" method="get" autocomplete="off" novalidate>
-            <label class="email-label" for="email">E-mail:</label>
+            <label class="email-label" for="email">E-mail</label>
             <input type="email" id="email" name="email" class="email-input" value="master@of.disaster">
             <button type="submit" class="big-button" id="nextBtn">Next</button>
         </form>
