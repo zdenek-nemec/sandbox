@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Install</title>
+    <style>
+        .progress-bar-container {
+            width: 100vw;
+            height: 25px;
+            background: #222;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #61dafb, #ffb347);
+            width: 10%;
+            transition: width 1s cubic-bezier(.4,0,.2,1);
+        }
+        body {
+            background-color: #181818;
+            color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .big-button {
+            background-color: #222;
+            color: #61dafb;
+            border: none;
+            padding: 20px 60px;
+            font-size: 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+        }
+        .big-button:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+        .progress-svg {
+            transform: rotate(-90deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .progress-bg {
+            stroke: #333;
+        }
+        .progress-bar {
+            stroke: #61dafb;
+            transition: stroke-dasharray 0.2s linear;
+        }
+        .progress-text-outer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .progress-text {
+            color: #f1f1f1;
+            font-size: 1.5rem;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            user-select: none;
+        }
+        .devices-list {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            margin-top: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .device-box {
+            background: #23272e;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+            padding: 22px 28px;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            color: #f1f1f1;
+            font-size: 1.1rem;
+        }
+        .device-checkbox {
+            margin-right: 10px;
+            transform: scale(1.3);
+        }
+        .device-name {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .device-ip {
+            color: #61dafb;
+            font-family: monospace;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="top-progress-bar"></div>
+    </div>
+    <div class="center-container">
+        <h1>Install</h1>
+        <p>Searching</p>
+        <div class="progress-container">
+            <svg class="progress-svg" width="120" height="120">
+                <circle class="progress-bg" cx="60" cy="60" r="50" stroke-width="12" fill="none"/>
+                <circle class="progress-bar" cx="60" cy="60" r="50" stroke-width="12" fill="none"
+                    stroke-dasharray="0 314" />
+            </svg>
+            <div class="progress-text-outer">
+                <span class="progress-text">0%</span>
+            </div>
+        </div>
+        <div id="devices-list" class="devices-list" style="display:none;"></div>
+        <form action="/finish" method="get">
+            <button type="submit" class="big-button">Next</button>
+        </form>
+    </div>
+    <script>
+        // Animate top progress bar to 35%
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('top-progress-bar').style.width = '35%';
+            }, 50);
+        });
+
+        // Circular progress bar animation
+        const progressBar = document.querySelector('.progress-bar');
+        const progressText = document.querySelector('.progress-text');
+        const radius = 50;
+        const circumference = 2 * Math.PI * radius;
+        let duration = 3000; // 3 seconds
+        let start = null;
+
+        function animateProgressBar(timestamp) {
+            if (!start) start = timestamp;
+            let elapsed = timestamp - start;
+            let percent = Math.min(elapsed / duration, 1);
+            let dash = percent * circumference;
+            progressBar.setAttribute('stroke-dasharray', `${dash} ${circumference - dash}`);
+            progressText.textContent = `${Math.round(percent * 100)}%`;
+            if (percent < 1) {
+                requestAnimationFrame(animateProgressBar);
+            } else {
+                progressText.textContent = "100%";
+                showDevices();
+            }
+        }
+
+        // Set initial state
+        progressBar.setAttribute('stroke-dasharray', `0 ${circumference}`);
+        progressText.textContent = "0%";
+        requestAnimationFrame(animateProgressBar);
+
+        // Show random devices after progress completes
+        function showDevices() {
+            const container = document.getElementById('devices-list');
+            container.innerHTML = '';
+            const deviceCount = Math.floor(Math.random() * 3) + 2; // 2-4
+            const usedNumbers = new Set();
+            for (let i = 0; i < deviceCount; i++) {
+                // Unique two-digit number for device name
+                let devNum;
+                do {
+                    devNum = Math.floor(Math.random() * 90) + 10; // 10-99
+                } while (usedNumbers.has(devNum));
+                usedNumbers.add(devNum);
+
+                // Unique IP in 10.128.10.X (X: 2-254)
+                let ipLast;
+                do {
+                    ipLast = Math.floor(Math.random() * 253) + 2;
+                } while ([...usedNumbers].includes(ipLast));
+                // (no need to guarantee unique IP for this demo, but avoids overlap with device number)
+
+                const deviceDiv = document.createElement('div');
+                deviceDiv.className = 'device-box';
+                deviceDiv.innerHTML = `
+                    <label>
+                        <input type="checkbox" class="device-checkbox">
+                        <span class="device-name">Device${devNum}</span>
+                    </label>
+                    <div class="device-ip">10.128.10.${ipLast}</div>
+                `;
+                container.appendChild(deviceDiv);
+            }
+            container.style.display = 'flex';
+
+            // Animate top progress bar to 70% after devices are shown
+            setTimeout(function() {
+                document.getElementById('top-progress-bar').style.width = '70%';
+            }, 100);
+        }
+    </script>
+</body>
+</html>
