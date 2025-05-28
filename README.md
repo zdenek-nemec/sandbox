@@ -112,6 +112,8 @@ Every project has its own directory
 * `#122` Vue.js
 * `#125` PDF Merge
 * `#127` HEIC to PNG Convertor
+* `#133` Wizard
+* `#137` Flat JSON
 
 ### Closed
 

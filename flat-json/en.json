@@ -1,0 +1,34 @@
+{
+  "translation": {
+    "COMMON": {
+      "NEXT": "Next",
+      "BACK": "Back",
+      "CONTINUE": "Continue",
+      "EMPTY": "",
+      "PASSWORD": "Password"
+    },
+    "PROGRESS_BAR": {
+      "START": "Get Started",
+      "INSTALL": "Install App",
+      "ADD_PRINTERS": "Install Devices"
+    },
+    "HOME_VIEW": {
+      "HEADLINE": "Get Ready",
+      "P1": "Managing your devices is quick and easy.",
+      "P2": "Set it all up in three simple steps. It takes only a minute!",
+      "EMAIL": "Your email address",
+      "INVALID_EMAIL": "Invalid email"
+    },
+    "INSTALL_VIEW": {
+      "HEADLINE": "Install"
+    },
+    "FINAL_VIEW": {
+      "HEADLINE": "Finish!",
+      "P1": "You crazy son of a bitch.",
+      "P2": "You actually did it!",
+      "EMAIL_POPUP": {
+        "HEADLINE": "Invite Others"
+      }
+    }
+  }
+}
