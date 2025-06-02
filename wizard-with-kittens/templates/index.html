@@ -144,6 +144,11 @@
             color: #888;
             cursor: not-allowed;
         }
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -166,7 +171,8 @@
     <div class="right-column">
         <div class="center-container">
             <h1>Landing Page</h1>
-            <p>Do the cool stuff in three simple steps and under 42 seconds.</p>
+            <img src="{{ url_for('static', filename='nyan_cat.png') }}" alt="Nyan Cat" width="100"/>
+            <p>Do the cool stuff in just 42 seconds with three simple steps.</p>
             <form id="startForm" action="/install" method="get" autocomplete="off" novalidate>
                 <label class="email-label" for="email">E-mail</label>
                 <input type="email" id="email" name="email" class="email-input" value="cat@stroph.eu">
