@@ -50,6 +50,8 @@ Every project has its own directory
 * `stp-sequence-check`
 * `subtitles-offset`
 * `vue-demos`
+* `wizard`
+* `wizard-with-kittens`
 * `youtube-rss`
 
 ## Rules
