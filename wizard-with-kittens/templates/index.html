@@ -19,35 +19,67 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 1;
         }
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .progress-bar-container {
-            width: 100vw;
-            height: 25px;
+        .email-input {
+            width: 350px;
+            padding: 18px 16px;
+            font-size: 1.3rem;
+            border: 2px solid #444;
+            border-radius: 8px;
             background: #222;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
+            color: #f1f1f1;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            outline: none;
+            transition: border 0.2s;
+            box-sizing: border-box;
         }
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #61dafb, #ffb347);
-            width: 70%;
-            transition: width 1s cubic-bezier(.4,0,.2,1);
+        .email-input.invalid {
+            border-color: #e53935;
         }
+        .email-label {
+            font-size: 1.1rem;
+            margin-top: 10px;
+            color: #bbb;
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        .big-button {
+            background-color: #222;
+            color: #61dafb;
+            border: none;
+            padding: 20px 60px;
+            font-size: 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+            display: block;
+            margin: 30px auto 0 auto;
+        }
+        .big-button:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        .big-button:disabled {
+            background-color: #444;
+            color: #888;
+            cursor: not-allowed;
+        }
+
     </style>
 </head>
 <body>
-    <p>Body</p>
+<div class="center-container">
+    <h1>Landing Page</h1>
+    <p>Do the cool stuff in three simple steps and under 42 seconds.</p>
+    <form id="startForm" action="/install" method="get" autocomplete="off" novalidate>
+        <label class="email-label" for="email">E-mail</label>
+        <input type="email" id="email" name="email" class="email-input" value="cat@stroph.eu">
+        <button type="submit" class="big-button" id="nextBtn">Start</button>
+    </form>
+</div>
 </body>
 </html>
