@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Start</title>
+    <title>App</title>
     <style>
         body {
             background-color: #181818;
@@ -162,6 +162,24 @@
             z-index: 10;
             pointer-events: none;
         }
+        .download-button {
+            background-color: #444;
+            color: #ffb347;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 auto 30px auto;
+            display: block;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+        }
+        .download-button:hover {
+            background-color: #222;
+            color: #fff;
+        }
+
     </style>
 </head>
 <body>
@@ -184,31 +202,29 @@
     </div>
     <div class="right-column">
         <div class="center-container">
-            <h1>Landing Page</h1>
-            <img src="{{ url_for('static', filename='nyan_cat.png') }}" alt="Nyan Cat" width="100"/>
-            <p>Do the cool stuff in just 42 seconds with three simple steps.</p>
-            <form id="startForm" action="/install_app" method="get" autocomplete="off" novalidate>
-                <label class="email-label" for="email">E-mail</label>
-                <input type="email" id="email" name="email" class="email-input" value="cat@stroph.eu">
-                <button type="submit" class="big-button" id="nextBtn">Start</button>
-            </form>
+            <h1>Install App</h1>
+            <img src="{{ url_for('static', filename='nyan_cat.png') }}" alt="Nyan Cat" width="100" style="margin-bottom: 32px;" />
+            <button class="download-button" onclick="window.location.href='/download'">Download App</button>
+        <form id="startForm" action="/xxx" method="get" autocomplete="off" novalidate>
+            <button type="submit" class="big-button" id="nextBtn">Continue</button>
+        </form>
         </div>
     </div>
 </div>
 <script>
     // Example: animate progress bar to show how to grow it
     // You can remove this script if you want to control progress elsewhere
-    let progress = 0;
+    let progress = 5;
     const fill = document.getElementById('progressFill');
     function setProgress(p) {
         fill.style.height = p + '%';
     }
     setProgress(progress);
-    // Demo: grow to 5% after 1 seconds
+    // Demo: grow to 45% after 2 seconds
     setTimeout(() => {
-        progress = 5;
+        progress = 45;
         setProgress(progress);
-    }, 1000);
+    }, 2000);
 
     // Timer logic
     const timerEl = document.getElementById('progressTimer');
@@ -220,6 +236,7 @@
         const seconds = Math.floor((elapsed % 60000) / 1000);
         const ms = Math.floor(elapsed % 1000);
         timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
+        requestAnimationFrame(updateTimer);
     }
     updateTimer();
 </script>
