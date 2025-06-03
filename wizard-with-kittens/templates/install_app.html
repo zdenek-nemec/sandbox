@@ -228,7 +228,11 @@
 
     // Timer logic
     const timerEl = document.getElementById('progressTimer');
-    let startTime = Date.now();
+    let startTime = localStorage.getItem('startTime');
+
+    startTime = Date.now();
+    localStorage.setItem('startTime', startTime);
+
     function updateTimer() {
         const now = Date.now();
         const elapsed = now - startTime;

@@ -212,16 +212,10 @@
 
     // Timer logic
     const timerEl = document.getElementById('progressTimer');
-    let startTime = Date.now();
-    function updateTimer() {
-        const now = Date.now();
-        const elapsed = now - startTime;
-        const minutes = Math.floor(elapsed / 60000);
-        const seconds = Math.floor((elapsed % 60000) / 1000);
-        const ms = Math.floor(elapsed % 1000);
-        timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
-    }
-    updateTimer();
+    const minutes = 0;
+    const seconds = 0;
+    const ms = 0;
+    timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
 </script>
 </body>
 </html>

@@ -211,7 +211,7 @@
 <script>
     // Example: animate progress bar to show how to grow it
     // You can remove this script if you want to control progress elsewhere
-    let progress = 5;
+    let progress = 95;
     const fill = document.getElementById('progressFill');
     function setProgress(p) {
         fill.style.height = p + '%';
@@ -219,23 +219,25 @@
     setProgress(progress);
     // Demo: grow to 45% after 2 seconds
     setTimeout(() => {
-        progress = 45;
+        progress = 100;
         setProgress(progress);
     }, 2000);
 
     // Timer logic
     const timerEl = document.getElementById('progressTimer');
-    let startTime = Date.now();
-    function updateTimer() {
-        const now = Date.now();
-        const elapsed = now - startTime;
-        const minutes = Math.floor(elapsed / 60000);
-        const seconds = Math.floor((elapsed % 60000) / 1000);
-        const ms = Math.floor(elapsed % 1000);
-        timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
-        requestAnimationFrame(updateTimer);
+    let startTime = localStorage.getItem('startTime');
+
+    if (!startTime) {
+        startTime = Date.now();
+        localStorage.setItem('startTime', startTime);
     }
-    updateTimer();
+
+    const now = Date.now();
+    const elapsed = now - startTime;
+    const minutes = Math.floor(elapsed / 60000);
+    const seconds = Math.floor((elapsed % 60000) / 1000);
+    const ms = Math.floor(elapsed % 1000);
+    timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
 </script>
 </body>
 </html>
