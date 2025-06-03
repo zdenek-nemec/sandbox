@@ -46,7 +46,7 @@
             position: relative;
         }
         .progress-bar {
-            width: 40px;
+            width: 50px;
             height: 90vh;
             max-height: 90vh;
             background: #333;
@@ -212,6 +212,7 @@
             <div class="progress-bar">
                 <div class="progress-bar-fill" id="progressFill"></div>
                 <!-- Markers left -->
+                <img src="{{ url_for('static', filename='antonio.png') }}" alt="Nyan Cat" width="50"/>
                 <div class="progress-marker left marker-30"></div>
                 <div class="progress-marker left marker-65"></div>
                 <div class="progress-marker left marker-100"></div>
@@ -248,7 +249,7 @@
     setTimeout(() => {
         progress = 95;
         setProgress(progress);
-    }, 2000);
+    }, 3200);
 
     // Timer logic
     const timerEl = document.getElementById('progressTimer');
