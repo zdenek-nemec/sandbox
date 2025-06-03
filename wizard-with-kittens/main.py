@@ -12,6 +12,14 @@ def index():
 def install_app():
     return render_template('install_app.html')
 
+@app.route('/devices')
+def devices():
+    return render_template('devices.html')
+
+@app.route('/final')
+def final():
+    return render_template('final.html')
+
 @app.route('/download')
 def download():
     random_text = f"Hello, this is your random number: {random.randint(1000, 9999)}"
