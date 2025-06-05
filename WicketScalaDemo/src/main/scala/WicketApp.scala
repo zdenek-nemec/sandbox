@@ -2,7 +2,9 @@ package org.zdenek
 
 import org.apache.wicket.markup.html.WebPage
 import org.apache.wicket.protocol.http.WebApplication
+import org.zdenek.basicelements.BasicElements
 
 class WicketApp extends WebApplication {
-  override def getHomePage: Class[_ <: WebPage] = classOf[HelloWorldPage]
+//  override def getHomePage: Class[_ <: WebPage] = classOf[HelloWorldPage]
+  override def getHomePage: Class[_ <: WebPage] = classOf[BasicElements]
 }
