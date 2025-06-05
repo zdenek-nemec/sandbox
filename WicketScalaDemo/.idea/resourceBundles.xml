@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/main/scala/languageselectorcomponent/LanguageSelectorComponent_cs.propertiesies.xml" />
+    <file url="file://$PROJECT_DIR$/src/main/scala/languageselectorcomponent/LanguageSelectorComponent_de.propertiesies.xml" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/scala/languageselectorcomponent/LanguageSelectorComponent.properties.xml" />
+      <file value="file://$PROJECT_DIR$/src/main/scala/languageselectorcomponent/LanguageSelectorComponent_cs.properties.xml" />
+      <file value="file://$PROJECT_DIR$/src/main/scala/languageselectorcomponent/LanguageSelectorComponent_de.properties.xml" />
+      <base-name>LanguageSelectorComponent.properties</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>
