@@ -116,6 +116,7 @@ Every project has its own directory
 * `#127` HEIC to PNG Convertor
 * `#133` Wizard
 * `#137` Flat JSON
+* `#138` Wicket Demo
 
 ### Closed
 
