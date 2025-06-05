@@ -6,7 +6,8 @@ import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.{ServletContextHandler, FilterHolder}
 
 object WebServer extends App {
-  val server = new Server(8080)
+//  val server = new Server(8080)
+  val server = new Server(8081)
   val context = new ServletContextHandler(ServletContextHandler.SESSIONS)
   context.setContextPath("/")
 //  val filter = new ServletHolder(classOf[WicketFilter])
