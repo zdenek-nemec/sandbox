@@ -4,12 +4,13 @@ package languageselectorcomponent
 import org.apache.wicket.markup.html.WebPage
 import org.apache.wicket.markup.html.basic.Label
 import org.apache.wicket.markup.html.form.DropDownChoice
+import org.apache.wicket.markup.html.link.BookmarkablePageLink
 import org.apache.wicket.model.PropertyModel
 
 import java.util.Locale
 import scala.jdk.CollectionConverters._
 
-class LanguageSelectorComponent extends WebPage {
+class LanguageSelectorComponentPage extends WebPage {
   private val supportedLocales = List(
     new Locale("en"),
     new Locale("cs"),
@@ -22,8 +23,8 @@ class LanguageSelectorComponent extends WebPage {
   override def onInitialize(): Unit = {
     super.onInitialize()
 
-    val languageSelectorComponent = new DropDownChoice[Locale](
-      "languageSelectorComponent",
+    val languageSelectorComponentPage = new DropDownChoice[Locale](
+      "languageSelectorComponentPage",
       new PropertyModel[Locale](this, "selectedLocale"),
       supportedLocales.asJava,
       new org.apache.wicket.markup.html.form.IChoiceRenderer[Locale] {
@@ -32,14 +33,16 @@ class LanguageSelectorComponent extends WebPage {
       }
     )
 
-    languageSelectorComponent.add(new org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior("change") {
+    languageSelectorComponentPage.add(new org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior("change") {
       override def onUpdate(target: org.apache.wicket.ajax.AjaxRequestTarget): Unit = {
         getSession.setLocale(selectedLocale)
-        setResponsePage(classOf[LanguageSelectorComponent])
+        setResponsePage(classOf[LanguageSelectorComponentPage])
       }
     })
-    add(languageSelectorComponent)
+    add(languageSelectorComponentPage)
 
     add(new Label("selected-language", selectedLocale))
+
+    add(new BookmarkablePageLink[Void]("toPage2", classOf[LanguageSelectorComponentPage2]))
   }
 }
