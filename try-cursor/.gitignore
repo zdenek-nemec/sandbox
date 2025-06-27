@@ -1,0 +1,22 @@
+# sbt and Scala
+/target/
+/project/target/
+/project/project/
+/.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+*.log
+*.class
+/out/
+# OS files
+Thumbs.db
+# VSCode
+.vscode/
+# JetBrains
+.idea/
+# Logs
+*.log
+# Environment
+.env 

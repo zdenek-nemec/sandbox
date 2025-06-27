@@ -117,6 +117,7 @@ Every project has its own directory
 * `#133` Wizard
 * `#137` Flat JSON
 * `#138` Wicket Demo
+* `#142` Try Cursor
 
 ### Closed
 
