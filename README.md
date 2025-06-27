@@ -50,6 +50,8 @@ Every project has its own directory
 * `stp-sequence-check`
 * `subtitles-offset`
 * `vue-demos`
+* `wizard`
+* `wizard-with-kittens`
 * `youtube-rss`
 
 ## Rules
@@ -112,6 +114,9 @@ Every project has its own directory
 * `#122` Vue.js
 * `#125` PDF Merge
 * `#127` HEIC to PNG Convertor
+* `#133` Wizard
+* `#137` Flat JSON
+* `#138` Wicket Demo
 
 ### Closed
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="title">German</entry>
+    <entry key="iso-code">de</entry>
+    <entry key="language-en">German</entry>
+    <entry key="language-native">Deutsch</entry>
+    <entry key="paragraph">Deutscher Absatz.</entry>
+</properties>

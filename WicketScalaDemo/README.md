@@ -1,0 +1,1 @@
+# Wicket Scala Demo #
