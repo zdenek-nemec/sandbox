@@ -85,7 +85,6 @@ Every project has its own directory
 * `#57` Python Demos
 * `#58` Spring Demos
 * `#69` File Explorer
-* `#71` Compare Energy Suppliers
 * `#73` Janca
 * `#74` Fast File Transfer
 * `#76` Subtitles Offset
@@ -117,11 +116,13 @@ Every project has its own directory
 * `#133` Wizard
 * `#137` Flat JSON
 * `#138` Wicket Demo
+* `#144` Energy Supplier Comparison Updates 2025
 
 ### Closed
 
 * `#52` [AutoHotkey Demos](https://github.com/zdenek-nemec/demos/tree/master/ahk)
 * `#55` [Markdown Demos](https://github.com/zdenek-nemec/demos/tree/master/markdown)
+* `#71` [Compare Energy Suppliers](https://github.com/zdenek-nemec/sandbox/tree/master/energy-supplier-comparison)
 * `#91` [Flask Demo](https://github.com/zdenek-nemec/sandbox/tree/master/flask-demo)
 * `#99` [C Demos](https://github.com/zdenek-nemec/demos/tree/master/c)
 * `#108` Helios Invoice Detail Mock
