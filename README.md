@@ -42,6 +42,7 @@ Every project has its own directory
 * `pdf-merge` - PDF merger
 * `pygame` - Tutorials and experiments using Python PyGame module
 * `python-demos` - Python tutorials and demonstrations
+  * `python_3.14` - Demos of new features in Python 3.14
 * `python-mega-course` - The Python Mega Course on Udemy
 * `roaming-preprocessor` - Prototype for roaming preprocessor project
 * `rust-demos`
@@ -117,6 +118,7 @@ Every project has its own directory
 * `#137` Flat JSON
 * `#138` Wicket Demo
 * `#144` Energy Supplier Comparison Updates 2025
+* `#146` Python 3.14
 
 ### Closed
 
