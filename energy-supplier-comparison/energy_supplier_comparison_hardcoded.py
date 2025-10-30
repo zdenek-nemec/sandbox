@@ -6,6 +6,10 @@
 DEFAULT_USAGE_HIGH_TARIFF = 1.995
 DEFAULT_USAGE_LOW_TARIFF = 2.245
 
+# Bob
+# DEFAULT_USAGE_HIGH_TARIFF = 1.605
+# DEFAULT_USAGE_LOW_TARIFF = 11.074
+
 ELECTRICITY_OFFERS = [{
 #     "Dodavatel": "MND D25d 3x25 A",
 #     "Obchodni": {
@@ -149,6 +153,23 @@ ELECTRICITY_OFFERS = [{
         "Poplatky CZK/mesic": 144,
         "Elektrina VT CZK/MWh": 3427,
         "Elektrina NT CZK/MWh": 3083
+    },
+    "Regulovane": {
+        "Distribuce VT CZK/MWh": 2568.93,
+        "Distribuce NT CZK/MWh": 269.39,
+        "Rezervovany prikon CZK/mesic": 275,
+        "Systemove sluzby CZK/MWh": 206.81,
+        "Podpora vykupu CZK/mesic": 0,
+        "Podpora vykupu CZK/MWh": 598.95,
+        "OTE CZK/mesic": 15.06,
+        "Dan CZK/MWh": 34.24
+    }
+}, {
+    "Dodavatel": "E.ON D25d 3x25 A 'Extra nabidka 2 roky 9/25' 2025+",
+    "Obchodni": {
+        "Poplatky CZK/mesic": 143.99,
+        "Elektrina VT CZK/MWh": 3084.29,
+        "Elektrina NT CZK/MWh": 2775.74
     },
     "Regulovane": {
         "Distribuce VT CZK/MWh": 2568.93,
