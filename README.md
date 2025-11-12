@@ -40,6 +40,7 @@ Every project has its own directory
 * `json-to-csv-converter` - Experimental application for JSON-CSV conversion
 * `math-demos` - Demonstration of mathematical operations and problem-solving
 * `pdf-merge` - PDF merger
+* `photo-gallery` - Python program for displaying photos
 * `pygame` - Tutorials and experiments using Python PyGame module
 * `python-demos` - Python tutorials and demonstrations
   * `python_3.14` - Demos of new features in Python 3.14
@@ -119,6 +120,7 @@ Every project has its own directory
 * `#138` Wicket Demo
 * `#144` Energy Supplier Comparison Updates 2025
 * `#146` Python 3.14
+* `#146` Photo Gallery
 
 ### Closed
 
