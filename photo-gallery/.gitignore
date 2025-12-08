@@ -1,0 +1,5 @@
+.idea/
+pics/
+venv/
+
+!pics/ai_dwarf_owl.jpg
