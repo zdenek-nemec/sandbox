@@ -24,6 +24,7 @@ class PhotoGallery:
         # Store current image for resizing
         self.current_image = None
         self.current_image_path = None
+        self.rotation_angle = 0  # Track rotation angle (0, 90, 180, 270)
         
         # Load and display image
         self.load_random_image()
@@ -33,6 +34,9 @@ class PhotoGallery:
         self.root.bind('<B1-Motion>', self.on_drag)
         self.root.bind('<ButtonRelease-1>', self.stop_drag)
         self.root.bind('<Escape>', self.exit_app)
+        self.root.bind('<Key-r>', self.rotate_image)
+        self.root.bind('<Key-R>', self.rotate_image)
+        self.root.focus_set()  # Allow window to receive keyboard events
         
         # Bind resize events on borders
         self.setup_resize_bindings()
@@ -65,13 +69,32 @@ class PhotoGallery:
             # Load image
             img = Image.open(image_path)
             
-            # Store original image for resizing
+            # Store original image for resizing and rotation
             self.current_image = img.copy()
             self.current_image_path = image_path
+            self.rotation_angle = 0  # Reset rotation when loading new image
             
+            # Display the image with current rotation
+            self.display_image()
+            
+        except Exception as e:
+            print(f"Error loading image: {e}")
+            self.create_placeholder()
+    
+    def display_image(self):
+        """Display the current image with rotation applied"""
+        if self.current_image is None:
+            return
+        
+        try:
             # Get screen dimensions
             screen_width = self.root.winfo_screenwidth()
             screen_height = self.root.winfo_screenheight()
+            
+            # Apply rotation to the image
+            img = self.current_image.copy()
+            if self.rotation_angle != 0:
+                img = img.rotate(-self.rotation_angle, expand=True)
             
             # Calculate size to fit screen (max 80% of screen)
             max_width = int(screen_width * 0.8)
@@ -97,20 +120,29 @@ class PhotoGallery:
             y = (screen_height - img.height) // 2
             self.root.geometry(f"{img.width}x{img.height}+{x}+{y}")
             
-            # Create label with image
+            # Create or update label with image
             if hasattr(self, 'label'):
-                self.label.destroy()
-            
-            self.label = tk.Label(self.root, image=self.photo, bg='black')
-            self.label.pack(fill=tk.BOTH, expand=True)
-            
-            # Add thin border
-            self.root.configure(bg='#333333')
-            self.label.configure(borderwidth=2, relief='solid', highlightthickness=1, highlightbackground='#333333')
+                self.label.configure(image=self.photo)
+            else:
+                self.label = tk.Label(self.root, image=self.photo, bg='black')
+                self.label.pack(fill=tk.BOTH, expand=True)
+                # Add thin border
+                self.root.configure(bg='#333333')
+                self.label.configure(borderwidth=2, relief='solid', highlightthickness=1, highlightbackground='#333333')
             
         except Exception as e:
-            print(f"Error loading image: {e}")
-            self.create_placeholder()
+            print(f"Error displaying image: {e}")
+    
+    def rotate_image(self, event=None):
+        """Rotate the current image by 90 degrees clockwise"""
+        if self.current_image is None:
+            return
+        
+        # Increment rotation angle by 90 degrees
+        self.rotation_angle = (self.rotation_angle + 90) % 360
+        
+        # Redisplay the image with new rotation
+        self.display_image()
     
     def create_placeholder(self):
         """Create a placeholder when no images are found"""
@@ -249,8 +281,12 @@ class PhotoGallery:
             return
         
         try:
-            # Resize image to fit new window while maintaining aspect ratio
+            # Apply rotation first
             img = self.current_image.copy()
+            if self.rotation_angle != 0:
+                img = img.rotate(-self.rotation_angle, expand=True)
+            
+            # Resize image to fit new window while maintaining aspect ratio
             img_width, img_height = img.size
             
             # Calculate scaling to fit within new dimensions
