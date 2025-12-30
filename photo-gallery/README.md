@@ -12,3 +12,11 @@ press `Esc` on the keyboard.
 
 * `Esc` - exit the application
 * `R` - rotate the picture 90 degrees
+
+## uv
+
+Currently experimenting with uv (by Astral).
+
+* `.venv` is created and managed by uv, there are no persistent modules installed
+* `requirements.txt` is obsolete with uv, however I plan to keep it, must be managed separately
+* PyCharm seems to work with uv just fine
