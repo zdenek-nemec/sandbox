@@ -4,7 +4,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     println("Hello, World!")
 
-
     val greeter = new DefaultTraitsGreeter()
     greeter.greet("Scala developer") // Hello, Scala developer!
 
