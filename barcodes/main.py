@@ -9,6 +9,16 @@ def print_environment_details():
     print(f"Environment {sys.prefix}")
 
 
+def fit_to_screen(image, max_width=1920, max_height=1080):
+    """Scale image to fit within max_width x max_height, preserving aspect ratio."""
+    h, w = image.shape[:2]
+    scale = min(max_width / w, max_height / h, 1.0)  # don't upscale
+    if scale >= 1.0:
+        return image
+    new_w, new_h = int(w * scale), int(h * scale)
+    return cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
+
 def read_barcode(image_path: str):
     if not os.path.isfile(image_path):
         print(f"{image_path}: File not found")
@@ -26,9 +36,15 @@ def read_barcode(image_path: str):
                           (255, 0, 0), 2)
             if barcode.data:
                 print(f"{image_path}: {barcode.data=}, {barcode.type=}")
+    print("---")
+
     # cv2.imshow("Image", image)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
+
+    display = fit_to_screen(image)
+    cv2.imshow("Image", display)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def detect_barcodes(directory="img"):
@@ -39,7 +55,7 @@ def detect_barcodes(directory="img"):
 
 def main():
     print("Hello, Barcodes!")
-    # print_environment_details()
+    print_environment_details()
 
     # for image_path in [
     #     "barcode39.png",
@@ -53,9 +69,11 @@ def main():
     #         image_path = f"extracted_images/{printer}/{image_filename}"
     #         read_barcode(image_path)
 
-    detect_barcodes("c:/Zdenek/_tmp/L4C-5060 QR/2025-05-20 MyScans")
+    # detect_barcodes("c:/Zdenek/_tmp/L4C-5060 QR/2025-05-20 MyScans")
     # detect_barcodes("c:/Zdenek/_tmp/L4C-5060 QR/2025-05-20 Theirs")
     # detect_barcodes("generated_qr")
+
+    detect_barcodes("img/barcodes")
 
 
 if __name__ == "__main__":
