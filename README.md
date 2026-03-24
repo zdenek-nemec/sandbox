@@ -121,6 +121,7 @@ Every project has its own directory
 * `#144` Energy Supplier Comparison Updates 2025
 * `#146` Python 3.14
 * `#146` Photo Gallery
+* `#160` Number Conversion
 
 ### Closed
 

@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# venv
+.venv/
+venv/
+env/
+
+# uv
+uv-cache/
+
+# Environment
+.env
+
+# JetBrains PyCharm
+.idea/
