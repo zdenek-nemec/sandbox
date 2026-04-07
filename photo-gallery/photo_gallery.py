@@ -10,6 +10,8 @@ class PhotoGallery:
     def __init__(self, root):
         self.root = root
         self.pics_folder = "pics"
+        self.image_files = None
+        self.current_image_index = None
 
         # Configure window
         self.root.overrideredirect(True)  # Remove window decorations
@@ -37,6 +39,9 @@ class PhotoGallery:
         self.root.bind('<Escape>', self.exit_app)
         self.root.bind('<Key-r>', self.rotate_image)
         self.root.bind('<Key-R>', self.rotate_image)
+        self.root.bind('<Down>', self.load_next_image)
+        self.root.bind('<Key-n>', self.load_next_image)
+        self.root.bind('<Key-N>', self.load_next_image)
         self.root.focus_set()  # Allow window to receive keyboard events
 
         # Bind resize events on borders
@@ -56,15 +61,36 @@ class PhotoGallery:
 
     def load_random_image(self):
         """Load and display a random image"""
-        image_files = self.get_image_files()
+        self.image_files = self.get_image_files()
 
-        if not image_files:
+        if not self.image_files:
             # No images found, create a placeholder
             self.create_placeholder()
             return
 
         # Select random image
-        image_path = random.choice(image_files)
+        self.current_image_index = random.randrange(len(self.image_files))
+        image_path = self.image_files[self.current_image_index]
+
+        try:
+            # Load image
+            img = Image.open(image_path)
+
+            # Store original image for resizing and rotation
+            self.current_image = img.copy()
+            self.current_image_path = image_path
+            self.rotation_angle = 0  # Reset rotation when loading new image
+
+            # Display the image with current rotation
+            self.display_image()
+
+        except Exception as e:
+            print(f"Error loading image: {e}")
+            self.create_placeholder()
+
+    def load_next_image(self, event=None):
+        self.current_image_index = (self.current_image_index + 1) % len(self.image_files)
+        image_path = self.image_files[self.current_image_index]
 
         try:
             # Load image

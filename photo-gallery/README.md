@@ -23,7 +23,10 @@ press `Esc` on the keyboard.
   * [ ] What is the correct English term?
   * [ ] References (documentation and code)
   * [ ] Git repository
-* [ ] Cycle through pictures in the directory: next (`N`, `Space`, `Down Arrow`), previous (`P`, `Up Arrow`)
+* [ ] Cycle through pictures in the directory
+  * [x] Next in folder: `N`, `Down Arrow`
+  * [ ] Previous in folder: `P`, `Up Arrow`
+  * [ ] Next random: `Space`
 * [ ] Logs
   * [ ] Display log messages in CLI
   * [ ] Log application start
