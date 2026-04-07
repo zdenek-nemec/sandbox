@@ -42,7 +42,7 @@ class PhotoGallery:
         # Bind resize events on borders
         self.setup_resize_bindings()
 
-    def get_image_files(self):
+    def get_image_files(self) -> list:
         """Get all jpg and png files from pics folder"""
         if not os.path.exists(self.pics_folder):
             return []
