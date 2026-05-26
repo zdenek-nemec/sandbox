@@ -16,6 +16,7 @@ Every project has its own directory
 * `codewars`
 * `ConnectivityCheck`
 * `connectivity-check`
+* `c-sandbox`
 * `energy-supplier-comparison` - Comparison of energy supplier offers
 * `fast-file-transfer`
 * `file-explorer` - Tool for locating files and saving basic information about them
@@ -120,7 +121,9 @@ Every project has its own directory
 * `#138` Wicket Demo
 * `#144` Energy Supplier Comparison Updates 2025
 * `#146` Python 3.14
-* `#146` Photo Gallery
+* `#147` Photo Gallery
+* `#160` Number Conversion
+* `#161` C Sandbox
 
 ### Closed
 

@@ -1,5 +1,9 @@
 .idea/
 __pycache__/
 venv/
+.venv/
 *.pyc
-generated/
+generated/*.png
+generated/*.jpg
+img/*.png
+img/*.jpg
