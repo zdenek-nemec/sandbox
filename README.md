@@ -124,6 +124,7 @@ Every project has its own directory
 * `#147` Photo Gallery
 * `#160` Number Conversion
 * `#161` C Sandbox
+* `#163` Go Sandbox
 
 ### Closed
 
