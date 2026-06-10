@@ -1,8 +1,20 @@
 # Zdenek's Sandbox
 
-Purpose of this repository is to be a collection of experimental projects.
+Purpose of this repository is to be a collection of demos and experimental projects.
 
-## Structure
+---
+
+# To Do List
+
+* [ ] `#164` Repository cleanup
+  * [ ] Cleanup top level .gitignore
+  * [ ] Move stale projects to `binec`
+  * [ ] Rename `...demos` to `...sandbox`
+  * [ ] Consolidate project naming to kebab-case
+
+---
+
+# Structure
 
 Every project has its own directory
 
@@ -69,7 +81,9 @@ Every project has its own directory
 
 * Kebab case = Lower case where space ` ` is replaced with dash `-`
 
-## Issues
+---
+
+# Issues
 
 * `#6` Python Text Editor
 * `#8` Udemy - The Python Mega Course - Section 3 - Beyond the Basics
@@ -125,8 +139,9 @@ Every project has its own directory
 * `#160` Number Conversion
 * `#161` C Sandbox
 * `#163` Go Sandbox
+* `#164` Repository cleanup
 
-### Closed
+## Closed
 
 * `#52` [AutoHotkey Demos](https://github.com/zdenek-nemec/demos/tree/master/ahk)
 * `#55` [Markdown Demos](https://github.com/zdenek-nemec/demos/tree/master/markdown)
