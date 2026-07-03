@@ -140,6 +140,7 @@ Every project has its own directory
 * `#161` C Sandbox
 * `#163` Go Sandbox
 * `#164` Repository cleanup
+* `#165` C# Sandbox
 
 ## Closed
 
