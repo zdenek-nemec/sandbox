@@ -21,15 +21,16 @@ public class Main {
                     Behaviors.supervise(WorkerActor.create())
                             .onFailure(RuntimeException.class, SupervisorStrategy.restart());
 
-            var worker = context.spawn(supervised, "worker");
+            var worker1 = context.spawn(supervised, "worker-1");
+            var worker2 = context.spawn(supervised, "worker-2");
 
             context.getLog().info("========== MAILBOX DEMO ==========");
             context.getLog().info("Sending 3 messages back-to-back (no waiting)...");
             // These three are enqueued instantly. Watch the logs: they are still
             // processed strictly one-at-a-time, ~500ms apart, in the order sent.
-            worker.tell(new WorkerActor.DoWork("job-1"));
-            worker.tell(new WorkerActor.DoWork("job-2"));
-            worker.tell(new WorkerActor.DoWork("job-3"));
+            worker1.tell(new WorkerActor.DoWork("job-1"));
+            worker2.tell(new WorkerActor.DoWork("job-2"));
+            worker1.tell(new WorkerActor.DoWork("job-3"));
 
             context.getLog().info("========== SUPERVISION DEMO ==========");
             context.getLog().info("Sending a message that makes the actor crash...");
@@ -37,11 +38,11 @@ public class Main {
             //  - the actor logs "STOPPED" for the crashed instance
             //  - a new instance is created (you'll see "CREATED" again)
             //  - the queued messages behind it (job-4, job-5) still get processed
-            worker.tell(new WorkerActor.Crash());
+            worker1.tell(new WorkerActor.Crash());
 
             context.getLog().info("Sending 2 more messages to the SAME ActorRef...");
-            worker.tell(new WorkerActor.DoWork("job-4"));
-            worker.tell(new WorkerActor.DoWork("job-5"));
+            worker1.tell(new WorkerActor.DoWork("job-4"));
+            worker2.tell(new WorkerActor.DoWork("job-5"));
 
             return Behaviors.empty();
         });

@@ -56,7 +56,7 @@ public class WorkerActor extends AbstractBehavior<WorkerActor.Command> {
     }
 
     private Behavior<Command> onDoWork(DoWork msg) {
-        getContext().getLog().info("Processing '{}' ...", msg.job);
+        getContext().getLog().info("[{}] Processing '{}' ...", getContext().getSelf().path().name(), msg.job);
         try {
             // Simulates work taking some time. Because the mailbox is sequential,
             // other DoWork messages queued behind this one simply wait their turn.
