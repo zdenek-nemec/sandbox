@@ -6,6 +6,11 @@ import akka.actor.typed.javadsl.AbstractBehavior;
 import akka.actor.typed.javadsl.ActorContext;
 import akka.actor.typed.javadsl.Behaviors;
 import akka.actor.typed.javadsl.Receive;
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Context;
+import io.opentelemetry.context.Scope;
 
 /**
  * A minimal actor to demonstrate three core Akka concepts:
@@ -27,8 +32,17 @@ public class WorkerActor extends AbstractBehavior<WorkerActor.Command> {
     /** Ask the worker to do some (simulated) work. */
     public static final class DoWork implements Command {
         public final String job;
+        public final Context context;
+
         public DoWork(String job) {
+            this(job, Context.current());
+        }
+
+        // Explicit context overload used when the caller holds an active span
+        // and wants the worker's span to appear as a child in the trace.
+        public DoWork(String job, Context context) {
             this.job = job;
+            this.context = context;
         }
     }
 
@@ -37,11 +51,18 @@ public class WorkerActor extends AbstractBehavior<WorkerActor.Command> {
 
     // ---- Factory --------------------------------------------------------
     public static Behavior<Command> create() {
-        return Behaviors.setup(WorkerActor::new);
+        return create(OpenTelemetry.noop().getTracer("noop"));
     }
 
-    private WorkerActor(ActorContext<Command> context) {
+    public static Behavior<Command> create(Tracer tracer) {
+        return Behaviors.setup(ctx -> new WorkerActor(ctx, tracer));
+    }
+
+    private final Tracer tracer;
+
+    private WorkerActor(ActorContext<Command> context, Tracer tracer) {
         super(context);
+        this.tracer = tracer;
         getContext().getLog().info(">>> Worker instance CREATED");
     }
 
@@ -56,15 +77,24 @@ public class WorkerActor extends AbstractBehavior<WorkerActor.Command> {
     }
 
     private Behavior<Command> onDoWork(DoWork msg) {
-        getContext().getLog().info("[{}] Processing '{}' ...", getContext().getSelf().path().name(), msg.job);
-        try {
+        Span span = tracer.spanBuilder("worker.process")
+                .setParent(msg.context)
+                .setAttribute("job", msg.job)
+                .setAttribute("worker", getContext().getSelf().path().name())
+                .startSpan();
+        try (Scope ignored = span.makeCurrent()) {
+            getContext().getLog().info("[{}] Processing '{}' ...", getContext().getSelf().path().name(), msg.job);
             // Simulates work taking some time. Because the mailbox is sequential,
             // other DoWork messages queued behind this one simply wait their turn.
-            Thread.sleep(500);
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            getContext().getLog().info("Finished '{}'", msg.job);
+        } finally {
+            span.end();
         }
-        getContext().getLog().info("Finished '{}'", msg.job);
         return this;
     }
 

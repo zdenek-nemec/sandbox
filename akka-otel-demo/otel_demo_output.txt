@@ -1,0 +1,43 @@
+/home/zdenek/.jdks/openjdk-25.0.2/bin/java -javaagent:/opt/idea-IU-253.31033.145/lib/idea_rt.jar=44665 -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath /home/zdenek/Git/sandbox/akka-otel-demo/target/classes:/home/zdenek/.m2/repository/com/typesafe/akka/akka-actor-typed_2.13/2.6.20/akka-actor-typed_2.13-2.6.20.jar:/home/zdenek/.m2/repository/org/scala-lang/scala-library/2.13.8/scala-library-2.13.8.jar:/home/zdenek/.m2/repository/com/typesafe/akka/akka-actor_2.13/2.6.20/akka-actor_2.13-2.6.20.jar:/home/zdenek/.m2/repository/com/typesafe/config/1.4.2/config-1.4.2.jar:/home/zdenek/.m2/repository/org/scala-lang/modules/scala-java8-compat_2.13/1.0.0/scala-java8-compat_2.13-1.0.0.jar:/home/zdenek/.m2/repository/com/typesafe/akka/akka-slf4j_2.13/2.6.20/akka-slf4j_2.13-2.6.20.jar:/home/zdenek/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/home/zdenek/.m2/repository/ch/qos/logback/logback-classic/1.5.16/logback-classic-1.5.16.jar:/home/zdenek/.m2/repository/ch/qos/logback/logback-core/1.5.16/logback-core-1.5.16.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-api/1.40.0/opentelemetry-api-1.40.0.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-context/1.40.0/opentelemetry-context-1.40.0.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.40.0/opentelemetry-sdk-1.40.0.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.40.0/opentelemetry-sdk-common-1.40.0.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.40.0/opentelemetry-sdk-trace-1.40.0.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-api-incubator/1.40.0-alpha/opentelemetry-api-incubator-1.40.0-alpha.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.40.0/opentelemetry-sdk-metrics-1.40.0.jar:/home/zdenek/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.40.0/opentelemetry-sdk-logs-1.40.0.jar com.example.akkademo.OtelDemo
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by akka.util.Unsafe (file:/home/zdenek/.m2/repository/com/typesafe/akka/akka-actor_2.13/2.6.20/akka-actor_2.13-2.6.20.jar)
+WARNING: Please consider reporting this to the maintainers of class akka.util.Unsafe
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+22:09:56.966 [otel-demo-system-akka.actor.default-dispatcher-3] INFO  a.e.s.Slf4jLogger - Slf4jLogger started
+22:09:57.112 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.OtelDemo - ========== OTEL TRACING DEMO (3 workers, round-robin) ==========
+22:09:57.112 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.OtelDemo - Each dispatch-job span is the PARENT; worker.process spans are CHILDREN.
+22:09:57.112 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.OtelDemo - Match spans by traceId to see the parent-child relationship.
+22:09:57.115 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.WorkerActor - >>> Worker instance CREATED
+22:09:57.116 [otel-demo-system-akka.actor.default-dispatcher-7] INFO  c.e.a.WorkerActor - >>> Worker instance CREATED
+22:09:57.116 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.WorkerActor - >>> Worker instance CREATED
+22:09:57.135 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "dispatch-job-1"  trace=193bcf9df20300cf5708c6b7abc605e0  span=505e6a17a5c71779  parent=none  1ms
+22:09:57.138 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "dispatch-job-2"  trace=2136b8755544426f7ce85093946a2959  span=0be6cf15ea725718  parent=none  0ms
+22:09:57.139 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "dispatch-job-3"  trace=1096f9f9ececf6a144fdd3bcff21d80e  span=bfd82747bdf1ddec  parent=none  0ms
+22:09:57.139 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "dispatch-job-4"  trace=4088546196f1b051815ca2a79e543c07  span=6a248f4901e16f11  parent=none  0ms
+22:09:57.139 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "dispatch-job-5"  trace=ac0a05fe9f48c1b35fc93e0d2d994e6c  span=ca41e3922a514a65  parent=none  0ms
+22:09:57.139 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "dispatch-job-6"  trace=cd36aad4c8ef7656d77c9f90ed206ea3  span=eb4de2b36d109741  parent=none  0ms
+22:09:57.143 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  c.e.a.WorkerActor - [$a] Processing 'job-1' ...
+22:09:57.143 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.WorkerActor - [$c] Processing 'job-3' ...
+22:09:57.143 [otel-demo-system-akka.actor.default-dispatcher-3] INFO  c.e.a.WorkerActor - [$b] Processing 'job-2' ...
+22:09:57.644 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.WorkerActor - Finished 'job-3'
+22:09:57.644 [otel-demo-system-akka.actor.default-dispatcher-3] INFO  c.e.a.WorkerActor - Finished 'job-2'
+22:09:57.644 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  c.e.a.WorkerActor - Finished 'job-1'
+22:09:57.644 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "worker.process"  trace=1096f9f9ececf6a144fdd3bcff21d80e  span=d1b3918e00f1260f  parent=bfd82747bdf1ddec  501ms
+22:09:57.645 [otel-demo-system-akka.actor.default-dispatcher-3] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "worker.process"  trace=2136b8755544426f7ce85093946a2959  span=43f06c9f8c8c3f5e  parent=0be6cf15ea725718  501ms
+22:09:57.645 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "worker.process"  trace=193bcf9df20300cf5708c6b7abc605e0  span=bd8dfc9a2d5528b7  parent=505e6a17a5c71779  501ms
+22:09:57.645 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.WorkerActor - [$c] Processing 'job-6' ...
+22:09:57.646 [otel-demo-system-akka.actor.default-dispatcher-3] INFO  c.e.a.WorkerActor - [$b] Processing 'job-5' ...
+22:09:57.646 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  c.e.a.WorkerActor - [$a] Processing 'job-4' ...
+22:09:58.146 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.WorkerActor - Finished 'job-6'
+22:09:58.146 [otel-demo-system-akka.actor.default-dispatcher-3] INFO  c.e.a.WorkerActor - Finished 'job-5'
+22:09:58.146 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  c.e.a.WorkerActor - Finished 'job-4'
+22:09:58.147 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "worker.process"  trace=cd36aad4c8ef7656d77c9f90ed206ea3  span=9768c072fcaeef93  parent=eb4de2b36d109741  501ms
+22:09:58.147 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "worker.process"  trace=4088546196f1b051815ca2a79e543c07  span=c61e2738f676c7ad  parent=6a248f4901e16f11  501ms
+22:09:58.147 [otel-demo-system-akka.actor.default-dispatcher-3] INFO  c.e.a.Slf4jSpanExporter - [SPAN] "worker.process"  trace=ac0a05fe9f48c1b35fc93e0d2d994e6c  span=d84e17bede6c0eb7  parent=ca41e3922a514a65  501ms
+22:10:01.157 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  a.a.CoordinatedShutdown - Running CoordinatedShutdown with reason [ActorSystemTerminateReason]
+22:10:01.202 [otel-demo-system-akka.actor.default-dispatcher-6] INFO  c.e.a.WorkerActor - <<< Worker instance STOPPED
+22:10:01.202 [otel-demo-system-akka.actor.default-dispatcher-8] INFO  c.e.a.WorkerActor - <<< Worker instance STOPPED
+22:10:01.203 [otel-demo-system-akka.actor.default-dispatcher-5] INFO  c.e.a.WorkerActor - <<< Worker instance STOPPED
+
+Process finished with exit code 0
+
