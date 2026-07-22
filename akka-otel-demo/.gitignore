@@ -1,0 +1,25 @@
+# Maven build output
+target/
+
+# IntelliJ IDEA
+.idea/
+!.idea/codeStyles/
+!.idea/jarRepositaries.xml
+*.iml
+*.iws
+*.ipr
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log

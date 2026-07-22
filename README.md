@@ -141,6 +141,7 @@ Every project has its own directory
 * `#163` Go Sandbox
 * `#164` Repository cleanup
 * `#165` C# Sandbox
+* `#166` Akka and OTEL
 
 ## Closed
 
