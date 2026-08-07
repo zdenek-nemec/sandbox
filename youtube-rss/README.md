@@ -18,3 +18,20 @@ channels for new videos.
 Sources
 
 * [StackOverflow](https://stackoverflow.com/questions/14366648/how-can-i-get-a-channel-id-from-youtube)
+
+---
+
+## `get_youtube_rss_feed.sh`
+
+Obtain URL to RSS feed of given YouTube channel.
+
+```bash
+./get_youtube_rss_feed.sh --url "https://www.youtube.com/@thewitcher"
+# https://www.youtube.com/feeds/videos.xml?channel_id=UCzybXLxv08IApdjdN0mJhEg
+```
+
+Breakdown:
+
+* Channel URL: `https://www.youtube.com/@thewitcher`
+* HTML element pointing to RSS feed: `<link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.youtube.com/feeds/videos.xml?channel_id=UCzybXLxv08IApdjdN0mJhEg">`
+* URL of the RSS feed (output) `https://www.youtube.com/feeds/videos.xml?channel_id=UCzybXLxv08IApdjdN0mJhEg`
