@@ -37,8 +37,10 @@ class PhotoGallery:
         self.root.bind('<B1-Motion>', self.on_drag)
         self.root.bind('<ButtonRelease-1>', self.stop_drag)
         self.root.bind('<Escape>', self.exit_app)
-        self.root.bind('<Key-r>', self.rotate_image)
-        self.root.bind('<Key-R>', self.rotate_image)
+        self.root.bind('<Key-l>', self.rotate_image_left)
+        self.root.bind('<Key-L>', self.rotate_image_left)
+        self.root.bind('<Key-r>', self.rotate_image_right)
+        self.root.bind('<Key-R>', self.rotate_image_right)
         self.root.bind('<Down>', self.load_next_image)
         self.root.bind('<Key-n>', self.load_next_image)
         self.root.bind('<Key-N>', self.load_next_image)
@@ -160,7 +162,16 @@ class PhotoGallery:
         except Exception as e:
             print(f"Error displaying image: {e}")
 
-    def rotate_image(self, event=None):
+    def rotate_image_left(self, event=None):
+        """Rotate the current image left (by 270 degrees)"""
+        if self.current_image is None:
+            return
+
+        self.rotation_angle = (self.rotation_angle + 270) % 360
+
+        self.display_image()
+
+    def rotate_image_right(self, event=None):
         """Rotate the current image by 90 degrees clockwise"""
         if self.current_image is None:
             return

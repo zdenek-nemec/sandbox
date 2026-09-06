@@ -13,7 +13,8 @@ press `Esc` on the keyboard.
 ## Controls
 
 * `Esc` - Exit the application
-* `R` - Rotate the picture right 90 degrees
+* `L` - Rotate the picture left
+* `R` - Rotate the picture right
 
 ---
 
@@ -32,9 +33,9 @@ press `Esc` on the keyboard.
   * [ ] Log application start
   * [ ] Log current file name
   * [ ] More logs?
-* [ ] Rotation controls
-  * [ ] Rotate right `R`, `Right Arrow`
-  * [ ] Rotate left `L`, `Left Arrow`
+* [x] Rotation controls
+  * [x] Rotate right `R`, `Right Arrow`
+  * [x] Rotate left `L`, `Left Arrow`
 * [ ] Serve path to input folder
   * [ ] Default `./pics`
   * [ ] Path via argument
