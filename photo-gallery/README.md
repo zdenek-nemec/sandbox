@@ -15,6 +15,8 @@ press `Esc` on the keyboard.
 * `Esc` - Exit the application
 * `L` - Rotate the picture left
 * `R` - Rotate the picture right
+* `N` - Next picture
+* `P` - Previous picture
 
 ---
 
@@ -26,7 +28,7 @@ press `Esc` on the keyboard.
   * [ ] Git repository
 * [ ] Cycle through pictures in the directory
   * [x] Next in folder: `N`, `Down Arrow`
-  * [ ] Previous in folder: `P`, `Up Arrow`
+  * [x] Previous in folder: `P`, `Up Arrow`
   * [ ] Next random: `Space`
 * [ ] Logs
   * [ ] Display log messages in CLI
