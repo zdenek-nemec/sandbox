@@ -17,6 +17,7 @@ press `Esc` on the keyboard.
 * `R` - Rotate the picture right
 * `N` - Next picture
 * `P` - Previous picture
+* `Space` - Random picture
 
 ---
 
@@ -26,10 +27,10 @@ press `Esc` on the keyboard.
   * [ ] What is the correct English term?
   * [ ] References (documentation and code)
   * [ ] Git repository
-* [ ] Cycle through pictures in the directory
+* [x] Cycle through pictures in the directory
   * [x] Next in folder: `N`, `Down Arrow`
   * [x] Previous in folder: `P`, `Up Arrow`
-  * [ ] Next random: `Space`
+  * [x] Next random: `Space`
 * [ ] Logs
   * [ ] Display log messages in CLI
   * [ ] Log application start

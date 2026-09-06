@@ -47,6 +47,7 @@ class PhotoGallery:
         self.root.bind('<Up>', self.load_previous_image)
         self.root.bind('<Key-p>', self.load_previous_image)
         self.root.bind('<Key-P>', self.load_previous_image)
+        self.root.bind('<space>', self.load_next_random_image)
         self.root.focus_set()  # Allow window to receive keyboard events
 
         # Bind resize events on borders
@@ -95,6 +96,9 @@ class PhotoGallery:
 
     def load_next_image(self, event=None):
         self.load_another_image()
+
+    def load_next_random_image(self, event=None):
+        self.load_another_image(index_diff=random.randrange(len(self.image_files)))
 
     def load_previous_image(self, event=None):
         self.load_another_image(index_diff=-1)
