@@ -142,6 +142,7 @@ Every project has its own directory
 * `#164` Repository cleanup
 * `#165` C# Sandbox
 * `#166` Akka and OTEL
+* `#168` Remove background from images
 
 ## Closed
 
